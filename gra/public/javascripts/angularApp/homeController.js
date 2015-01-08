@@ -11,6 +11,9 @@
     function homeController($scope, $http, $cookies, $window, $location, $anchorScroll) {
         $scope.title = 'homeController';
         
+        $scope.pointsEarned = 70;
+        $scope.minRequired = 80;
+
         $scope.scrollTo = function (id) {
             $location.hash(id);
             $anchorScroll();
