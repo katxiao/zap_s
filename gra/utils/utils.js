@@ -1,5 +1,4 @@
 var utils = {};
-var validator = require('validator');
 
 // https://github.com/kongming92/6170-p3demo/blob/master/utils/utils.js
 /*

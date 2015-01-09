@@ -61,7 +61,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(username, done) {
-    Client.findByUsername(username, function(err, user) {
+    Client.find({username: username}, function(err, user) {
         if (err) {
             done(err);
         } else {
