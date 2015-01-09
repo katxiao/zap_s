@@ -6,7 +6,7 @@ var standardSchema = mongoose.Schema({
     category: { type: String, required: true },
     item: { type: String, required: true },
     question: { type: String, required: true },
-    options: [{ text: { type: String }, points: { type: Number }, required: true }],
+    optionList: [{ text: { type: String }, points: { type: String } }],
     filters: [{ text: { type: String }}]
 });
 
@@ -25,6 +25,7 @@ var Standard = mongoose.model("Standard", standardSchema);
 
 // validation
 var checkType = function (optionsList) {
+    console.log(optionsList);
     var valid = optionsList.length > 1;
     if (valid)
     {
@@ -38,6 +39,6 @@ var checkType = function (optionsList) {
     return valid;
 }
 
-Standard.schema.path("options").validate(checkType, "Must have at least two options and all options must have points values >= 0.");
+//Standard.schema.path("optionList").validate(checkType, "Must have at least two options and all options must have points values >= 0.");
 
 exports.Standard = Standard;

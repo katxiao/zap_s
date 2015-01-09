@@ -16,5 +16,13 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="/javascripts/angularApp/myApp.js"></script>
 	<script src="/javascripts/angularApp/homeController.js"></script>
+	<form id   =  "uploadForm"
+     enctype   =  "multipart/form-data"
+     action    =  "/upload"
+     method    =  "post"
+	>
+	<input type="file" name="myFile" />
+	<input type="submit" value="Submit File" name="submit">
+	</form>
   </body>
 </html>
