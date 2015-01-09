@@ -14,6 +14,10 @@
         $scope.pointsEarned = 70;
         $scope.minRequired = 80;
 
+        $scope.login = function() {
+            $window.location.href = "/#/login";
+        }
+
         $scope.scrollTo = function (id) {
             $location.hash(id);
             $anchorScroll();

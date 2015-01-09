@@ -5,9 +5,9 @@ var mongoose = require("mongoose");
 var clientSchema = mongoose.Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
-    location: { State: { type: String }, City: { type: String }, ZipCode: { type: Number }, required: true },
-    GPs: [{ text: { type: ObjectId }, points: { type: Number }, required: true }],
-    VGPs: [{ text: { type: String }, points: { type: Number }, required: true }],
+    location: { State: { type: String }, City: { type: String }, ZipCode: { type: Number } },
+    GPs: [{ text: { type: mongoose.Schema.Types.ObjectId }, points: { type: Number }}],
+    VGPs: [{ text: { type: String }, points: { type: Number }}],
 });
 
 // statics
@@ -21,23 +21,18 @@ clientSchema.statics.register = function(category, item, question, options, call
     //client.save(callback);
 };
 
+clientSchema.statics.login = function(username, password, callback) {
+    User.findOne({username: username, password: password, verified: true}, {password: 0}).exec(callback);
+}
+
 var Client = mongoose.model("Client", clientSchema);
 
 // validation
-var checkType = function (optionsList) {
-    var valid = optionsList.length > 1;
-    if (valid)
-    {
-        for (var i = 0; i < optionsList.length; i++) {
-            if(optionsList[i].points <= 0) {
-                valid = false;
-                break;
-            }
-        }
-    }
-    return valid;
+var checkType = function (location) {
+    return location && location.State && location.City && location.ZipCode;
 }
 
-Client.schema.path("options").validate(checkType, "Must have at least two options and all options must have points values >= 0.");
+//TODO: client schema has no "location" path?
+//Client.schema.path("location").validate(checkType, "Location must have state, city, and zipcode.");
 
 exports.Client = Client;

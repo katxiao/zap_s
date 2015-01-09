@@ -4,9 +4,18 @@ var util = require('util');
 var fs = require('fs-extra');
 var Standard = require('../models/standard').Standard;
 
+var passport = require("passport");
+var LocalStrategy = require("passport-local").Strategy;
+var Client = require("../models/client").Client;
+
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+  res.render('index', {});
+});
+
+/* POST login user. */
+router.post("/login", passport.authenticate("local-login"), function(req, res) {
+    utils.sendSuccessResponse(res, {user: req.user});
 });
 
 router.post('/upload', function (req, res, next) {
@@ -47,6 +56,34 @@ router.post('/upload', function (req, res, next) {
             }
         });
     }
+});
+
+// Passport strategy for logging in
+passport.use("local-login", new LocalStrategy(function(username, password, done) {
+
+    Client.login(username, password, function(err, user) {
+        if (err) {
+            return done(err);
+        } else if (!user) {
+            return done(null, false, {message: "Invalid username/password"});
+        } else {
+            return done(null, user);
+        }
+    });
+}));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.username);
+});
+
+passport.deserializeUser(function(username, done) {
+    Client.findByUsername(username, function(err, user) {
+        if (err) {
+            done(err);
+        } else {
+            done(null, user);
+        }
+    });
 });
 
 module.exports = router;
