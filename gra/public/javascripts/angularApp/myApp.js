@@ -20,6 +20,10 @@
                     templateUrl: '/angularviews/profile.html',
                     controller: 'profileController'
                 })
+                .when('/login', {
+                    templateUrl: '/angularviews/login.html',
+                    controller: 'loginController'
+                })
                 .otherwise({
                     templateUrl: '/angularviews/home.html',
                     controller: 'homeController'
