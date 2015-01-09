@@ -5,4 +5,15 @@
             <span class="sr-only">40% Complete (success)</span>
         </div>
     </div>
+    <table>
+        <tr ng-repeat="standard in standards">
+            <td>
+
+            </td>
+        </tr>
+    </table>
+    <form method='post' onsubmit="this.action = '/upload/'; this.submit();" enctype="multipart/form-data">
+        <input type='file' name='fileUploaded'>
+        <input type='submit'>
+    </form>
 </section>

@@ -6,7 +6,8 @@ var standardSchema = mongoose.Schema({
     category: { type: String, required: true },
     item: { type: String, required: true },
     question: { type: String, required: true },
-    options: [{ text: { type: String }, points: { type: Number }, required: true }]
+    options: [{ text: { type: String }, points: { type: Number }, required: true }],
+    filters: [{ text: { type: String }}]
 });
 
 // statics
