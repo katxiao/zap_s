@@ -1,5 +1,4 @@
 <section>
-    <div data-ng-include data-src="'angularviews/navbar.html'"></div>
     <h2>Green Restaurant Association</h2>
     <span ng-show="showErrorMessage" class="error">{{message}}</span>
     <div class="container-fluid">
@@ -8,14 +7,14 @@
                 <h4>Login</h4>
                 <input type="text" ng-model="usernamelogin" placeholder="Username" /></br>
                 <input type="password" ng-model="passwordlogin" placeholder="Password" /></br>
-                <button class="btn btn-default " style="background-color:#00b1ff" ng-click="login(kerberoslogin, passwordlogin)">Login</button>
+                <button class="btn btn-default " style="background-color:#00b1ff" ng-click="login(usernamelogin, passwordlogin)">Login</button>
             </div>
             <div class="col-md-4">
                 <h4>Sign Up</h4>
                 <input type="text" ng-model="usernamesignup" placeholder="Username"/></br>
                 <input type="password" ng-model="passwordsignup" placeholder="Password" /></br>
                 <input type="password" ng-model="confirmpassword" placeholder="Confirm Password" /></br>
-                <button class="btn btn-default" style="background-color:#00b1ff" ng-click="signup(kerberossignup, passwordsignup, confirmpassword)">Sign Up</button>
+                <button class="btn btn-default" style="background-color:#00b1ff" ng-click="signup(usernamesignup, passwordsignup, confirmpassword)">Sign Up</button>
             </div>
         </div>
     </div>

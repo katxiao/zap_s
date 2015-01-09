@@ -5,10 +5,12 @@
         .module('myApp')
         .controller('loginController', loginController);
 
-    profileController.$inject = ['$scope', '$http', '$cookies'];
+    loginController.$inject = ['$scope', '$http', '$cookies'];
 
     function loginController($scope, $http, $cookies) {
         $scope.title = 'loginController';
+        $scope.message = '';
+        $scope.showErrorMessage = false;
         
         // $http.get("/current_auth").then(function(response) {
         //     var data = response.data;
@@ -17,8 +19,8 @@
         //     }
         // });
 
-        $scope.login = function (kerberos, password) {
-            $http.post('/login', { username: kerberos, password: password }).success(function (data) {
+        $scope.login = function (username, password) {
+            $http.post('/login', { username: username, password: password }).success(function (data) {
                 $window.location.href = "/#/member/"+data.content.user_id;
             }).error(function(err) {
                 $scope.message = "Login unsuccessful. Try again.";
@@ -42,5 +44,14 @@
                 $scope.showErrorMessage = true;
             };
         };
+
+        $scope.scrollTo = function (id) {
+            $location.hash(id);
+            $anchorScroll();
+        }
+
+        activate();
+
+        function activate() { }
     }
 })();
