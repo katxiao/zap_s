@@ -11,13 +11,8 @@
     function profileController($scope, $http, $cookies) {
         $scope.title = 'profileController';
         
-        $scope.scrollTo = function (id) {
-            $location.hash(id);
-            $anchorScroll();
+        $scope.login = function() {
+            $window.location.href = "/#/login";
         }
-
-        activate();
-
-        function activate() { }
     }
 })();
