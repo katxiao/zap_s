@@ -6,8 +6,8 @@ var clientSchema = mongoose.Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
     location: { State: { type: String }, City: { type: String }, ZipCode: { type: Number }},
-    GPs: [{ text: { type: mongoose.Schema.Types.ObjectId, ref: "Standard" }, points: { type: Number }}],
-    VGPs: [{ text: { type: String }, points: { type: Number }}],
+    GPs: [{ question: { type: mongoose.Schema.Types.ObjectId, ref: "Standard" }, option: { type: Number }, percentage: {type: Number}}],
+    VGPs: [{ question: { type: mongoose.Schema.Types.ObjectId, ref: "Standard" }, option: { type: Number }, percentage: {type: Number}}],
 });
 
 // statics
