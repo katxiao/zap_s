@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var multer = require('multer');
+var mongoose = require("mongoose");
 var session = require("express-session");
 var passport = require("passport");
 
@@ -69,5 +70,23 @@ app.use(function(err, req, res, next) {
     });
 });
 
+// // set up mongo database
+var connection_string = process.env.MONGOLAB_URI || "localhost:27017/gra";
+console.log("CONNECTION STRING: " + connection_string);
+mongoose.connect(connection_string);
+
+var db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "Mongoose connection error."));
+db.once("open", function () {
+    // mongoose.connection.db.dropDatabase(function(err, result) {
+    //     if (err) {
+    //         console.error.bind(console, "Mongoose database error.");
+    //     } else {
+    //         console.log("Connected to Mongoose");
+    //     }
+    // });
+    console.log("Connected to Mongoose.");
+});
 
 module.exports = app;

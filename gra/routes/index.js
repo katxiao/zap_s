@@ -9,8 +9,8 @@ var LocalStrategy = require("passport-local").Strategy;
 var Client = require("../models/client").Client;
 
 /* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', {});
+router.get('/', function (req, res) {
+    res.render('index', { title: "Green My Restaurant"}});
 });
 
 /* POST login user. */
