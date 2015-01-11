@@ -6,13 +6,14 @@
         .module('myApp')
         .controller('guiController', guiController);
 
-    guiController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll'];
+    guiController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams'];
 
-    function guiController($scope, $http, $cookies, $window, $location, $anchorScroll) {
+    function guiController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams) {
         $scope.title = 'guiController';
         
         $scope.pointsEarned = 0;
         $scope.minRequired = 8;
+        $scope.progressstatus = 'danger';
 
         $scope.index = 0;
         $scope.previousPoints = 0;
@@ -30,6 +31,10 @@
             $scope.pointsEarned -= $scope.previousPoints;
             $scope.pointsEarned += Number(score);
             $scope.previousPoints = Number(score);
+            if ($scope.pointsEarned >= $scope.minRequired)
+                $scope.progressstatus = 'success';
+            else
+                $scope.progressstatus = 'danger';
             console.log($scope.pointsEarned, score);
         }
 

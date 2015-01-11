@@ -11,7 +11,7 @@
     function homeController($scope, $http, $cookies, $window, $location, $anchorScroll) {
         $scope.title = 'homeController';
         
-        $scope.pointsEarned = 70;
+        $scope.pointsEarned = 0;
         $scope.minRequired = 80;
 
         $http.get('/api/standards/Energy').success(function (data) {
