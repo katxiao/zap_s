@@ -17,10 +17,11 @@ router.get('/', function (req, res) {
 router.get('/:category', function (req, res) {
     Standard.find({ category: req.params.category }).exec(function (err, standards) {
         if (err) {
-            res.statusCode(500);
+            res.statusCode = 500;
             res.write(err);
             res.end();
         } else {
+            res.statusCode = 200;
             res.json(standards);
             res.end();
         }

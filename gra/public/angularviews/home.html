@@ -10,7 +10,10 @@
     <table>
         <tr ng-repeat="standard in standards">
             <td>
-
+                {{standard.question}}
+            </td>
+            <td ng-repeat="option in standard.optionList">
+                <input type="radio" value="{{option.points}}">{{option.text}}</input>
             </td>
         </tr>
     </table>

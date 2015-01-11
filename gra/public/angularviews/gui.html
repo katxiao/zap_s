@@ -1,0 +1,25 @@
+﻿<section>
+    <h2>Welcome</h2>
+    {{title}}
+    <button class='btn btn-default' ng-click=login()>Log In</button>
+    <div class="progress">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="100" style="width: {{pointsEarned}}%">
+            <span class="sr-only">40% Complete (success)</span>
+        </div>
+    </div>
+    <div>
+        <div class="row" style="background-color:grey">
+            <span class="pull-right glyphicon glyphicon-chevron-right" ng-click="moveRight()"></span>
+            <span class="pull-right glyphicon glyphicon-chevron-left" ng-click="moveLeft()"></span>
+            <span class="pull-right">{{index + 1}} of {{standards.length}}</span>
+        </div>
+        <div class="row">
+            <form>
+                <b>{{standards[index].question}}</b><br />
+                <!--<input type="radio" name="display" ng-model="displayed" value="1" ng-change="computeScore(1)" />
+                <input type="radio" name="display" ng-model="displayed" value="0" ng-change="computeScore(0)" />-->
+                <label ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" ng-change="computeScore(option.points)" />{{option.text}}</label>
+            </form>
+        </div>
+    </div>
+</section>

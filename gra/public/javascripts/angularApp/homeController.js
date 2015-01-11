@@ -14,6 +14,10 @@
         $scope.pointsEarned = 70;
         $scope.minRequired = 80;
 
+        $http.get('/api/standards/Energy').success(function (data) {
+            $scope.standards = data;
+        });
+
         $scope.login = function() {
             $window.location.href = "/#/login";
         }

@@ -10,7 +10,7 @@ var Client = require("../models/client").Client;
 
 /* GET home page. */
 router.get('/', function (req, res) {
-    res.render('index', { title: "Green My Restaurant"}});
+    res.render('index', { title: "Green My Restaurant"});
 });
 
 /* POST login user. */
