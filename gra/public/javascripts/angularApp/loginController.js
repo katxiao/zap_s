@@ -11,6 +11,8 @@
         $scope.title = 'loginController';
         $scope.message = '';
         $scope.showErrorMessage = false;
+        $scope.showSignUpErrorMessage = false;
+        $scope.showLogInErrorMessage = false;
         
         $http.get("/current_auth").then(function(response) {
             var data = response.data;
@@ -24,7 +26,7 @@
                 $window.location.href = "/#/profile";
             }).error(function(err) {
                 $scope.message = "Login unsuccessful. Try again.";
-                $scope.showErrorMessage = true;
+                $scope.showLogInErrorMessage = true;
             });
         };
 
@@ -34,16 +36,26 @@
                     $scope.usernamesignup = "";
                     $scope.passwordsignup = "";
                     $scope.confirmpassword = "";
+                    $('#signUpModal').modal('hide');
                     $window.location.href = "/#/login";
                 }).error(function(err) {
                     $scope.message = "Registration unsuccessful. Try again.";
-                    $scope.showErrorMessage = true;
+                    $scope.showSignUpErrorMessage = true;
                 });
             } else {
                 $scope.message = "Password and confirmation password do not match. Try again.";
                 $scope.showErrorMessage = true;
             };
         };
+
+        $scope.logout = function() {
+            $http.get("/logout").success(function (data) {
+                $window.location.href = '/#/login'
+            }).error(function(err) {
+                $scope.message = "Logout unsuccessful. Try again.";
+                $scope.showErrorMessage = true;
+            })
+        }
 
         $scope.scrollTo = function (id) {
             $location.hash(id);

@@ -53,6 +53,15 @@
             }
         }
 
+        $scope.logout = function() {
+            $http.get("/logout").success(function (data) {
+                $window.location.href = '/#/login'
+            }).error(function(err) {
+                $scope.message = "Logout unsuccessful. Try again.";
+                $scope.showErrorMessage = true;
+            })
+        }
+
         $scope.scrollTo = function (id) {
             $location.hash(id);
             $anchorScroll();
