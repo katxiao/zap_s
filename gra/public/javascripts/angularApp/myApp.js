@@ -16,7 +16,7 @@
     app.config(['$routeProvider',
         function ($routeProvider) {
             $routeProvider.
-                when('/member/:id', {
+                when('/profile', {
                     templateUrl: '/angularviews/profile.html',
                     controller: 'profileController'
                 })

@@ -15,13 +15,13 @@
         $http.get("/current_auth").then(function(response) {
             var data = response.data;
             if (data.success && data.content.user) {
-                $window.location.href = "/#/member/"+data.content.user[0]._id;
+                $window.location.href = "/#/profile";
             }
         });
 
         $scope.login = function (username, password) {
             $http.post('/login', { username: username, password: password }).success(function (data) {
-                $window.location.href = "/#/member/"+data.content.user._id;
+                $window.location.href = "/#/profile";
             }).error(function(err) {
                 $scope.message = "Login unsuccessful. Try again.";
                 $scope.showErrorMessage = true;
