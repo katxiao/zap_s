@@ -12,12 +12,12 @@
         $scope.message = '';
         $scope.showErrorMessage = false;
         
-        // $http.get("/current_auth").then(function(response) {
-        //     var data = response.data;
-        //     if (data.success && data.content.user) {
-        //         $window.location.href = "/#/member/"+data.content.user._id;
-        //     }
-        // });
+        $http.get("/current_auth").then(function(response) {
+            var data = response.data;
+            if (data.success && data.content.user) {
+                $window.location.href = "/#/member/"+data.content.user[0]._id;
+            }
+        });
 
         $scope.login = function (username, password) {
             $http.post('/login', { username: username, password: password }).success(function (data) {

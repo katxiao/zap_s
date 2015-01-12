@@ -19,6 +19,16 @@ router.post("/login", passport.authenticate("local-login"), function(req, res) {
     utils.sendSuccessResponse(res, {user: req.user});
 });
 
+/* GET current user */
+router.get("/current_auth", function(req, res) {
+    utils.sendSuccessResponse(res, {user: req.user});
+})
+
+router.get("/logout", function(req, res) {
+    req.logout();
+    utils.sendSuccessResponse(res, {});
+})
+
 router.post('/upload', function (req, res, next) {
     if (req.files) {
         console.log(util.inspect(req.files));
