@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿  <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -54,64 +54,64 @@
               <div id = "graphicsDiv">
                 <div id = "settings"><button>Settings</button>
                 </div>
-                  <canvas id = "renderCanvas"></canvas>
-              </div>
-            </div>  
-            <div class = "row">  
-              <div id = "questionBox">
-                <div class = "topOfBox">
-                  <div id = "prevNext">
-                    <button id = "previous">Prev</button>
-                    <button id = "next">Next</button>
-                  </div>
-                </div>
-              <div id = "questions">
-                    <div>
-                      <div class="row" style="background-color:grey">
-                          <span class="pull-right glyphicon glyphicon-chevron-right" ng-click="moveRight()"></span>
-                          <span class="pull-right glyphicon glyphicon-chevron-left" ng-click="moveLeft()"></span>
-                          <span class="pull-right">{{index + 1}} of {{standards.length}}</span>
-                      </div>
-                      <div class="row">
-                          <form>
-                              <b>{{standards[index].question}}</b><br />
-                              <!--<input type="radio" name="display" ng-model="displayed" value="1" ng-change="computeScore(1)" />
-                              <input type="radio" name="display" ng-model="displayed" value="0" ng-change="computeScore(0)" />-->
-                              <label ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" ng-change="computeScore(option.points)" />{{option.text}}</label>
-                          </form>
-                      </div>
-                  </div>
-              </div>
-              <div class = "scrollBar"></div>
-              </div>
-            </div>
-            <div class = "row">
-              <div class = "panel-group" id = "accordion" role = "tablist" aria-multiselectable = "true">
-                <div class = "panel panel-default">
-                  <div class = "panel-heading" role = "tab" id = "headingOne">
-                    <h4 class = "panel-title">
-                      <a data-toggle = "collapse" data-parent = "#accordion" href = "#collapseOne" aria-expanded = "true" aria-controls = "collapseOne">
-                        Legislation
-                      </a>
-                    </h4>
-                  </div>
-                  <div id = "collapseOne" class = "panel-collapse collapse in" role = "tabpanel" aria-labelledby = "headingOne">
-                    <div class = "panel-body">
-                    Some content
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- <div class = "col-md-6">Div 2</div> -->
-        <div class = "col-md-4" id = "pointsBox">
-              <div class="progress">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="100" style="width: {{pointsEarned}}%">
-                    <span class="sr-only">40% Complete (success)</span>
-                </div>
-            </div>
+                <canvas id = "renderCanvas"></canvas>
+
+                <div class="row">
+                    <div id="questionBox">
+                        <a class="questiontype">Disposables</a>
+                        <a class="questiontype">Energy</a>
+                        <a class="questiontype">Food</a>
+                        <a class="questiontype">Furnishings and Building Mat.</a>
+                        <a class="questiontype">Poll & Chem Reduction</a>
+                        <a class="questiontype">Waste</a>
+                        <a class="questiontype">Water</a>
+                        <div class="container-fluid">
+                            <div class="row" style="border: solid 1px black;">
+                                <div class="container-fluid">
+                                    <div class="row" style="background-color:lightgrey;">
+                                        <span class="pull-right glyphicon glyphicon-chevron-right" ng-click="moveRight()"></span>
+                                        <span class="pull-right glyphicon glyphicon-chevron-left" ng-click="moveLeft()"></span>
+                                        <span class="pull-right">{{index + 1}} of {{standards.length}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <b>{{standards[index].question}}</b><br />
+                                        <!--<input type="radio" name="display" ng-model="displayed" value="1" ng-change="computeScore(1)" />
+                                    <input type="radio" name="display" ng-model="displayed" value="0" ng-change="computeScore(0)" />-->
+                                        <label ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" ng-change="computeScore(option.points)" />{{option.text}}</label>
+                                        <div class="scrollBar"></div>
+                                    </div>
+                                </div>
+                                <!--<div class="row">
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingOne">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                        Legislation
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                <div class="panel-body">
+                                                    Some content
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div class = "col-md-4" id = "pointsBox">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="100" style="width: {{pointsEarned}}%">
+                                <div id="background">
+                                    Text to have as background
+                                </div>
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                        </div>
+                      
+
         </div>
       <!-- </div> -->
     </div>
