@@ -18,6 +18,10 @@
             $scope.standards = data;
         });
 
+        $scope.goToGUI = function() {
+            $window.location.href = '/#/gui';
+        }
+
         $scope.logout = function() {
             $http.get("/logout").success(function (data) {
                 $window.location.href = '/#/login'
