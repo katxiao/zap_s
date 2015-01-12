@@ -28,7 +28,7 @@
                 <div class="row">
                     <div id="graphicsDiv">
                         <div id="settings">
-                            <button>Settings</button>
+                            <button><span class="glyphicon glyphicon-cog"></span></button>
                         </div>
                         <canvas id="renderCanvas"></canvas>
                     </div>
@@ -80,11 +80,9 @@
                         </div>
                         <div class="progress">
                             <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="100" style="width: {{pointsEarned}}%">
-                                <div id="background">
-                                    Text to have as background
-                                </div>
                                 <span class="sr-only">40% Complete (success)</span>
                             </div>
+                            <div style="position:absolute; z-index: 4;">Total</div>
                         </div>
                     </div>
                 </div>
