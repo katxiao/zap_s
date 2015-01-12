@@ -11,18 +11,17 @@ var clientSchema = mongoose.Schema({
 });
 
 // statics
-clientSchema.statics.register = function(category, item, question, options, callback) {
+clientSchema.statics.register = function(username, password) {
     var client = new Client({
-       category: category,
-       item: item,
-       question: question,
-       options: options
+       username: username,
+       password: password
     });
-    client.save(callback);
+    client.save(function(err, c) {
+    });
 };
 
 clientSchema.statics.login = function(username, password, callback) {
-    User.findOne({username: username, password: password, verified: true}, {password: 0}).exec(callback);
+    Client.findOne({username: username, password: password}, {password: 0}).exec(callback);
 }
 
 var Client = mongoose.model("Client", clientSchema);

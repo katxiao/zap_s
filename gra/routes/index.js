@@ -6,6 +6,7 @@ var Standard = require('../models/standard').Standard;
 
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
+var utils = require("../utils/utils");
 var Client = require("../models/client").Client;
 
 /* GET home page. */
@@ -77,6 +78,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(username, done) {
+
     Client.find({username: username}, function(err, user) {
         if (err) {
             done(err);
