@@ -1,8 +1,8 @@
 <section>
     <div data-ng-include data-src="'angularviews/navbar.html'"></div>
     <h2>Green Restaurant Association</h2>
-    <span ng-show="showErrorMessage" class="error">{{message}}</span>
-    <div class="container-fluid">
+    <!-- <span ng-show="showErrorMessage" class="error">{{message}}</span> -->
+<!--     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
                 <h4>Login</h4>
@@ -18,6 +18,48 @@
                 <button class="btn btn-default" style="background-color:#00b1ff" ng-click="signup(usernamesignup, passwordsignup, confirmpassword)">Sign Up</button>
             </div>
         </div>
-    </div>
+    </div> -->
     
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+      Login
+    </button>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signUpModal">
+      Sign Up
+    </button>
+
+    <!--Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span ng-show="showLogInErrorMessage" class="error">{{message}}</span>
+                <h4>Login</h4>
+                <input type="text" ng-model="usernamelogin" placeholder="Username" /></br>
+                <input type="password" ng-model="passwordlogin" placeholder="Password" /></br>
+                <button class="btn btn-default " style="background-color:#00b1ff" ng-click="login(usernamelogin, passwordlogin)">Login</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span ng-show="showSignUpErrorMessage" class="error">{{message}}</span>
+                <h4>Sign Up</h4>
+                <input type="text" ng-model="usernamesignup" placeholder="Username"/></br>
+                <input type="password" ng-model="passwordsignup" placeholder="Password" /></br>
+                <input type="password" ng-model="confirmpassword" placeholder="Confirm Password" /></br>
+                <button class="btn btn-default" style="background-color:#00b1ff" ng-click="signup(usernamesignup, passwordsignup, confirmpassword)">Sign Up</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
 </section>

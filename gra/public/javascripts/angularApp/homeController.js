@@ -18,8 +18,17 @@
             $scope.standards = data;
         });
 
-        $scope.login = function() {
-            $window.location.href = "/#/login";
+        $scope.goToGUI = function() {
+            $window.location.href = '/#/gui';
+        }
+
+        $scope.logout = function() {
+            $http.get("/logout").success(function (data) {
+                $window.location.href = '/#/login'
+            }).error(function(err) {
+                $scope.message = "Logout unsuccessful. Try again.";
+                $scope.showErrorMessage = true;
+            })
         }
 
         $scope.scrollTo = function (id) {
