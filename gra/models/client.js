@@ -1,6 +1,7 @@
 // Author: Jamar Brooks
 var mongoose = require("mongoose");
 //var request = require("request");
+var utils = require("../utils/utils");
 
 var clientSchema = mongoose.Schema({
     username: { type: String, required: true },
@@ -11,13 +12,12 @@ var clientSchema = mongoose.Schema({
 });
 
 // statics
-clientSchema.statics.register = function(username, password) {
+clientSchema.statics.register = function(username, password, callback) {
     var client = new Client({
        username: username,
        password: password
     });
-    client.save(function(err, c) {
-    });
+    client.save(callback);
 };
 
 clientSchema.statics.login = function(username, password, callback) {

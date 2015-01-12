@@ -1,4 +1,6 @@
 ﻿<section>
+	<div data-ng-include data-src="'angularviews/navbar.html'"></div>
     <h2>Welcome</h2>
-    <button class='btn btn-default' ng-click='login'>Login</button>
+    <span ng-show="showErrorMessage" class="error">{{message}}</span>
+    <button class='btn btn-default' ng-click='login()'>Login</button>
 </section>
