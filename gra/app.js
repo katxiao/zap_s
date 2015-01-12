@@ -38,7 +38,7 @@ app.use(passport.session());
 
 
 app.use('/', routes);
-app.use('/client', clients);
+app.use('/client/index', clients);
 app.use('/api/standards', standards);
 
 // catch 404 and forward to error handler

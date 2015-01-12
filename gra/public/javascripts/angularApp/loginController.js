@@ -5,23 +5,23 @@
         .module('myApp')
         .controller('loginController', loginController);
 
-    loginController.$inject = ['$scope', '$http', '$cookies'];
+    loginController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll'];
 
-    function loginController($scope, $http, $cookies) {
+    function loginController($scope, $http, $cookies, $window, $location, $anchorScroll) {
         $scope.title = 'loginController';
         $scope.message = '';
         $scope.showErrorMessage = false;
         
-        // $http.get("/current_auth").then(function(response) {
-        //     var data = response.data;
-        //     if (data.success && data.content.user) {
-        //         $window.location.href = "/#/member/"+data.content.user._id;
-        //     }
-        // });
+        $http.get("/current_auth").then(function(response) {
+            var data = response.data;
+            if (data.success && data.content.user) {
+                $window.location.href = "/#/profile";
+            }
+        });
 
         $scope.login = function (username, password) {
             $http.post('/login', { username: username, password: password }).success(function (data) {
-                $window.location.href = "/#/member/"+data.content.user_id;
+                $window.location.href = "/#/profile";
             }).error(function(err) {
                 $scope.message = "Login unsuccessful. Try again.";
                 $scope.showErrorMessage = true;
@@ -30,7 +30,7 @@
 
         $scope.signup = function (username, password, confpassword) {
             if(confpassword === password) {
-                $http.post("/api/user", {username: username, password: password}).success(function(data) {
+                $http.post("/client/index", {username: username, password: password}).success(function(data) {
                     $scope.usernamesignup = "";
                     $scope.passwordsignup = "";
                     $scope.confirmpassword = "";

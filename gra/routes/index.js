@@ -7,6 +7,7 @@ var Standard = require('../models/standard').Standard;
 
 var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
+var utils = require("../utils/utils");
 var Client = require("../models/client").Client;
 
 /* GET home page. */
@@ -22,6 +23,16 @@ router.get('/gui', function (req, res) {
 router.post("/login", passport.authenticate("local-login"), function(req, res) {
     utils.sendSuccessResponse(res, {user: req.user});
 });
+
+/* GET current user */
+router.get("/current_auth", function(req, res) {
+    utils.sendSuccessResponse(res, {user: req.user});
+})
+
+router.get("/logout", function(req, res) {
+    req.logout();
+    utils.sendSuccessResponse(res, {});
+})
 
 router.post('/upload', function (req, res, next) {
     if (req.files) {
@@ -82,6 +93,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(username, done) {
+
     Client.find({username: username}, function(err, user) {
         if (err) {
             done(err);
