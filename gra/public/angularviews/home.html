@@ -13,8 +13,9 @@
                 {{standard.question}}
             </td>
             <td ng-repeat="option in standard.optionList">
-                <input type="radio" value="{{option.points}}">{{option.text}}</input>
+                <input type="radio" ng-model="standard.option" value="{{option.points}}">{{option.text}}</input>
             </td>
         </tr>
     </table>
+    <button class='btn btn-default' ng-click="save()">Save</button>
 </section>
