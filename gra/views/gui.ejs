@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Green My Restaurant</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <script src = "../babylon.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="../stylesheets/starter-template.css" rel="stylesheet">
+  </head>
+  <body ng-app="myApp">
+
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </button>
+          <a class="navbar-brand" href="#">Green My Restaurant</a>
+        </div>
+
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://www.dinegreen.org">Resources</a></li>
+            <li><a href="/#/login">Login</a></li>
+            <li><a href="/#/profile">Profile</a></li>
+            <li><a class="link" ng-click="logout()">Logout</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+	<div class="container">
+        <div class="col-md-8 col-sm-8">
+            <div id="centerColumn">
+				<div class="row">
+					<div id="graphicsDiv">
+						<div id="settings">
+							<button><span class="glyphicon glyphicon-cog"></span></button>
+						</div>
+						<canvas id="renderCanvas"></canvas>
+					</div>
+				</div>
+            </div>
+        </div>
+		<div ng-view></div>
+    </div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script src="/javascripts/angularApp/myApp.js"></script>
+	<script src="/javascripts/angularApp/homeController.js"></script>
+	<script src="/javascripts/angularApp/loginController.js"></script>
+	<script src="/javascripts/angularApp/profileController.js"></script>
+	<script src="/javascripts/angularApp/guiController.js"></script>
+	<script>
+      var canvas = document.getElementById("renderCanvas");
+      var engine = new BABYLON.Engine(canvas, true);
+      var scene = new BABYLON.Scene(engine);
+      var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI * 1.2, (Math.PI/2)*.8,20, new BABYLON.Vector3(-5, 10, -5), scene);
+      var light0 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(-10, 10, -10), scene);
+      scene.activeCamera.attachControl(canvas);
+
+      var ground = new BABYLON.Mesh.CreateGround("ground", 10, 10, 100, scene, false);
+      var wall1 = new BABYLON.Mesh.CreatePlane("wall1", 10, scene, false);
+      wall1.position.z = 5;
+      wall1.position.y = 5;
+
+      var wall2 = new BABYLON.Mesh.CreatePlane("wall2", 10, scene, false);
+      wall2.rotation.y = Math.PI/2;
+      wall2.position.y = 5;
+      wall2.position.x = 5;
+
+      var burnerDistanceFromCenter = .8;
+      var burnerHeight = .1;
+      var burnerVerticalPostion = 3.05;
+      var burner1 = new BABYLON.Mesh.CreateCylinder("burner1", burnerHeight, .8, .8, 20, scene, false);
+      burner1.position.y = burnerVerticalPostion;
+      burner1.position.x = burnerDistanceFromCenter;
+      burner1.position.z = burnerDistanceFromCenter;
+
+      var burner2 = new BABYLON.Mesh.CreateCylinder("burner2", burnerHeight, .8, .8, 20, scene, false);
+      burner2.position.y = burnerVerticalPostion;
+      burner2.position.x = -burnerDistanceFromCenter;
+      burner2.position.z = burnerDistanceFromCenter;
+
+      var burner3 = new BABYLON.Mesh.CreateCylinder("burner3", burnerHeight, .8, .8, 20, scene, false);
+      burner3.position.y = burnerVerticalPostion;
+      burner3.position.x = -burnerDistanceFromCenter;
+      burner3.position.z = -burnerDistanceFromCenter;
+
+      var burner4 = new BABYLON.Mesh.CreateCylinder("burner4", burnerHeight, .8, .8, 20, scene, false);
+      burner4.position.y = burnerVerticalPostion;
+      burner4.position.x = burnerDistanceFromCenter;
+      burner4.position.z = -burnerDistanceFromCenter;
+      var click = 0;
+      var stovePic = new Image();
+      window.addEventListener("click", function(){
+        var stoveDiv = document.getElementById('stovePic');
+        var pickResult = scene.pick(scene.pointerX, scene.pointerY);
+        
+        if (pickResult.pickedMesh.name === "Box"){
+          stovePic.src = pickResult.pickedMesh.id;
+          if(!(click % 2) || (click === 0)){
+            stoveDiv.appendChild(stovePic);
+          }
+          else{
+            
+            stoveDiv.removeChild(stovePic);
+          }
+          click += 1;
+        }
+      });
+
+
+      var box = BABYLON.Mesh.CreateBox("Box", 3, scene);
+      box.position.y = 1.5;
+
+      box.id = "http://www.appliancist.com/ge-range-jb850.jpg";
+      
+      engine.runRenderLoop(function() {
+        scene.render();
+      });
+
+      window.addEventListener("resize", function(){
+        engine.resize();
+      })
+    </script>
+  </body>
+</html>

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var util = require('util');
 var fs = require('fs-extra');
+var mongoose = require('mongoose');
 var Standard = require('../models/standard').Standard;
 
 var passport = require("passport");
@@ -13,6 +14,10 @@ var Client = require("../models/client").Client;
 router.get('/', function (req, res) {
     res.render('index', { title: "Green My Restaurant"});
 });
+
+router.get('/gui', function (req, res) {
+    res.render('gui', {});
+})
 
 /* POST login user. */
 router.post("/login", passport.authenticate("local-login"), function(req, res) {
@@ -38,17 +43,17 @@ router.post('/upload', function (req, res, next) {
         fs.exists(req.files.myFile.path, function (exists) {
             if (exists) {
                 fs.readFile(req.files.myFile.path, 'utf8', function (err, data) {
+                    Standard.collection.remove(function (err) { console.log(err);});
                     data = data.trim();
                     var lines = data.split("\n");
                     for (var i in lines)
                     {
-                        console.log("Line: ", lines[i]);
+                        //console.log("Line: ", lines[i]);
                         var standardData = lines[i].split(",");
                         if(standardData[0].trim() != "")
                         {
                             var optionsList = standardData[3].split(";;");
                             var gpsList = standardData[4].split(";;");
-                            console.log(gpsList);
                             //var filtersList = standardData[6].split(";;");
                             if(optionsList.length === gpsList.length)
                             {
