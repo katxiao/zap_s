@@ -1,74 +1,90 @@
-﻿<section>
-
-    <div data-ng-include data-src="'angularviews/navbar.html'"></div>
-
-    <div class="container">
-        <div class="col-md-8">
-            <div id="centerColumn">
-                <div class="row">
-                    <div id="graphicsDiv">
-                        <div id="settings">
-                            <button><span class="glyphicon glyphicon-cog"></span></button>
-                        </div>
-                    </div>
-                </div>
-	            <div class="row">
-	                <div id="questionBox">
-	                    <a class="questiontype">Disposables</a>
-	                    <a class="questiontype">Energy</a>
-	                    <a class="questiontype">Food</a>
-	                    <a class="questiontype">Furnishings and Building Mat.</a>
-	                    <a class="questiontype">Poll & Chem Reduction</a>
-	                    <a class="questiontype">Waste</a>
-	                    <a class="questiontype">Water</a>
-	                    <div class="container-fluid">
-	                        <div class="row" style="border: solid 1px black;">
-	                            <div class="container-fluid">
-	                                <div class="row" style="background-color:lightgrey;">
-	                                    <span class="pull-right glyphicon glyphicon-chevron-right" ng-click="moveRight()"></span>
-	                                    <span class="pull-right glyphicon glyphicon-chevron-left" ng-click="moveLeft()"></span>
-	                                    <span class="pull-right">{{index + 1}} of {{standards.length}}</span>
-	                                </div>
-	                                <div class="row">
-	                                    <b>{{standards[index].question}}</b><br />
-	                                    <!--<input type="radio" name="display" ng-model="displayed" value="1" ng-change="computeScore(1)" />
-	                            <input type="radio" name="display" ng-model="displayed" value="0" ng-change="computeScore(0)" />-->
-	                                    <label ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" ng-change="computeScore(option.points)" />{{option.text}}</label>
-	                                    <div class="scrollBar"></div>
-	                                </div>
-	                            </div>
-	                        </div>
+﻿<div class="col-md-4 col-sm-8" style="padding: 1em; position: relative;">
+    <div class="progress progress-category">
+        <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: {{pointsEarned * 100.0 / minRequired | maxHundred}}%">{{pointsEarned}} / {{minRequired}}</div>
+        <div style="position:absolute; right:0; z-index: 4;">
+            Disposable
+        </div>
+    </div>
+    <div class="progress progress-category">
+        <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%"></div>
+        <div style="position:absolute; right:0; z-index: 4;">
+            Energy
+        </div>
+    </div>
+    <div class="progress progress-category">
+        <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%"></div>
+        <div style="position:absolute; right:0; z-index: 4;">
+            Food
+        </div>
+    </div>
+    <div class="progress progress-category">
+        <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%"></div>
+        <div style="position:absolute; right:0; z-index: 4;">
+            Furnishings and Building Mat.
+        </div>
+    </div>
+    <div class="progress progress-category">
+        <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%"></div>
+        <div style="position:absolute; right:0; z-index: 4;">
+            Poll. & Chem .Reduction
+        </div>
+    </div>
+    <div class="progress progress-category">
+        <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%"></div>
+        <div style="position:absolute; right:0; z-index: 4;">
+            Waste
+        </div>
+    </div>
+    <div class="progress progress-category">
+        <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%"></div>
+        <div style="position:absolute; right:0; z-index: 4;">
+            Water
+        </div>
+    </div>
+</div>
+<div class="col-md-8">
+    <div class="row">
+	    <div id="questionBox">
+	        <div class="container-fluid">
+	            <div class="row" style="border: solid 1px black;">
+	                <div class="container-fluid">
+	                    <div class="row" style="background-color:lightgrey;">
+	                        <span class="pull-right glyphicon glyphicon-chevron-right" ng-click="moveRight()"></span>
+	                        <span class="pull-right glyphicon glyphicon-chevron-left" ng-click="moveLeft()"></span>
+	                        <span class="pull-right">{{index + 1}} of {{standards.length}}</span>
 	                    </div>
-	                    <div class="progress">
-	                        <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="100" style="width: {{pointsEarned}}%">
-	                            <span class="sr-only">40% Complete (success)</span>
-	                        </div>
-	                        <div style="position:absolute; z-index: 4;">Total</div>
+	                    <div class="row">
+	                        <b>{{standards[index].question}}</b><br />
+	                        <label ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" ng-change="computeScore(option.points)" />{{option.text}}</label>
+	                        <div class="scrollBar"></div>
 	                    </div>
 	                </div>
 	            </div>
-<!-- 	            <div class="row">
-			        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-			            <div class="panel panel-default">
-			                <div class="panel-heading" role="tab" id="headingOne">
-			                    <h4 class="panel-title">
-			                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-			                            Legislation
-			                        </a>
-			                    </h4>
-			                </div>
-			                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-			                    <div class="panel-body">
-			                        Some content
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div> -->
-            </div>
-        </div>
-        <div class = "col-md-4">
+	        </div>
+	        <div class="progress">
+	            <div class="progress-bar progress-bar-{{progressstatus}}" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%">
+	                <span class="sr-only">40% Complete (success)</span>
+	            </div>
+	            <div class="text-center" style="z-index: 4;">Total</div>
+	        </div>
 	    </div>
-      <!-- </div> -->
     </div>
-</section>
+    <div class="row">
+	    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		    <div class="panel panel-default">
+			    <div class="panel-heading" role="tab" id="headingOne">
+			        <h4 class="panel-title">
+			            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+			                Legislation
+			            </a>
+			        </h4>
+			    </div>
+			    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+			        <div class="panel-body">
+			            Some content
+			        </div>
+			    </div>
+		    </div>
+	    </div>
+    </div>
+</div>

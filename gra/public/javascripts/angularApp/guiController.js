@@ -12,18 +12,37 @@
         $scope.title = 'guiController';
         
         $scope.pointsEarned = 0;
-        $scope.minRequired = 8;
+        $scope.minRequired = 10;
         $scope.progressstatus = 'danger';
+
+        console.log($scope.minRequired);
 
         $scope.index = 0;
         $scope.previousPoints = 0;
 
         $http.get('/api/standards/Energy').success(function (data) {
             $scope.standards = data;
+            $scope.maxPossible = $scope.computeMaxPossible($scope.standards);
+            console.log($scope.maxPossible);
         });
 
         $scope.login = function() {
             $window.location.href = "/#/login";
+        }
+
+        $scope.computeMaxPossible = function (standards) {
+            var max = 0;
+            for(var index in standards) {
+                var options = standards[index].optionList;
+                var optionMax = 0;
+                for(var i in options)
+                {
+                    if (options[i].points > optionMax)
+                        optionMax = options[i].points;
+                }
+                max += Number(optionMax);
+            }
+            return max;
         }
 
         $scope.computeScore = function(score)

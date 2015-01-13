@@ -11,10 +11,12 @@ a {
     color: green;
 }
 
-a.questiontype {
+.progress-category {
     background-color: lightgrey;
+    position: relative;
+    width: 100%;
     color: black;
-    padding: 3px;
+    padding: 1px;
 }
 
 .background {
