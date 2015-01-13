@@ -3,11 +3,32 @@ var router = express.Router();
 var fs = require('fs-extra');
 var utils = require("../../utils/utils");
 var Client = require("../../models/client").Client;
+var Standard = require("../../models/standard").Standard;
 
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('cient/index', { title: 'For Clients Only' });
+/* GET a client. */
+router.get('/:client_id', function(req, res) {
+    Client.findOne({_id:req.params.client_id}).exec(function(err, client) {
+        if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+        if (!client) return utils.sendErrResponse(res, 500, 'Resource not found: Client does not exist.');
+        utils.sendSuccessResponse(res, {client: client});
+    });
 });
+
+// router.get('/gp/:standard_id', function(req, res) {
+//     Standard.findOne({_id: req.params.standard_id}, function(err, standard) {
+//         if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+//         if (!standard) return utils.sendErrResponse(res, 500, 'Resource not found: Standard does not exist.');
+//         Client.findOne({_id : req.user._id}, function(err, client) {
+//             if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+//             if (!client) return utils.sendErrResponse(res, 500, 'Client does not exist.');
+//             for (var i = 0; i < client.GPs.length; i++) {
+//                 if (client.GPs[i].question.toString() === req.params.standard_id.toString()) {
+//                     req.sendSuccessResponse(req, {})
+//                 }
+//             }
+//         }) 
+//     })
+// })
 
 /**
  * POST registers client

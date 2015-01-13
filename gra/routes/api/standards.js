@@ -28,15 +28,15 @@ router.get('/:category', function (req, res) {
     });
 });
 
-router.post('/', utils.restrict, function (req, res) {
+router.put('/', utils.restrict, function (req, res) {
 	var standardId = req.body.standardId;
 	var selectedOption = req.body.selectedOption;
 	var percentage = req.body.percentage;
-	if (!standardId || !selectedOption || !percentage) return utils.sendErrResponse(res, 400, 'Bad request: missing parameters');
+	if (standardId === undefined || selectedOption === undefined || percentage === undefined) return utils.sendErrResponse(res, 400, 'Bad request: missing parameters');
 	Standard.findOne( {_id: standardId}, function(err, standard) {
 		if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
 		if (!standard) return utils.sendErrResponse(res, 404, "Standard does not exist.");
-		Client.findOne({_id: req.user._id}, function(err, client) {
+		Client.findOne({_id: req.user[0]._id}, function(err, client) {
 			if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
 			var found = false;
 			for (var i=0; i<client.GPs.length; i++) {
@@ -48,6 +48,7 @@ router.post('/', utils.restrict, function (req, res) {
 			if (!found) {
 				client.GPs.push({"question":standardId, "option": selectedOption, "percentage": percentage});
 			}
+			client.save();
 			utils.sendSuccessResponse(res);
 		})
 	})

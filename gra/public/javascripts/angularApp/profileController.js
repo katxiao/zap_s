@@ -17,7 +17,7 @@
         $http.get("/current_auth").then(function(response) {
             var data = response.data;
             if (data.success && data.content.user) {
-                $scope.user = data.content.user[0];
+                $scope.user = data.content.user;
             } else {
                 $window.location.href = "/#/login";
             }
