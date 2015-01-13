@@ -26,7 +26,8 @@ router.post("/login", passport.authenticate("local-login"), function(req, res) {
 
 /* GET current user */
 router.get("/current_auth", function(req, res) {
-    utils.sendSuccessResponse(res, {user: req.user});
+    if (req.user) return utils.sendSuccessResponse(res, {user: req.user[0]});
+    return utils.sendSuccessResponse(res, {user: undefined});
 })
 
 router.get("/logout", function(req, res) {
