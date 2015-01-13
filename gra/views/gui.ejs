@@ -53,6 +53,50 @@
 				</div>
             </div>
         </div>
+		<div class="col-md-4 col-sm-8" style="padding: 1em; position: relative;">
+			<div class="progress progress-category">
+				<div class="progress-bar progress-bar-{{progressstatus}}" id="Disposable" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: {{pointsEarned * 100.0 / minRequired | maxHundred}}%">{{pointsEarned}} / {{minRequired}}</div>
+				<div style="position:absolute; right:0; z-index: 4;">
+					Disposable
+				</div>
+			</div>
+			<div class="progress progress-category">
+				<div class="progress-bar progress-bar-{{progressstatus}}" id="Energy" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div style="position:absolute; right:0; z-index: 4;">
+					Energy
+				</div>
+			</div>
+			<div class="progress progress-category">
+				<div class="progress-bar progress-bar-{{progressstatus}}" id="Food" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div style="position:absolute; right:0; z-index: 4;">
+					Food
+				</div>
+			</div>
+			<div class="progress progress-category">
+				<div class="progress-bar progress-bar-{{progressstatus}}" id="FandB" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div style="position:absolute; right:0; z-index: 4;">
+					Furnishings and Building Mat.
+				</div>
+			</div>
+			<div class="progress progress-category">
+				<div class="progress-bar progress-bar-{{progressstatus}}" id="PollChem" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div style="position:absolute; right:0; z-index: 4;">
+					Poll. & Chem .Reduction
+				</div>
+			</div>
+			<div class="progress progress-category">
+				<div class="progress-bar progress-bar-{{progressstatus}}" id="Waste" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div style="position:absolute; right:0; z-index: 4;">
+					Waste
+				</div>
+			</div>
+			<div class="progress progress-category">
+				<div class="progress-bar progress-bar-{{progressstatus}}" id="Water" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div style="position:absolute; right:0; z-index: 4;">
+					Water
+				</div>
+			</div>
+		</div>
 		<div ng-view></div>
     </div>
 
@@ -62,6 +106,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="/javascripts/angularApp/myApp.js"></script>
+	<script src="/javascripts/angularApp/guiApp.js"></script>
 	<script src="/javascripts/angularApp/homeController.js"></script>
 	<script src="/javascripts/angularApp/loginController.js"></script>
 	<script src="/javascripts/angularApp/profileController.js"></script>
