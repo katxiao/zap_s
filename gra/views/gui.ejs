@@ -67,6 +67,34 @@
 	<script src="/javascripts/angularApp/profileController.js"></script>
 	<script src="/javascripts/angularApp/guiController.js"></script>
 	<script>
+        if (BABYLON.Engine.isSupported()) {
+            var canvas = document.getElementById("renderCanvas");
+            var engine = new BABYLON.Engine(canvas, true);
+
+            BABYLON.SceneLoader.Load("", "../Bathroom.babylon", engine, function (newScene) {
+                // Wait for textures and shaders to be ready
+                console.log(newScene);
+                newScene.executeWhenReady(function () {
+                    // Attach camera to canvas inputs
+                    newScene.activeCamera.attachControl(canvas);
+
+                    window.addEventListener("click", function(){
+                        var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);
+                        console.log(pickResult.pickedMesh.name);
+                      });
+
+
+                    // Once the scene is loaded, just register a render loop to render it
+                    engine.runRenderLoop(function() {
+                        newScene.render();
+                    });
+                });
+            }, function (progress) {
+                // To do: give progress feedback to user
+            })    ;
+        }
+    </script>
+	<!--<script>
       var canvas = document.getElementById("renderCanvas");
       var engine = new BABYLON.Engine(canvas, true);
       var scene = new BABYLON.Scene(engine);
@@ -138,6 +166,6 @@
       window.addEventListener("resize", function(){
         engine.resize();
       })
-    </script>
+    </script>-->
   </body>
 </html>
