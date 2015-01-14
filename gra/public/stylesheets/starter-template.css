@@ -55,6 +55,18 @@ a{
 	height:20px;*/
 }
 
+#diningRoomButton{
+	position:absolute;
+	right:0px;
+	top:41px;
+}
+
+#bathroomButton{
+	position:absolute;
+	right:0px;
+	top:20px;
+}
+
 
 #renderCanvas{
 	width:inherit;

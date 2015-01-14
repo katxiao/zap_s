@@ -48,6 +48,12 @@
 						<div id="settings">
 							<button><span class="glyphicon glyphicon-cog"></span></button>
 						</div>
+						<div id = "diningRoomButton">
+							<button>Dining Room</button>
+						</div>
+						<div id = "bathroomButton">
+							<button>Bathroom</button>
+						</div>
 						<canvas id="renderCanvas"></canvas>
 					</div>
 				</div>
@@ -116,17 +122,29 @@
             var canvas = document.getElementById("renderCanvas");
             var engine = new BABYLON.Engine(canvas, true);
 
-            BABYLON.SceneLoader.Load("", "../Sink2.babylon", engine, function (newScene) {
+            BABYLON.SceneLoader.Load("", "../Restaurant.babylon", engine, function (newScene) {
                 // Wait for textures and shaders to be ready
                 console.log(newScene);
                 newScene.executeWhenReady(function () {
                     // Attach camera to canvas inputs
                     newScene.activeCamera.attachControl(canvas);
+                    var camera = newScene.activeCamera;
+                    var initialCameraPosition = camera.position;
+                    var initialCameraRotation = camera.rotation;
+                    var initialCameraFOV = camera.fov;
+                    camera.position.z = 5;
 
                     window.addEventListener("click", function(){
-                        var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);
-                        console.log(pickResult.pickedMesh.name);
+                        var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);4
+                        console.log('mesh name: ' + pickResult.pickedMesh.name);
+                        console.log('cameraInfo: ' + camera.rotation);
                       });
+                    $('#diningRoomButton').click(function() {
+                    	camera.position.z = newScene.getMeshByName("Dining Room").position.z - 15;
+                    });
+                    $('#bathroomButton').click(function() {
+                    	newScene.activeCamera.position.z = newScene.getMeshByName("Bathroom").position.z;
+                    });
 
 
                     // Once the scene is loaded, just register a render loop to render it
