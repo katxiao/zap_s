@@ -1,0 +1,50 @@
+Kitchen
+	-Trash Liners
+	-Takeout bags
+	-Hand Drying
+	-Sink
+	-Kitchen Sink
+	-Dish Washing
+	-Lights
+	-Oven
+	-Hood
+	-Refrigeration
+	-Floor
+	-Uniforms
+
+Restroom
+	-Hand Drying
+	-Toilet
+	-Urinal
+	-Lights
+Dining Room
+	-Table
+	-Takeout bag
+	-Ceiling
+	-Heating & Cooling
+	-Door
+	-Wall
+	-Floor
+	- 
+Storage
+	- Washing Machine
+	- Car/Subway/Bike
+	- Lights
+Office
+	- Desk
+	- Lights
+	-
+Exterior
+	- Loading Dock
+	- Landscaping
+	- Building Frame
+	- Parking
+	- Roof
+	- Windows
+	- Ground
+Utility
+	- Heating & Cooling
+	- Water Heater
+	- Lights
+	- 
+
