@@ -42,7 +42,8 @@ router.put('/', utils.restrict, function (req, res) {
 			for (var i=0; i<client.GPs.length; i++) {
 				if (client.GPs[i].question.toString() === standardId.toString()) {
 					found = true;
-					client.GPs[i] = {"question":standardId, "option": selectedOption, "percentage": percentage};
+					client.GPs[i].option = selectedOption;
+					client.GPs[i].percentage = percentage;
 				}
 			}
 			if (!found) {
