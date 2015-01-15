@@ -45,10 +45,9 @@ router.post('/upload', function (req, res, next) {
             if (exists) {
                 fs.readFile(req.files.myFile.path, 'utf8', function (err, data) {
                     data = data.trim();
-                    //Standard.collection.remove(function (err) { console.log(err); });
-                    Standard.find({}).exec(function (err, existingStandards) {
-                        var lines = data.split("\n");
-                        console.log("Line: ", lines.splice(0, 1));
+                    var lines = data.split("\n");
+                    console.log("Line: ", lines.splice(0, 1));
+                    Standard.find({category: lines[0].split(",")[0]}).exec(function (err, existingStandards) {
                         var latestMatched = 0;
                         for (var i in lines) {
                             var standardData = lines[i].split(",");
@@ -68,6 +67,7 @@ router.post('/upload', function (req, res, next) {
                                 latestMatched = existence.latestMatched;
                             }
                         }
+                        removeOldStandards(existingStandards);
                         res.end("Got your file!");
                     });
                 });
@@ -83,12 +83,21 @@ var alreadyExists = function (existingStandards, question, latestMatched) {
         if(existingStandards[index].question === question)
         {
             console.log(index);
+            existingStandards[index].matched = true;
             var latest = (index === latestMatched) ? latestMatched + 1 : latestMatched;
             return { found: true, latestMatched: latest };
         }
     }
     return { found: false, latestMatched: latestMatched };
 };
+
+var removeOldStandards = function (existingStandards, latestMatched) {
+    console.log(latestMatched);
+    for (var index = latestMatched; index < existingStandards.length; ++index) {
+        if (!existingStandards[index].matched)
+            Standard.findByIdAndRemove(existingStandards[index]._id);
+    }
+}
 
 // Passport strategy for logging in
 passport.use("local-login", new LocalStrategy(function(username, password, done) {

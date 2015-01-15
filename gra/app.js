@@ -72,7 +72,7 @@ app.use(function(err, req, res, next) {
     });
 });
 
-// // set up mongo database
+// set up mongo database
 var connection_string = process.env.MONGOLAB_URI || "localhost:27017/gra";
 console.log("CONNECTION STRING: " + connection_string);
 mongoose.connect(connection_string);
