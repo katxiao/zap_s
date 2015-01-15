@@ -12,6 +12,7 @@
 	                    <div class="row">
 	                        <b>{{standards[index].question}}</b><br />
 	                        <label ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" onclick="console.log(3);" ng-change="computeScore(option.points)" />{{option.text}}</label>
+                            <input ng-model="standards[index].percentage" size="3" />%
 	                        <div class="scrollBar"></div>
 	                    </div>
 	                </div>
@@ -25,23 +26,13 @@
 	        </div>
 	    </div>
     </div>
-    <div class="row">
-	    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-		    <div class="panel panel-default">
-			    <div class="panel-heading" role="tab" id="headingOne">
-			        <h4 class="panel-title">
-			            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-			                Legislation
-			            </a>
-			        </h4>
-			    </div>
-			    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-			        <div class="panel-body">
-			            Some content
-			        </div>
-			    </div>
-		    </div>
-	    </div>
+    <div ng-repeat="etc in etcs">
+        <div class="row">
+            {{etc.header}}
+        </div>
+        <div class="row" ng-show="etc.open">
+            {{etc.content}}
+        </div>
     </div>
     <!--<script>
         if (BABYLON.Engine.isSupported()) {

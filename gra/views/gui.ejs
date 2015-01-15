@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <title>Green My Restaurant</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 	<link rel='stylesheet' href='/stylesheets/style.css' />
 
     <script src = "../babylon.js"></script>
@@ -16,7 +16,7 @@
     <!-- Custom styles for this template -->
     <link href="../stylesheets/starter-template.css" rel="stylesheet">
   </head>
-  <body ng-app="myApp">
+  <body ng-app="guiApp">
 
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -59,47 +59,47 @@
 				</div>
             </div>
         </div>
-		<div class="col-md-4 col-sm-8" style="padding: 1em; position: relative;">
+		<div class="col-md-4 col-sm-8"	 style="padding: 1em; position: relative;">
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-{{progressstatus}}" id="Disposable" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: {{pointsEarned * 100.0 / minRequired | maxHundred}}%">{{pointsEarned}} / {{minRequired}}</div>
 				<div style="position:absolute; right:0; z-index: 4;">
-					Disposable
+					<a href="/gui/#/Disposables">Disposables</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-{{progressstatus}}" id="Energy" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
-					Energy
+					<a href="/gui/#/Energy">Energy</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-{{progressstatus}}" id="Food" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
-					Food
+					<a href="/gui/#/Food">Food</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-{{progressstatus}}" id="FandB" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
-					Furnishings and Building Mat.
+					<a href="/gui/#/Sustainable Furnishings & Building Materials">Furnishings and Building Mat.</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-{{progressstatus}}" id="PollChem" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
-					Poll. & Chem .Reduction
+					<a href="/gui/#/Pollution & Chemical Reduction">Poll. & Chem .Reduction</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-{{progressstatus}}" id="Waste" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
-					Waste
+					<a href="/gui/#/Waste">Waste</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-{{progressstatus}}" id="Water" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
-					Water
+					<a href="/gui/#/Water">Water</a>
 				</div>
 			</div>
 		</div>
@@ -111,12 +111,10 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-	<script src="/javascripts/angularApp/myApp.js"></script>
+	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.4.0.js"></script>
 	<script src="/javascripts/angularApp/guiApp.js"></script>
-	<script src="/javascripts/angularApp/homeController.js"></script>
-	<script src="/javascripts/angularApp/loginController.js"></script>
-	<script src="/javascripts/angularApp/profileController.js"></script>
 	<script src="/javascripts/angularApp/guiController.js"></script>
+	<script src="/javascripts/angularApp/categoryController.js"></script>
 	<script>
         if (BABYLON.Engine.isSupported()) {
             var canvas = document.getElementById("renderCanvas");
@@ -134,10 +132,10 @@
                     var initialCameraFOV = camera.fov;
                     camera.position.z = 5;
 
-                    window.addEventListener("click", function(){
-                        var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);4
+                    canvas.addEventListener("click", function(){
+                        var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);
                         console.log('mesh name: ' + pickResult.pickedMesh.name);
-                        console.log('cameraInfo: ' + camera.rotation);
+                        //console.log('cameraInfo: ' + camera.rotation);
                       });
                     $('#diningRoomButton').click(function() {
                     	camera.position.z = newScene.getMeshByName("Dining Room").position.z - 15;

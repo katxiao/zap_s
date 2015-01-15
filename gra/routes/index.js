@@ -37,36 +37,39 @@ router.get("/logout", function(req, res) {
 
 router.post('/upload', function (req, res, next) {
     if (req.files) {
-        console.log(util.inspect(req.files));
+        //console.log(util.inspect(req.files));
         if (req.files.myFile.size === 0) {
             return next(new Error("Hey, first would you select a file?"));
         }
         fs.exists(req.files.myFile.path, function (exists) {
             if (exists) {
                 fs.readFile(req.files.myFile.path, 'utf8', function (err, data) {
-                    Standard.collection.remove(function (err) { console.log(err);});
                     data = data.trim();
-                    var lines = data.split("\n");
-                    for (var i in lines)
-                    {
-                        //console.log("Line: ", lines[i]);
-                        var standardData = lines[i].split(",");
-                        if(standardData[0].trim() != "")
-                        {
-                            var optionsList = standardData[3].split(";;");
-                            var gpsList = standardData[4].split(";;");
-                            //var filtersList = standardData[6].split(";;");
-                            if(optionsList.length === gpsList.length)
-                            {
-                                var options = [];
-                                for(var index = 0; index < optionsList.length; index++)
-                                    options.push({text: optionsList[index], points: Number(gpsList[index])});
-                                var standard = new Standard({ category: standardData[0], item: "Don't have yet.", question: standardData[2], optionList: options });
-                                standard.save();
+                    //Standard.collection.remove(function (err) { console.log(err); });
+                    Standard.find({}).exec(function (err, existingStandards) {
+                        var lines = data.split("\n");
+                        console.log("Line: ", lines.splice(0, 1));
+                        var latestMatched = 0;
+                        for (var i in lines) {
+                            var standardData = lines[i].split(",");
+                            var existence = alreadyExists(existingStandards, standardData[2], latestMatched);
+                            if (standardData[0].trim() != "" && !existence.found) {
+                                var optionsList = standardData[3].split(";;");
+                                var gpsList = standardData[4].split(";;");
+                                //var filtersList = standardData[6].split(";;");
+                                if (optionsList.length === gpsList.length) {
+                                    var options = [];
+                                    for (var index = 0; index < optionsList.length; index++)
+                                        options.push({ text: optionsList[index], points: Number(gpsList[index]) });
+                                    var standard = new Standard({ category: standardData[0], item: "Don't have yet.", question: standardData[2], optionList: options });
+                                    standard.save();
+                                }
+                            } else {
+                                latestMatched = existence.latestMatched;
                             }
                         }
-                    }
-                    res.end("Got your file!");
+                        res.end("Got your file!");
+                    });
                 });
             } else {
                 res.end("Well, there is no magic for those who don’t believe in it!");
@@ -74,6 +77,18 @@ router.post('/upload', function (req, res, next) {
         });
     }
 });
+
+var alreadyExists = function (existingStandards, question, latestMatched) {
+    for (var index = latestMatched; index < existingStandards.length; ++index) {
+        if(existingStandards[index].question === question)
+        {
+            console.log(index);
+            var latest = (index === latestMatched) ? latestMatched + 1 : latestMatched;
+            return { found: true, latestMatched: latest };
+        }
+    }
+    return { found: false, latestMatched: latestMatched };
+};
 
 // Passport strategy for logging in
 passport.use("local-login", new LocalStrategy(function(username, password, done) {

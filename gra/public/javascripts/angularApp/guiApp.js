@@ -8,9 +8,10 @@
         'ngCookies',
 
         // Custom modules 
-        'numbers'
+        'numbers',
+        'stringFormat',
         // 3rd Party Modules
-
+        'ui.bootstrap'
     ]);
 
     angular.module('numbers', []).filter('maxHundred', function () {
@@ -19,10 +20,20 @@
         };
     });
 
+    angular.module('stringFormat', []).filter('reinsertCommas', function () {
+        return function (input) {
+            return input.replace(';', ',');
+        }
+    });
+
     app.config(['$routeProvider',
         function ($routeProvider) {
             $routeProvider.
-                when('/', {
+                when('/:category', {
+                    templateUrl: '/angularviews/gui.html',
+                    controller: 'categoryController'
+                })
+                .otherwise('/', {
                     templateUrl: '/angularviews/gui.html',
                     controller: 'guiController'
                 });

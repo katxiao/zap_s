@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('myApp')
+        .module('guiApp')
         .controller('guiController', guiController);
 
     guiController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams'];
@@ -20,10 +20,29 @@
         $scope.index = 0;
         $scope.previousPoints = 0;
 
-        $http.get('/api/standards/Energy').success(function (data) {
-            $scope.standards = data;
-            $scope.maxPossible = $scope.computeMaxPossible($scope.standards);
-            console.log($scope.maxPossible);
+        $http.get('/current_auth').success(function (data) {
+            $scope.user = data.content.user;
+            if ($scope.user) $scope.greenPoints = $scope.user.GPs;
+            $http.get('/api/standards/Energy').success(function (data) {
+                $scope.standards = data;
+                $scope.maxPossible = $scope.computeMaxPossible($scope.standards);
+                for (var i = 0; i < $scope.standards.length; i++) {
+                    var found = false;
+                    if ($scope.user) {
+                        for (var j = 0; j < $scope.greenPoints.length; j++) {
+                            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
+                                found = true;
+                                $scope.standards[i].option = $scope.greenPoints[j].option;
+                                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
+                            }
+                        }
+                        if (!found) {
+                            $scope.standards[i].option = undefined;
+                            $scope.standards[i].percentage = undefined;
+                        }
+                    }
+                }
+            });
         });
 
         $scope.login = function() {

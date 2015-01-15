@@ -50,7 +50,7 @@
         }
 
         $scope.goToGUI = function() {
-            $window.location.href = '/#/gui';
+            $window.location.href = '/gui/#/';
         }
 
         $scope.logout = function() {

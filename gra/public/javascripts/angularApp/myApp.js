@@ -8,9 +8,8 @@
         'ngCookies',
 
         // Custom modules 
-        'numbers'
+        'numbers',
         // 3rd Party Modules
-
     ]);
 
     angular.module('numbers', []).filter('maxHundred', function () {
@@ -29,10 +28,6 @@
                 .when('/login', {
                     templateUrl: '/angularviews/login.html',
                     controller: 'loginController'
-                })
-                .when('/gui', {
-                    templateUrl: '/angularviews/gui.html',
-                    controller: 'guiController'
                 })
                 .otherwise({
                     templateUrl: '/angularviews/home.html',
