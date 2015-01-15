@@ -122,26 +122,42 @@
 
             BABYLON.SceneLoader.Load("", "../Restaurant.babylon", engine, function (newScene) {
                 // Wait for textures and shaders to be ready
-                console.log(newScene);
+                // console.log(newScene);
                 newScene.executeWhenReady(function () {
                     // Attach camera to canvas inputs
                     newScene.activeCamera.attachControl(canvas);
                     var camera = newScene.activeCamera;
                     var initialCameraPosition = camera.position;
-                    var initialCameraRotation = camera.rotation;
+                    var initialCameraRotation = camera.cameraRotation;
                     var initialCameraFOV = camera.fov;
                     camera.position.z = 5;
 
-                    canvas.addEventListener("click", function(){
-                        var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);
-                        console.log('mesh name: ' + pickResult.pickedMesh.name);
-                        //console.log('cameraInfo: ' + camera.rotation);
+                    window.addEventListener("click", function(){
+                        var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);4
+                        // console.log('mesh name: ' + pickResult.pickedMesh.name);
+                        console.log('cameraInfo: ' + camera.cameraRotation);
+                        console.log('cameraPosition: ' + camera.position);
+                        // console.log('initialCameraInfo: '+ initialCameraRotation.z);
                       });
                     $('#diningRoomButton').click(function() {
                     	camera.position.z = newScene.getMeshByName("Dining Room").position.z - 15;
+                    	// console.log(initialCameraRotation);
+                    	camera.cameraRotation = initialCameraRotation;
+                    	// console.log("camera rotation: " + camera.rotation);
                     });
                     $('#bathroomButton').click(function() {
-                    	newScene.activeCamera.position.z = newScene.getMeshByName("Bathroom").position.z;
+                    	// console.log(newScene);
+                    	console.log(typeof newScene.getMeshByName("Bathroom"));
+                    	camera.lockedTarget(newScene.getMeshByName("Bathroom"));
+                    	// newScene.activeCamera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(12.1914, 9.92933, 5), newScene);
+                    	// // newScene.activeCamera.position = newScene.getMeshByName("Bathroom").position;
+                    	// newScene.activeCamera.attachControl(canvas);
+                    	// camera = newScene.activeCamera;
+                    });
+                    $(document).keydown(function(e){
+                    	if(e.which === 40){
+                    		// console.log(camera.fov);
+                    	}
                     });
 
 
