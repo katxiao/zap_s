@@ -1,0 +1,17 @@
+<section>
+    <div data-ng-include data-src="'angularviews/navbar.html'"></div>
+    <h2>Green Restaurant Association</h2>
+    <span ng-show="showErrorMessage" class="error">{{message}}</span>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Reset Password</h4>
+                Username: <input type="text" ng-model="username" placeholder="Username" /></br>
+                Old Password: <input type="password" ng-model="oldPassword" placeholder="Old Password" /></br>
+                New Password: <input type="password" ng-model="newPassword" placeholder="New Password" /></br>
+                <button class="btn btn-default " style="background-color:#00b1ff" ng-click="reset(username, oldPassword,  newPassword)">Login</button>
+            </div>
+        </div>
+    </div>
+
+</section>

@@ -34,6 +34,10 @@
                     templateUrl: '/angularviews/gui.html',
                     controller: 'guiController'
                 })
+                .when('/reset', {
+                    templateUrl: '/angularviews/reset.html',
+                    controller: 'resetController'
+                })
                 .otherwise({
                     templateUrl: '/angularviews/home.html',
                     controller: 'homeController'
