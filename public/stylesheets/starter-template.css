@@ -61,10 +61,31 @@ a{
 	top:41px;
 }
 
-#bathroomButton{
+#kitchenButton{
 	position:absolute;
 	right:0px;
 	top:20px;
+}
+
+#restroomButton{
+	position:absolute;
+	right:0px;
+	top:62px;
+}
+#officeButton{
+	position:absolute;
+	right:0px;
+	top:83px;
+}
+#utilityButton{
+	position:absolute;
+	right:0px;
+	top:104px;
+}
+#storageButton{
+	position:absolute;
+	right:0px;
+	top:125px;
 }
 
 
