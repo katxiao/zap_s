@@ -28,6 +28,7 @@
                                 found = true;
                                 $scope.standards[i].option = $scope.greenPoints[j].option;
                                 $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
+                                break;
                             }
                         }
                         if (!found) {

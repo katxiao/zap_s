@@ -132,7 +132,7 @@
                     var initialCameraFOV = camera.fov;
                     camera.position.z = 5;
 
-                    window.addEventListener("click", function(){
+                    canvas.addEventListener("click", function(){
                         var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);4
                         // console.log('mesh name: ' + pickResult.pickedMesh.name);
                         console.log('cameraInfo: ' + camera.cameraRotation);
@@ -154,11 +154,11 @@
                     	// newScene.activeCamera.attachControl(canvas);
                     	// camera = newScene.activeCamera;
                     });
-                    $(document).keydown(function(e){
+                    /*$(document).keydown(function(e){
                     	if(e.which === 40){
                     		// console.log(camera.fov);
                     	}
-                    });
+                    });*/
 
 
                     // Once the scene is loaded, just register a render loop to render it

@@ -12,17 +12,17 @@
     "debug": "~1.0.4",
     "ejs": "~0.8.5",
     "express": "~4.8.6",
+    "express-session": "*",
     "formidable": "1.0.16",
     "fs-extra": "0.13.0",
     "mongodb": "1.4.26",
     "mongoose": "3.8.20",
     "morgan": "~1.2.3",
     "multer": "^0.1.6",
+    "passport": "*",
+    "passport-local": "*",
     "request": "2.51.0",
-    "serve-favicon": "~2.0.1",
-    "passport" : "*",
-    "passport-local" : "*",
-    "express-session" : "*",
-    "sendgrid" : "1.0.4"
+    "sendgrid": "^1.0.4",
+    "serve-favicon": "~2.0.1"
   }
 }
