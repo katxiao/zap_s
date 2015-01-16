@@ -47,7 +47,6 @@ router.post('/upload', function (req, res, next) {
                     data = data.trim();
                     var lines = data.split("\n");
                     console.log("Line: ", lines.splice(0, 1));
-                    Standard.collection.remove(function (err) { console.log(err); });
                     Standard.find({category: lines[0].split(",")[0]}).exec(function (err, existingStandards) {
                         var latestMatched = 0;
                         var uploadId = Math.round(Math.random() * 10000);
