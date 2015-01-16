@@ -53,19 +53,3 @@ a {
   z-index: 10;
   background-color: rgba(0,0,0,.8); /* dim the background*/
 }
-
-.modal {
-    width: 500px;
-    height: 300px;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    overflow:auto;
-  
-    transform: translate(-50%, -50%);
-    background-color: #cec3c3;
-    display: block;
-    border-radius: 5px;
-    text-align: center;
-    z-index: 11; /* 1px higher than the overlay layer */
-}
