@@ -77,10 +77,11 @@
             $scope.pointsEarned += Number(score);
             $scope.previousPoints = Number(score);
             if ($scope.pointsEarned >= $scope.minRequired)
-                $scope.progressstatus = 'success';
+                $('#' + $routeParams.category).removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
-                $scope.progressstatus = 'danger';
+                $('#' + $routeParams.category).removeClass('progress-bar-success').addClass('progress-bar-danger');
             console.log($scope.pointsEarned, score);
+            $('#' + $routeParams.category).width(Math.min($scope.pointsEarned * 10.0, 100) + "%");
         }
 
         $scope.moveLeft = function () {

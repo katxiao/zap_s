@@ -40,7 +40,7 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-	<div class="container">
+	<div class="container-fluid">
         <div class="col-md-8 col-sm-8">
             <div id="centerColumn">
 				<div class="row">
@@ -73,43 +73,43 @@
         </div>
 		<div class="col-md-4 col-sm-8"	 style="padding: 1em; position: relative;">
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-{{progressstatus}}" id="Disposable" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: {{pointsEarned * 100.0 / minRequired | maxHundred}}%">{{pointsEarned}} / {{minRequired}}</div>
+				<div class="progress-bar progress-bar-danger" id="Disposable" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: {{pointsEarned * 100.0 / minRequired | maxHundred}}%">{{pointsEarned}} / {{minRequired}}</div>
 				<div style="position:absolute; right:0; z-index: 4;">
 					<a href="/gui/#/Disposables">Disposables</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-{{progressstatus}}" id="Energy" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="Energy" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
 					<a href="/gui/#/Energy">Energy</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-{{progressstatus}}" id="Food" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="Food" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
 					<a href="/gui/#/Food">Food</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-{{progressstatus}}" id="FandB" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="FandB" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
 					<a href="/gui/#/Sustainable Furnishings & Building Materials">Furnishings and Building Mat.</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-{{progressstatus}}" id="PollChem" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="PollChem" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
 					<a href="/gui/#/Pollution & Chemical Reduction">Poll. & Chem .Reduction</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-{{progressstatus}}" id="Waste" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="Waste" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
 					<a href="/gui/#/Waste">Waste</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-{{progressstatus}}" id="Water" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="Water" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
 					<a href="/gui/#/Water">Water</a>
 				</div>
@@ -132,7 +132,7 @@
             var canvas = document.getElementById("renderCanvas");
             var engine = new BABYLON.Engine(canvas, true);
 
-            BABYLON.SceneLoader.Load("", "../DemoRestaurant.babylon", engine, function (newScene) {
+            BABYLON.SceneLoader.Load("", "../babylon/DemoRestaurant.babylon", engine, function (newScene) {
                 // Wait for textures and shaders to be ready
                 // console.log(newScene);
                 newScene.executeWhenReady(function () {
