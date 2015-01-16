@@ -144,19 +144,12 @@
                     var initialCameraFOV = camera.fov;
                     // camera.position.z = 5;
 
-<<<<<<< HEAD
                     canvas.addEventListener("click", function(){
                         var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);4
                         // console.log('mesh name: ' + pickResult.pickedMesh.name);
                         console.log('cameraInfo: ' + camera.cameraRotation);
                         console.log('cameraPosition: ' + camera.position);
                         // console.log('initialCameraInfo: '+ initialCameraRotation.z);
-=======
-                    window.addEventListener("click", function(){
-                        var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);
-                        console.log('mesh name: ' + pickResult.pickedMesh.name);
-                        console.log(camera.position);
->>>>>>> c1c4f8c5ac2246da6aefa70a51e54b9dfe853d08
                       });
 
                     var updatePosition = function(x,y,z, roomName){
