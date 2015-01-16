@@ -27,11 +27,16 @@
 	    </div>
     </div>
     <div ng-repeat="etc in etcs">
-        <div class="row">
-            {{etc.header}}
-        </div>
-        <div class="row" ng-show="etc.open">
+        <h3 class="row etcheader">
+            <span class="glyphicon" ng-class='{"glyphicon-chevron-down": etc.open, "glyphicon-chevron-right": !etc.open }' ng-click="etc.open = !etc.open;"></span>{{etc.header}}
+        </h3>
+        <div class="row etcbody" ng-show="etc.open">
             {{etc.content}}
+        </div>
+    </div>
+    <div class="overlay" ng-show="showMessageModal">
+        <div class="modal">
+            {{message}}
         </div>
     </div>
     <!--<script>

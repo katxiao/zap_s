@@ -47,8 +47,10 @@ router.post('/upload', function (req, res, next) {
                     data = data.trim();
                     var lines = data.split("\n");
                     console.log("Line: ", lines.splice(0, 1));
+                    Standard.collection.remove(function (err) { console.log(err); });
                     Standard.find({category: lines[0].split(",")[0]}).exec(function (err, existingStandards) {
                         var latestMatched = 0;
+                        var uploadId = Math.round(Math.random() * 10000);
                         for (var i in lines) {
                             var standardData = lines[i].split(",");
                             var existence = alreadyExists(existingStandards, standardData[2], latestMatched);
@@ -60,14 +62,14 @@ router.post('/upload', function (req, res, next) {
                                     var options = [];
                                     for (var index = 0; index < optionsList.length; index++)
                                         options.push({ text: optionsList[index], points: Number(gpsList[index]) });
-                                    var standard = new Standard({ category: standardData[0], item: "Don't have yet.", question: standardData[2], optionList: options });
+                                    var standard = new Standard({ category: standardData[0], item: "Don't have yet.", question: standardData[2], optionList: options, uploadId: uploadId });
                                     standard.save();
                                 }
                             } else {
                                 latestMatched = existence.latestMatched;
                             }
                         }
-                        removeOldStandards(existingStandards);
+                        removeOldStandards(existingStandards, existence.latestMatched);
                         res.end("Got your file!");
                     });
                 });
