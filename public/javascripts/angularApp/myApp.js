@@ -8,9 +8,8 @@
         'ngCookies',
 
         // Custom modules 
-        'numbers'
+        'numbers',
         // 3rd Party Modules
-
     ]);
 
     angular.module('numbers', []).filter('maxHundred', function () {

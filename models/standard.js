@@ -6,7 +6,7 @@ var standardSchema = mongoose.Schema({
     category: { type: String, required: true },
     item: { type: String, required: true },
     question: { type: String, required: true },
-    optionList: [{ text: { type: String }, points: { type: String } }],
+    optionList: [{ text: { type: String }, points: { type: Number } }],
     filters: [{ text: { type: String }}]
 });
 
