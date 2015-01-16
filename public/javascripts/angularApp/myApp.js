@@ -10,6 +10,7 @@
         // Custom modules 
         'numbers',
         // 3rd Party Modules
+        'ui.bootstrap'
     ]);
 
     angular.module('numbers', []).filter('maxHundred', function () {
