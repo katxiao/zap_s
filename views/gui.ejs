@@ -8,8 +8,9 @@
     <meta name="author" content="">
     <title>Green My Restaurant</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link rel='stylesheet' href='/stylesheets/style.css' media="only screen and (min-width: 600px)"/>
+	<link href="mobile.css" rel="stylesheet" type="text/css" media="only screen and (max-width: 600px)" />
 
     <script src = "../babylon.js"></script>
 
@@ -27,7 +28,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span> 
           </button>
-          <a class="navbar-brand" href="#">Green My Restaurant</a>
+          <a class="navbar-brand" href="/#">Green My Restaurant</a>
         </div>
 
         <div id="navbar" class="collapse navbar-collapse">
@@ -77,7 +78,7 @@
         </div>
 		<div class="col-md-4 col-sm-8" style="padding: 1em; position: relative;"> 
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Disposable" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: {{pointsEarned * 100.0 / minRequired | maxHundred}}%">{{pointsEarned}} / {{minRequired}}</div>
+				<div class="progress-bar progress-bar-danger" id="Disposable" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
 					<a href="/gui/#/Disposables">Disposables</a>
 				</div>

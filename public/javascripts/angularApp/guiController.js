@@ -12,36 +12,34 @@
         $scope.title = 'guiController';
         
         $scope.pointsEarned = 0;
-        $scope.minRequired = 10;
-        $scope.progressstatus = 'danger';
-
-        console.log($scope.minRequired);
+        $scope.minRequired = 10
 
         $scope.index = 0;
         $scope.previousPoints = 0;
-
+        console.log('guiController');
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
             if ($scope.user) $scope.greenPoints = $scope.user.GPs;
-            $http.get('/api/standards/Energy').success(function (data) {
+            $http.get('/api/standards/').then(function (data) {
                 $scope.standards = data;
-                $scope.maxPossible = $scope.computeMaxPossible($scope.standards);
-                for (var i = 0; i < $scope.standards.length; i++) {
-                    var found = false;
-                    if ($scope.user) {
-                        for (var j = 0; j < $scope.greenPoints.length; j++) {
-                            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
-                                found = true;
-                                $scope.standards[i].option = $scope.greenPoints[j].option;
-                                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
-                            }
-                        }
-                        if (!found) {
-                            $scope.standards[i].option = undefined;
-                            $scope.standards[i].percentage = undefined;
-                        }
-                    }
-                }
+                console.log($scope.standards);
+                //$scope.maxPossible = $scope.computeMaxPossible($scope.standards);
+                //for (var i = 0; i < $scope.standards.length; i++) {
+                //    var found = false;
+                //    if ($scope.user) {
+                //        for (var j = 0; j < $scope.greenPoints.length; j++) {
+                //            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
+                //                found = true;
+                //                $scope.standards[i].option = $scope.greenPoints[j].option;
+                //                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
+                //            }
+                //        }
+                //        if (!found) {
+                //            $scope.standards[i].option = undefined;
+                //            $scope.standards[i].percentage = undefined;
+                //        }
+                //    }
+                //}
             });
         });
 

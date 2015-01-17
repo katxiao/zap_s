@@ -7,21 +7,21 @@
                         <div class="container-fluid round">
                             <div class="row round" style="background-color:lightgrey;">
                               <div class = "btn-group pull-right">
-                                <button id = "prevNext" type = "button" class = "btn btn-default" ng-click="moveLeft()">Prev</button>
+                                <button id = "prevNext" type = "button" class = "btn btn-default" ng-click="moveLeft()"><span>Prev</span></button>
                             
-                                <button id = "prevNext" type = "button" class = "btn btn-default" ng-click = "moveRight()">Next</button>
+                                <button id = "prevNext" type = "button" class = "btn btn-default" ng-click = "moveRight()"><span>Next</span></button>
                               </div>
                                 <!-- <span class="pull-right glyphicon glyphicon-chevron-right" ng-click="moveRight()"></span> -->
 <!--                                 <span class="pull-right glyphicon glyphicon-chevron-left" ng-click="moveLeft()"></span> -->
-                                <span class="pull-right" style = "font-size: 1.5em; margin-top:1%">{{index + 1}} of {{standards.length}}</span>
+                                <span class="pull-right count">{{index + 1}} of {{standards.length}}</span>
                             </div>
                             <div class="row">
-                              <div>
-                                <b style = "font-size: 1.5em">{{standards[index].question}}</b>
+                              <div class="questionDiv">
+                                <b>{{standards[index].question}}</b>
                               </div>
                                 <br />
                               <div style = "float:right">
-                                <label ng-repeat="option in standards[index].optionList" style = "font-size: 1.5em"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" onclick="console.log(3);" ng-change="computeScore(option.points)" />{{option.text}}</label>
+                                <label class="questionLabel" ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" onclick="console.log(3);" ng-change="computeScore(option.points)" />{{option.text}}</label>
                                 <input ng-model="standards[index].percentage" size="3" />%
                                 <div class="scrollBar"></div>
                               </div>
@@ -42,7 +42,7 @@
             <h3 class="row etcheader roundTop" ng-class='{"round":!etc.open}' ng-click="etc.open = !etc.open;">
                 <!-- <span class="glyphicon" ng-class='{"glyphicon-chevron-down": etc.open, "glyphicon-chevron-right": !etc.open }' ng-click="etc.open = !etc.open;"></span> -->{{etc.header}}
             </h3>
-            <div class="row etcbody roundBottom" ng-show="etc.open" style = "font-size: 1.3em">
+            <div class="row etcbody roundBottom" ng-show="etc.open" style = "font-size: 1.1em">
                 {{etc.content}}
             </div>
         </div>
