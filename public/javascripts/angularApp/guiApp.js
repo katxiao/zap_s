@@ -22,7 +22,7 @@
 
     angular.module('stringFormat', []).filter('reinsertCommas', function () {
         return function (input) {
-            return input.replace(';', ',');
+            return input.replace(/;;/g, ',').replace(/;/g, ',');
         }
     });
 

@@ -9,6 +9,7 @@
 
         // Custom modules 
         'numbers',
+        'stringFormat',
         // 3rd Party Modules
         'ui.bootstrap'
     ]);
@@ -17,6 +18,12 @@
         return function (input) {
             return Math.min(input, 100);
         };
+    });
+
+    angular.module('stringFormat', []).filter('reinsertCommas', function () {
+        return function (input) {
+            return input.replace(/;;/g, ',').replace(/;/g, ',');
+        }
     });
 
     app.config(['$routeProvider',
