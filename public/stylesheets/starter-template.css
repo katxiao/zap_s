@@ -40,20 +40,25 @@ a{
 }
 #centerColumn{
 	/*position:absolute;*/
-	margin-left:5%;
-	margin-top: 2%;
-	width:90%;
+	margin-left:2.5%;
+	/*margin-top: 2%;*/
+	width:97%;
 
 	/*background-color: blue;*/
 }
-/*#settings{
-	/*background-color: black;*/
-/*	position:absolute;
+
+#buttons{
 	right:0px;
-	top:0px;*/
-	/*width:20px;
-	height:20px;*/
-/*}*/
+	position: absolute;
+}
+/*#settings{
+	background-color: black;
+	position:absolute;
+	right:0px;
+	top:0px;
+	width:20px;
+	height:20px;
+}*/
 
 /*#diningRoomButton{
 	position:absolute;
@@ -123,13 +128,18 @@ a{
 }
 #prevNext{
 	/*background-color: black;*/
-	position:absolute;
-	right: 0px;
+	border: 1px solid black;
+	/*position:absolute;*/
+	/*right: 0px;*/
 }
 #questionBox{
-	height:150px;
 	width:100%;
 }
+
+.round {border-radius: 5px;
+}
+.roundTop{border-radius: 5px 5px 0px 0px;}
+.roundBottom{border-radius: 0px 0px 5px 5px;}
 .accordionList{
 	height:200px;
 	background-color: black;

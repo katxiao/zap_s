@@ -41,11 +41,11 @@
       </div>
     </nav>
 	<div class="container-fluid">
-        <div class="col-md-8 col-sm-8">
-            <div id="centerColumn">
+    <div class="col-md-8 col-sm-8">
+      <div id="centerColumn">
 				<div class="row">
 					<div id="graphicsDiv" class = "btn-group" role = "group" aria-label = "...">
-             <div id = "settings" class="btn-group" role="group">
+<!--              <div id = "settings" class="btn-group" role="group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <span class="glyphicon glyphicon-cog"></span>
                 <span class="caret"></span>
@@ -55,31 +55,26 @@
                 <li><a href="#">Other things</a></li>
                 <li><a href="#">Other other things</a></li>
               </ul>
-            </div>
-						<!-- <div id = "diningRoomButton"> -->
+            </div> -->
+            <div id = "buttons" class = "btn-group-vertical" role = "group" aria-label="...">
 							<button id = "diningRoomButton" type = "button" class = "btn btn-default">Dining Room</button>
-						<!-- </div> -->
-						<!-- <div id = "restroomButton"> -->
+
 							<button id = "restroomButton" type = "button" class = "btn btn-default">Restroom</button>
-						<!-- </div> -->
-            <!-- <div id = "kitchenButton"> -->
+
               <button id = "kitchenButton" type = "button" class = "btn btn-default">Kitchen</button>
-            <!-- </div> -->
-            <!-- <div id = "storageButton"> -->
+
               <button id = "storageButton" type = "button" class = "btn btn-default">Storage</button>
-            <!-- </div> -->
-            <!-- <div id = "utilityButton"> -->
+
               <button id = "utilityButton" type = "button" class = "btn btn-default">Utility</button>
-            <!-- </div> -->
-            <!-- <div id = "officeButton"> -->
+
               <button id = "officeButton" type = "button" class = "btn btn-default">Office</button>
-            <!-- </div> -->
+            </div>
 						<canvas id="renderCanvas"></canvas>
 					</div>
 				</div>
             </div>
         </div>
-		<div class="col-md-4 col-sm-8"	 style="padding: 1em; position: relative;">
+		<div class="col-md-4 col-sm-8" style="padding: 1em; position: relative;"> 
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-danger" id="Disposable" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: 0%"></div>
 				<div style="position:absolute; right:0; z-index: 4;">
