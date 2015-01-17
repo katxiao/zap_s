@@ -46,29 +46,30 @@
       <div id="centerColumn">
 				<div class="row">
 					<div id="graphicsDiv" class = "btn-group" role = "group" aria-label = "...">
-<!--              <div id = "settings" class="btn-group" role="group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <span class="glyphicon glyphicon-cog"></span>
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">View Tutorial</a></li>
-                <li><a href="#">Other things</a></li>
-                <li><a href="#">Other other things</a></li>
-              </ul>
-            </div> -->
             <div id = "buttons" class = "btn-group-vertical" role = "group" aria-label="...">
-							<button id = "diningRoomButton" type = "button" class = "btn btn-default">Dining Room</button>
+              <div id = "settings" class="btn-group" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle button" data-toggle="dropdown" aria-expanded="false">
+                  <span class="glyphicon glyphicon-cog"></span>
+                  Settings
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">View Tutorial</a></li>
+                  <li><a href="#">Other things</a></li>
+                  <li><a href="#">Other other things</a></li>
+                </ul>
+            </div>
+							<button id = "diningRoomButton" type = "button" class = "btn btn-default button">Dining Room</button>
 
-							<button id = "restroomButton" type = "button" class = "btn btn-default">Restroom</button>
+							<button id = "restroomButton" type = "button" class = "btn btn-default button">Restroom</button>
 
-              <button id = "kitchenButton" type = "button" class = "btn btn-default">Kitchen</button>
+              <button id = "kitchenButton" type = "button" class = "btn btn-default button">Kitchen</button>
 
-              <button id = "storageButton" type = "button" class = "btn btn-default">Storage</button>
+              <button id = "storageButton" type = "button" class = "btn btn-default button">Storage</button>
 
-              <button id = "utilityButton" type = "button" class = "btn btn-default">Utility</button>
+              <button id = "utilityButton" type = "button" class = "btn btn-default button">Utility</button>
 
-              <button id = "officeButton" type = "button" class = "btn btn-default">Office</button>
+              <button id = "officeButton" type = "button" class = "btn btn-default button">Office</button>
             </div>
 						<canvas id="renderCanvas"></canvas>
 					</div>
@@ -182,6 +183,24 @@
                     $('#storageButton').click(function(){
                       updatePosition(15, 6, 13, "Storage");
                     })
+                    // $('#diningRoomButton').mouseleave(function() {
+                    //   $(this).css('opacity','1.0');
+                    // })
+                    // $('#restroomButton').click(function() {
+                    //   updatePosition(-13, 6, 13, "Restroom");
+                    // });
+                    // $('#kitchenButton').click(function(){
+                    //   updatePosition(10, 6, -20, "Kitchen");
+                    // })
+                    // $('#officeButton').click(function(){
+                    //   updatePosition(10, 6, -5, "Office");
+                    // })
+                    // $('#utilityButton').click(function(){
+                    //   updatePosition(5, 6, 13, "Utility");
+                    // })
+                    // $('#storageButton').click(function(){
+                    //   updatePosition(15, 6, 13, "Storage");
+                    // })
                     // $(document).keydown(function(e){
                     // 	if(e.which === 40){
                     // 		// console.log(camera.fov);
