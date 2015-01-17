@@ -28,11 +28,11 @@
             </div>
         </div>
         <!-- I wanna make this accordion have a round bottom if the it's all folded up and a square one when it's dropped down. It will basically mimick the bootsrap animation if that' true besides the fact that it's not smooth-->
-        <div ng-repeat="etc in etcs">
+        <div class="container-fluid" ng-repeat="etc in etcs">
             <h3 class="row etcheader roundTop" ng-class='{"round":!etc.open}' ng-click="etc.open = !etc.open;">
                 <!-- <span class="glyphicon" ng-class='{"glyphicon-chevron-down": etc.open, "glyphicon-chevron-right": !etc.open }' ng-click="etc.open = !etc.open;"></span> -->{{etc.header}}
             </h3>
-            <div class="row etcbody roundBottom" ng-show="etc.open" style = "font-size: 1.1em">
+            <div class="row etcbody roundBottom" ng-show="etc.open" style = "font-size: 1.1em;">
                 {{etc.content}}
             </div>
         </div>
@@ -42,19 +42,5 @@
             </div>
             <div class="text-center" style="z-index: 4;">Total</div>
         </div>
-    </div>
-</div>
-<!-- I wanna make this accordion have a round bottom if the it's all folded up and a square one when it's dropped down. It will basically mimick the bootsrap animation if that' true besides the fact that it's not smooth-->
-<div ng-repeat="etc in etcs">
-    <h3 class="row etcheader roundTop">
-        <span class="glyphicon" ng-class='{"glyphicon-chevron-down": etc.open, "glyphicon-chevron-right": !etc.open }' ng-click="etc.open = !etc.open;"></span>{{etc.header}}
-    </h3>
-    <div class="row etcbody roundBottom" ng-show="etc.open" style = "font-size: 1.1em">
-        {{etc.content}}
-    </div>
-</div>
-<div class="overlay" ng-show="showMessageModal">
-    <div class="modal">
-        {{message}}
     </div>
 </div>
