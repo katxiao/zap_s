@@ -46,16 +46,16 @@ a{
 
 	/*background-color: blue;*/
 }
-#settings{
+/*#settings{
 	/*background-color: black;*/
-	position:absolute;
+/*	position:absolute;
 	right:0px;
-	top:0px;
+	top:0px;*/
 	/*width:20px;
 	height:20px;*/
-}
+/*}*/
 
-#diningRoomButton{
+/*#diningRoomButton{
 	position:absolute;
 	right:0px;
 	top:41px;
@@ -86,7 +86,7 @@ a{
 	position:absolute;
 	right:0px;
 	top:125px;
-}
+}*/
 
 
 #renderCanvas{
