@@ -53,3 +53,15 @@ a {
   z-index: 10;
   background-color: rgba(0,0,0,.8); /* dim the background*/
 }
+
+.count {
+    font-size: 1.1em;
+}
+
+.questionDiv {
+    font-size: 1.5em;
+}
+
+.questionLabel{
+    font-size: 1.3em;
+}

@@ -20,7 +20,7 @@
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
             if ($scope.user) $scope.greenPoints = $scope.user.GPs;
-            $http.get('/api/standards/').success(function (data) {
+            $http.get('/api/standards/').then(function (data) {
                 $scope.standards = data;
                 console.log($scope.standards);
                 //$scope.maxPossible = $scope.computeMaxPossible($scope.standards);
