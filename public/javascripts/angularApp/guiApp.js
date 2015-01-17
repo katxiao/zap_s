@@ -29,11 +29,14 @@
     app.config(['$routeProvider',
         function ($routeProvider) {
             $routeProvider.
-                when('/:category', {
+                when('/', {
+                    templateUrl: '/angularviews/gui.html',
+                    controller: 'guiController'})
+                .when('/:category', {
                     templateUrl: '/angularviews/gui.html',
                     controller: 'categoryController'
                 })
-                .otherwise('/', {
+                .otherwise({
                     templateUrl: '/angularviews/gui.html',
                     controller: 'guiController'
                 });

@@ -9,7 +9,9 @@ var Client = require("../../models/client").Client;
 router.get('/', function (req, res) {
     Standard.find({}).exec(function (err, standards) {
         if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
-        utils.sendSuccessResponse(res, { standards: standards });
+        res.statusCode = 200;
+        res.json(standards);
+        res.end();
     });
 });
 

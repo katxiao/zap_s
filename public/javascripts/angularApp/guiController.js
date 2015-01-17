@@ -20,10 +20,8 @@
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
             if ($scope.user) $scope.greenPoints = $scope.user.GPs;
-            $http.get('/api/standards/').then(function (data) {
+            $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;
-                console.log($scope.standards);
-                //$scope.maxPossible = $scope.computeMaxPossible($scope.standards);
                 //for (var i = 0; i < $scope.standards.length; i++) {
                 //    var found = false;
                 //    if ($scope.user) {
