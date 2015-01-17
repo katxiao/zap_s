@@ -12,7 +12,7 @@
         $scope.title = 'guiController';
         
         $scope.pointsEarned = 0;
-        $scope.minRequired = 10
+        $scope.minRequired = 10;
 
         $scope.index = 0;
         $scope.previousPoints = 0;
@@ -60,16 +60,24 @@
             return max;
         }
 
-        $scope.computeScore = function(score)
-        {
+        $scope.computeScore = function (score, category) {
             $scope.pointsEarned -= $scope.previousPoints;
             $scope.pointsEarned += Number(score);
             $scope.previousPoints = Number(score);
             if ($scope.pointsEarned >= $scope.minRequired)
-                $scope.progressstatus = 'success';
+                $('#' + category).removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
-                $scope.progressstatus = 'danger';
+                $('#' + category).removeClass('progress-bar-success').addClass('progress-bar-danger');
             console.log($scope.pointsEarned, score);
+            var bar = $('#' + $routeParams.category);
+            bar.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
+                bar.html('<a href="/gui/#/' + category + '">' + category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + category + 'After').html("");
+            } else {
+                bar.html("");
+                $('#' + category + 'After').html('<a href="/gui/#/' + category + '">' + category + '</a>');
+            }
         }
 
         $scope.moveLeft = function () {

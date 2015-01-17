@@ -7,6 +7,10 @@ a {
   color: #00B7FF;
 }
 
+.progress-bar a{
+  color: #FFFFFF;
+}
+
 /*#guiDiv {
     display: none;
 }*/
@@ -21,6 +25,12 @@ a {
     width: 100%;
     color: black;
     padding: 1px;
+}
+
+.progress-text {
+    position:absolute;
+    right:0;
+    z-index: 4;
 }
 
 .background {
