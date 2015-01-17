@@ -33,12 +33,10 @@
             <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%">
               <span class="sr-only">40% Complete (success)</span>
             </div>
-            <div class="text-center" style="z-index: 4;">Total</div>
           </div>
-        </div>
-      </div>
+
       <!-- Bottom accordion drop down-->
-      <div ng-repeat="etc in etcs">
+      <div ng-repeat="etc in etcs" class="container-fluid">
         <h3 class="row etcheader roundTop" ng-class='{"round":!etc.open}' ng-click="etc.open = !etc.open;">
           {{etc.header}}
         </h3>
@@ -50,6 +48,7 @@
         <div class="modal">
           {{message}}
         </div>
+        <div class="text-center" style="z-index: 4;">Total</div>
       </div>
   </div>
 </div>
