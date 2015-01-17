@@ -1,39 +1,29 @@
-﻿<div class="container-fluid">
-    <div class="col-md-8 col-sm-8">
-        <div class="row">
-            <div id="questionBox">
-                <div class="container-fluid">
-                    <div class="row round" style="border: solid 1px black;">
-                        <div class="container-fluid round">
-                            <div class="row round" style="background-color:lightgrey;">
-                              <div class = "btn-group pull-right">
-                                <button id = "prevNext" type = "button" class = "btn btn-default" ng-click="moveLeft()"><span>Prev</span></button>
+﻿<div class="row">
+    <div id="questionBox">
+        <div class="container-fluid">
+            <div class="row round" style="border: solid 1px black;">
+                <div class="container-fluid round">
+                    <div class="row round" style="background-color:lightgrey;">
+                        <div class = "btn-group pull-right">
+                        <button id = "prevNext" type = "button" class = "btn btn-default" ng-click="moveLeft()"><span>Prev</span></button>
                             
-                                <button id = "prevNext" type = "button" class = "btn btn-default" ng-click = "moveRight()"><span>Next</span></button>
-                              </div>
-                                <!-- <span class="pull-right glyphicon glyphicon-chevron-right" ng-click="moveRight()"></span> -->
+                        <button id = "prevNext" type = "button" class = "btn btn-default" ng-click = "moveRight()"><span>Next</span></button>
+                        </div>
+                        <!-- <span class="pull-right glyphicon glyphicon-chevron-right" ng-click="moveRight()"></span> -->
 <!--                                 <span class="pull-right glyphicon glyphicon-chevron-left" ng-click="moveLeft()"></span> -->
-                                <span class="pull-right count">{{index + 1}} of {{standards.length}}</span>
-                            </div>
-                            <div class="row">
-                              <div class="questionDiv">
-                                <b>{{standards[index].question}}</b>
-                              </div>
-                                <br />
-                              <div style = "float:right">
-                                <label class="questionLabel" ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" onclick="console.log(3);" ng-change="computeScore(option.points)" />{{option.text}}</label>
-                                <input ng-model="standards[index].percentage" size="3" />%
-                                <div class="scrollBar"></div>
-                              </div>
-                            </div>
+                        <span class="pull-right count">{{index + 1}} of {{standards.length}}</span>
+                    </div>
+                    <div class="row">
+                        <div class="questionDiv">
+                        <b>{{standards[index].question}}</b>
+                        </div>
+                        <br />
+                        <div style = "float:right">
+                        <label class="questionLabel" ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" onclick="console.log(3);" ng-change="computeScore(option.points)" />{{option.text}}</label>
+                        <input ng-model="standards[index].percentage" size="3" />%
+                        <div class="scrollBar"></div>
                         </div>
                     </div>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%">
-                        <span class="sr-only">40% Complete (success)</span>
-                    </div>
-                    <div class="text-center" style="z-index: 4;">Total</div>
                 </div>
             </div>
         </div>
@@ -50,6 +40,21 @@
             <div class="modal">
                 {{message}}
             </div>
+            <div class="text-center" style="z-index: 4;">Total</div>
         </div>
+    </div>
+</div>
+<!-- I wanna make this accordion have a round bottom if the it's all folded up and a square one when it's dropped down. It will basically mimick the bootsrap animation if that' true besides the fact that it's not smooth-->
+<div ng-repeat="etc in etcs">
+    <h3 class="row etcheader roundTop">
+        <span class="glyphicon" ng-class='{"glyphicon-chevron-down": etc.open, "glyphicon-chevron-right": !etc.open }' ng-click="etc.open = !etc.open;"></span>{{etc.header}}
+    </h3>
+    <div class="row etcbody roundBottom" ng-show="etc.open" style = "font-size: 1.1em">
+        {{etc.content}}
+    </div>
+</div>
+<div class="overlay" ng-show="showMessageModal">
+    <div class="modal">
+        {{message}}
     </div>
 </div>

@@ -7,9 +7,9 @@ a {
   color: #00B7FF;
 }
 
-/*#guiDiv {
+#guiDiv {
     display: none;
-}*/
+}
 
 .success {
     color: green;
@@ -59,13 +59,13 @@ a {
 }
 
 .count {
-    font-size: 1.9em;
+    font-size: 1.0em;
 }
 
 .questionDiv {
-    font-size: 1.5em;
+    font-size: 1.0em;
 }
 
 .questionLabel{
-    font-size: 1.3em;
+    font-size: 1.0em;
 }
