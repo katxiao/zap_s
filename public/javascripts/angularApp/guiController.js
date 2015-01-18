@@ -13,35 +13,31 @@
         
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
-        $scope.progressstatus = 'danger';
-
-        console.log($scope.minRequired);
 
         $scope.index = 0;
         $scope.previousPoints = 0;
-
+        console.log('guiController');
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
             if ($scope.user) $scope.greenPoints = $scope.user.GPs;
-            $http.get('/api/standards/Energy').success(function (data) {
+            $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;
-                $scope.maxPossible = $scope.computeMaxPossible($scope.standards);
-                for (var i = 0; i < $scope.standards.length; i++) {
-                    var found = false;
-                    if ($scope.user) {
-                        for (var j = 0; j < $scope.greenPoints.length; j++) {
-                            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
-                                found = true;
-                                $scope.standards[i].option = $scope.greenPoints[j].option;
-                                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
-                            }
-                        }
-                        if (!found) {
-                            $scope.standards[i].option = undefined;
-                            $scope.standards[i].percentage = undefined;
-                        }
-                    }
-                }
+                //for (var i = 0; i < $scope.standards.length; i++) {
+                //    var found = false;
+                //    if ($scope.user) {
+                //        for (var j = 0; j < $scope.greenPoints.length; j++) {
+                //            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
+                //                found = true;
+                //                $scope.standards[i].option = $scope.greenPoints[j].option;
+                //                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
+                //            }
+                //        }
+                //        if (!found) {
+                //            $scope.standards[i].option = undefined;
+                //            $scope.standards[i].percentage = undefined;
+                //        }
+                //    }
+                //}
             });
         });
 
@@ -64,16 +60,24 @@
             return max;
         }
 
-        $scope.computeScore = function(score)
-        {
+        $scope.computeScore = function (score, category) {
             $scope.pointsEarned -= $scope.previousPoints;
             $scope.pointsEarned += Number(score);
             $scope.previousPoints = Number(score);
             if ($scope.pointsEarned >= $scope.minRequired)
-                $scope.progressstatus = 'success';
+                $('#' + category).removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
-                $scope.progressstatus = 'danger';
+                $('#' + category).removeClass('progress-bar-success').addClass('progress-bar-danger');
             console.log($scope.pointsEarned, score);
+            var bar = $('#' + $routeParams.category);
+            bar.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
+                bar.html('<a href="/gui/#/' + category + '">' + category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + category + 'After').html("");
+            } else {
+                bar.html("");
+                $('#' + category + 'After').html('<a href="/gui/#/' + category + '">' + category + '</a>');
+            }
         }
 
         $scope.moveLeft = function () {

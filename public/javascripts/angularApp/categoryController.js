@@ -81,7 +81,15 @@
             else
                 $('#' + $routeParams.category).removeClass('progress-bar-success').addClass('progress-bar-danger');
             console.log($scope.pointsEarned, score);
-            $('#' + $routeParams.category).width(Math.min($scope.pointsEarned * 10.0, 100) + "%");
+            var bar = $('#' + $routeParams.category);
+            bar.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
+                bar.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + $routeParams.category + 'After').html("");
+            } else {
+                bar.html("");
+                $('#' + $routeParams.category + 'After').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
+            }
         }
 
         $scope.moveLeft = function () {

@@ -22,18 +22,21 @@
 
     angular.module('stringFormat', []).filter('reinsertCommas', function () {
         return function (input) {
-            return input.replace(';', ',');
+            return input.replace(/;;/g, ',').replace(/;/g, ',');
         }
     });
 
     app.config(['$routeProvider',
         function ($routeProvider) {
             $routeProvider.
-                when('/:category', {
+                when('/', {
+                    templateUrl: '/angularviews/gui.html',
+                    controller: 'guiController'})
+                .when('/:category', {
                     templateUrl: '/angularviews/gui.html',
                     controller: 'categoryController'
                 })
-                .otherwise('/', {
+                .otherwise({
                     templateUrl: '/angularviews/gui.html',
                     controller: 'guiController'
                 });

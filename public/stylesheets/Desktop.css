@@ -40,22 +40,35 @@ a{
 }
 #centerColumn{
 	/*position:absolute;*/
-	margin-left:5%;
-	margin-top: 2%;
-	width:90%;
+	margin-left:2.5%;
+	/*margin-top: 2%;*/
+	width:97%;
 
 	/*background-color: blue;*/
 }
-#settings{
-	/*background-color: black;*/
+
+#buttons{
+	right:0px;
+	position: absolute;
+}
+
+.button{
+	opacity:0.5;
+}
+
+.button:hover{
+	opacity:1;
+}
+/*#settings{
+	background-color: black;
 	position:absolute;
 	right:0px;
 	top:0px;
-	/*width:20px;
-	height:20px;*/
-}
+	width:20px;
+	height:20px;
+}*/
 
-#diningRoomButton{
+/*#diningRoomButton{
 	position:absolute;
 	right:0px;
 	top:41px;
@@ -86,7 +99,7 @@ a{
 	position:absolute;
 	right:0px;
 	top:125px;
-}
+}*/
 
 
 #renderCanvas{
@@ -123,13 +136,23 @@ a{
 }
 #prevNext{
 	/*background-color: black;*/
-	position:absolute;
-	right: 0px;
+	/*border: 1px solid black;*/
+	/*position:absolute;*/
+	/*right: 0px;*/
 }
 #questionBox{
-	height:150px;
 	width:100%;
 }
+
+.round {border-radius: 5px 5px 5px 5px;
+}
+
+.roundTop{border-top-left-radius:5px;
+		border-top-right-radius: 5px
+	}
+.roundBottom{border-bottom-left-radius:5px;
+			border-bottom-right-radius:5px;
+			}
 .accordionList{
 	height:200px;
 	background-color: black;
@@ -160,6 +183,5 @@ a{
 	border: 2px solid black;
 	margin-left: 0px;
 }
-
 
 

@@ -8,13 +8,14 @@
     <meta name="author" content="">
     <title>Green My Restaurant</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link rel='stylesheet' href='/stylesheets/style.css' media="only screen and (min-width: 601px)"/>
+	<link href="/stylesheets/mobile.css" rel="stylesheet" type="text/css" media="only screen and (max-width: 600px)" />
 
     <script src = "../babylon.js"></script>
 
     <!-- Custom styles for this template -->
-    <link href="../stylesheets/starter-template.css" rel="stylesheet">
+    <link href="/stylesheets/Desktop.css" rel="stylesheet">
   </head>
   <body ng-app="guiApp">
 
@@ -27,7 +28,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span> 
           </button>
-          <a class="navbar-brand" href="#">Green My Restaurant</a>
+          <a class="navbar-brand" href="/#">Green My Restaurant</a>
         </div>
 
         <div id="navbar" class="collapse navbar-collapse">
@@ -41,81 +42,87 @@
       </div>
     </nav>
 	<div class="container-fluid">
-        <div class="col-md-8 col-sm-8">
-            <div id="centerColumn">
+    <div class="col-md-8 col-sm-8" id="guiDiv">
+      <div id="centerColumn">
 				<div class="row">
-					<div id="graphicsDiv">
-						<div id="settings">
-							<button><span class="glyphicon glyphicon-cog"></span></button>
-						</div>
-						<div id = "diningRoomButton">
-							<button>Dining Room</button>
-						</div>
-						<div id = "restroomButton">
-							<button>Restroom</button>
-						</div>
-            <div id = "kitchenButton">
-              <button>Kitchen</button>
+					<div id="graphicsDiv" class = "btn-group" role = "group" aria-label = "...">
+            <div id = "buttons" class = "btn-group-vertical" role = "group" aria-label="...">
+              <div id = "settings" class="btn-group" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle button" data-toggle="dropdown" aria-expanded="false">
+                  <span class="glyphicon glyphicon-cog"></span>
+                  Settings
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">View Tutorial</a></li>
+                  <li><a href="#">Other things</a></li>
+                  <li><a href="#">Other other things</a></li>
+                </ul>
             </div>
-            <div id = "storageButton">
-              <button>Storage</button>
-            </div>
-            <div id = "utilityButton">
-              <button>Utility</button>
-            </div>
-            <div id = "officeButton">
-              <button>Office</button>
+							<button id = "diningRoomButton" type = "button" class = "btn btn-default button">Dining Room</button>
+
+							<button id = "restroomButton" type = "button" class = "btn btn-default button">Restroom</button>
+
+              <button id = "kitchenButton" type = "button" class = "btn btn-default button">Kitchen</button>
+
+              <button id = "storageButton" type = "button" class = "btn btn-default button">Storage</button>
+
+              <button id = "utilityButton" type = "button" class = "btn btn-default button">Utility</button>
+
+              <button id = "officeButton" type = "button" class = "btn btn-default button">Office</button>
             </div>
 						<canvas id="renderCanvas"></canvas>
 					</div>
 				</div>
             </div>
         </div>
-		<div class="col-md-4 col-sm-8"	 style="padding: 1em; position: relative;">
+		<div class="col-md-4 col-sm-8" style="padding: 1em; position: relative;"> 
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Disposable" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: {{pointsEarned * 100.0 / minRequired | maxHundred}}%">{{pointsEarned}} / {{minRequired}}</div>
-				<div style="position:absolute; right:0; z-index: 4;">
+				<div class="progress-bar progress-bar-danger" id="Disposable" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: 0%"></div>
+				<div class="progress-text" id="DisposableAfter">
 					<a href="/gui/#/Disposables">Disposables</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-danger" id="Energy" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div style="position:absolute; right:0; z-index: 4;">
+				<div class="progress-text" id="EnergyAfter">
 					<a href="/gui/#/Energy">Energy</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-danger" id="Food" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div style="position:absolute; right:0; z-index: 4;">
+				<div class="progress-text" id="FoodAfter">
 					<a href="/gui/#/Food">Food</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-danger" id="FandB" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div style="position:absolute; right:0; z-index: 4;">
+				<div class="progress-text" id="FandBAfter">
 					<a href="/gui/#/Sustainable Furnishings & Building Materials">Furnishings and Building Mat.</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-danger" id="PollChem" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div style="position:absolute; right:0; z-index: 4;">
+				<div class="progress-text" id="PollChemAfter">
 					<a href="/gui/#/Pollution & Chemical Reduction">Poll. & Chem .Reduction</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
 				<div class="progress-bar progress-bar-danger" id="Waste" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div style="position:absolute; right:0; z-index: 4;">
+				<div class="progress-text" id="WasteAfter">
 					<a href="/gui/#/Waste">Waste</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Water" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div style="position:absolute; right:0; z-index: 4;">
+				<div class="progress-text">
 					<a href="/gui/#/Water">Water</a>
 				</div>
+				<div class="progress-bar progress-bar-danger" id="Water" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 			</div>
 		</div>
-		<div ng-view></div>
+		<div class="col-md-8 col-sm-8">
+			<div ng-view></div>
+		</div>
     </div>
 
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
@@ -176,6 +183,24 @@
                     $('#storageButton').click(function(){
                       updatePosition(15, 6, 13, "Storage");
                     })
+                    // $('#diningRoomButton').mouseleave(function() {
+                    //   $(this).css('opacity','1.0');
+                    // })
+                    // $('#restroomButton').click(function() {
+                    //   updatePosition(-13, 6, 13, "Restroom");
+                    // });
+                    // $('#kitchenButton').click(function(){
+                    //   updatePosition(10, 6, -20, "Kitchen");
+                    // })
+                    // $('#officeButton').click(function(){
+                    //   updatePosition(10, 6, -5, "Office");
+                    // })
+                    // $('#utilityButton').click(function(){
+                    //   updatePosition(5, 6, 13, "Utility");
+                    // })
+                    // $('#storageButton').click(function(){
+                    //   updatePosition(15, 6, 13, "Storage");
+                    // })
                     // $(document).keydown(function(e){
                     // 	if(e.which === 40){
                     // 		// console.log(camera.fov);
@@ -186,6 +211,9 @@
                     engine.runRenderLoop(function() {
                         newScene.render();
                     });
+                    window.addEventListener("resize", function(){
+                     engine.resize();
+                    })
                 });
             }, function (progress) {
                 // To do: give progress feedback to user
