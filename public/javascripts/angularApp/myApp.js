@@ -33,10 +33,6 @@
                     templateUrl: '/angularviews/profile.html',
                     controller: 'profileController'
                 })
-                .when('/login', {
-                    templateUrl: '/angularviews/login.html',
-                    controller: 'loginController'
-                })
                 .when('/gui', {
                     templateUrl: '/angularviews/gui.html',
                     controller: 'guiController'
