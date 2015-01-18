@@ -81,5 +81,5 @@ a {
 }
 
 #buttonCarousel{
-  display:inherit;
+  display:inherit !important;
 }
