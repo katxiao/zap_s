@@ -52,8 +52,11 @@ a{
 	position: absolute;
 }
 
-.button{
+.graphicsButton{
 	opacity:0.5;
+}
+#buttonCarousel{
+	/*display:none !important;*/
 }
 
 .button:hover{

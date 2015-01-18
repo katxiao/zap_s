@@ -79,3 +79,7 @@ a {
 .questionLabel{
     font-size: 1.0em;
 }
+
+#buttonCarousel{
+  display:inherit;
+}
