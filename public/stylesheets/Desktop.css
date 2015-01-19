@@ -55,10 +55,9 @@ a{
 .graphicsButton{
 	opacity:0.5;
 }
-#buttonCarousel{
-	display:none;
+.sliderButton{
+	
 }
-
 .button:hover{
 	opacity:1;
 }

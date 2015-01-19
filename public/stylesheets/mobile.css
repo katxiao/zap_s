@@ -81,5 +81,14 @@ a {
 }
 
 #buttonCarousel{
-  display:inherit !important;
+  /*display:inherit !important;*/
+}
+
+.sliderButton{
+  
+}
+
+.owl-item{
+  background-color: black;
+  width:90%;
 }
