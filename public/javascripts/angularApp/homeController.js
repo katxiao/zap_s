@@ -43,13 +43,19 @@
         });
 
         $scope.save = function() {
-            for (var i = 0; i < $scope.standards.length; i++) {
-                if ($scope.standards[i].option) {
-                    $scope.standards[i].percentage = $scope.standards[i].percentage ? $scope.standards[i].percentage : 100;
-                    $http.put('/api/standards', {standardId : $scope.standards[i]._id, selectedOption : parseInt($scope.standards[i].option), percentage : $scope.standards[i].percentage})
-                    .then(function(response){});
+            if ($scope.user) {
+                for (var i = 0; i < $scope.standards.length; i++) {
+                    if ($scope.standards[i].option) {
+                        $scope.standards[i].percentage = $scope.standards[i].percentage ? $scope.standards[i].percentage : 100;
+                        $http.put('/api/standards', {standardId : $scope.standards[i]._id, selectedOption : parseInt($scope.standards[i].option), percentage : $scope.standards[i].percentage})
+                        .then(function(response){});
+                    }
                 }
+                $window.location.href = '/#/';
+            } else {
+                $scope.loginModal();
             }
+
         }
 
         $scope.goToGUI = function() {
@@ -69,10 +75,10 @@
             })
         }
 
-        $scope.scrollTo = function (id) {
-            $location.hash(id);
-            $anchorScroll();
-        }
+        // $scope.scrollTo = function (id) {
+        //     $location.hash(id);
+        //     $anchorScroll();
+        // }
 
         $scope.login = function (username, password) {
             if (username === undefined || password === undefined) {
@@ -129,8 +135,8 @@
             return true;
         }
 
-        activate();
+        // activate();
 
-        function activate() { }
+        // function activate() { }
     }
 })();
