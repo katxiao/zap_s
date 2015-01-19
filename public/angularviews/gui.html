@@ -14,7 +14,7 @@
                     </div>
                     <div class="row">
                         <div class="questionDiv">
-                            <b>{{standards[index].question}}</b>
+                            <b>{{standards[index].question | reinsertCommas}}</b>
                         </div>
                         <br />
                         <div style = "float:right">
@@ -49,7 +49,7 @@
         </div>
     </div>
     <!--Login Modal -->
-    <div class="modal fade in" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal fade {{modalInit}}" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">

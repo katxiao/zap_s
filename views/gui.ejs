@@ -21,29 +21,8 @@
     <link href="/stylesheets/Desktop.css" rel="stylesheet">
   </head>
   <body ng-app="guiApp">
-
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span> 
-          </button>
-          <a class="navbar-brand" href="/#">Green My Restaurant</a>
-        </div>
-
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="http://www.dinegreen.org">Resources</a></li>
-            <li><a href="/#/login">Login</a></li>
-            <li><a href="/#/profile">Profile</a></li>
-            <li><a class="link" ng-click="logout()">Logout</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+	<div data-ng-include data-src="'/angularviews/navbar.html'"></div>
+    <div data-ng-include data-src="'/angularviews/login.html'"></div>
 	<div class="container-fluid">
     <div id="buttonCarousel" class="owl-carousel btn-group sliderButtons" role = "group" aria-label = "..." style = "display:none">
       <div class = "btn-group.btn-group-justified" role = "group">
@@ -113,38 +92,38 @@
         </div>
 		<div class="col-md-4 col-sm-8" style="padding: 1em; position: relative;"> 
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Disposable" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: 0%"></div>
-				<div class="progress-text" id="DisposableAfter">
+				<div class="progress-bar progress-bar-danger" id="DisposBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: 0%"></div>
+				<div class="progress-text" id="DisposBarAfter">
 					<a href="/gui/#/Disposables">Disposables</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Energy" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div class="progress-text" id="EnergyAfter">
+				<div class="progress-bar progress-bar-danger" id="EnergyBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-text" id="EnergyBarAfter">
 					<a href="/gui/#/Energy">Energy</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Food" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div class="progress-text" id="FoodAfter">
+				<div class="progress-bar progress-bar-danger" id="FoodBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-text" id="FoodBarAfter">
 					<a href="/gui/#/Food">Food</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="FandB" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div class="progress-text" id="FandBAfter">
+				<div class="progress-bar progress-bar-danger" id="FurnisBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-text" id="FurnisBarAfter">
 					<a href="/gui/#/Sustainable Furnishings & Building Materials">Furnishings and Building Mat.</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="PollChem" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div class="progress-text" id="PollChemAfter">
+				<div class="progress-bar progress-bar-danger" id="PollutBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-text" id="PollutBarAfter">
 					<a href="/gui/#/Pollution & Chemical Reduction">Poll. & Chem .Reduction</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Waste" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
-				<div class="progress-text" id="WasteAfter">
+				<div class="progress-bar progress-bar-danger" id="WasteBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-text" id="WasteBarAfter">
 					<a href="/gui/#/Waste">Waste</a>
 				</div>
 			</div>
