@@ -73,6 +73,7 @@
 
         $scope.computeScore = function(score)
         {
+            $scope.pointsEarned = document.getElementById($routeParams.category).getAttribute("aria-valuenow");
             $scope.pointsEarned -= $scope.previousPoints;
             $scope.pointsEarned += Number(score);
             $scope.previousPoints = Number(score);
@@ -81,8 +82,9 @@
             else
                 $('#' + $routeParams.category).removeClass('progress-bar-success').addClass('progress-bar-danger');
             console.log($scope.pointsEarned, score);
+            document.getElementById($routeParams.category).setAttribute("aria-valuenow", $scope.pointsEarned);
             var bar = $('#' + $routeParams.category);
-            bar.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            bar.width(Math.min($scope.pointsEarned * 100.0 / document.getElementById($routeParams.category).getAttribute("aria-valuemax"), 100) + "%");
             if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
                 bar.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
                 $('#' + $routeParams.category + 'After').html("");
