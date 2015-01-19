@@ -15,9 +15,9 @@ overflow: hidden;
 }
 
 
-#leftColumnWidth{
+/*#leftColumnWidth{
 	width:20%;
-}
+}*/
 
 #leftColumn{
 	border-right-color: black;
@@ -40,9 +40,9 @@ a{
 }
 #centerColumn{
 	/*position:absolute;*/
-	margin-left:2.5%;
+	/*margin-left:2.5%;*/
 	/*margin-top: 2%;*/
-	width:97%;
+	/*width:97%;*/
 
 	/*background-color: blue;*/
 }
@@ -52,8 +52,11 @@ a{
 	position: absolute;
 }
 
-.button{
+.graphicsButton{
 	opacity:0.5;
+}
+#buttonCarousel{
+	display:none;
 }
 
 .button:hover{
