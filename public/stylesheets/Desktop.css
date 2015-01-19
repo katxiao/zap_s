@@ -1,190 +1,91 @@
 body {
-  padding-top: 50px;
-}
-.starter-template {
-  padding: 40px 15px;
-  text-align: center;
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-canvas {
-width:100%;
-height:100%;
-padding:0;
-margin:0;
-overflow: hidden;
+a {
+  color: #00B7FF;
 }
 
-
-/*#leftColumnWidth{
-	width:20%;
-}*/
-
-#leftColumn{
-	border-right-color: black;
-	float:left;
-	position:absolute;
-	margin-left: 2%;
-	margin-right: 9%;
-	width:200px;
-	vertical-align: top;
+.progress-bar a{
+  color: #FFFFFF;
 }
 
-a{
-	font-size: 18px;
+.modal-open {
+    overflow: scroll;
 }
 
-#centerColumnWidth{
-	width:60%;
-	text-align: center;
-	/*position:relative;*/
-}
-#centerColumn{
-	/*position:absolute;*/
-	/*margin-left:2.5%;*/
-	/*margin-top: 2%;*/
-	/*width:97%;*/
-
-	/*background-color: blue;*/
+#buttonCarousel.owl-carousel {
+    visibility: hidden;
+    height:0px;
+    width:0px;
 }
 
-#buttons{
-	right:0px;
-	position: absolute;
+.success {
+    color: green;
 }
 
-.graphicsButton{
-	opacity:0.5;
-}
-#buttonCarousel{
-	display:none;
-}
-
-.button:hover{
-	opacity:1;
-}
-/*#settings{
-	background-color: black;
-	position:absolute;
-	right:0px;
-	top:0px;
-	width:20px;
-	height:20px;
-}*/
-
-/*#diningRoomButton{
-	position:absolute;
-	right:0px;
-	top:41px;
+.progress-category {
+    background-color: lightgrey;
+    position: relative;
+    width: 100%;
+    color: black;
+    padding: 1px;
 }
 
-#kitchenButton{
-	position:absolute;
-	right:0px;
-	top:20px;
+.progress-text {
+    position:absolute;
+    right:0;
+    z-index: 4;
 }
 
-#restroomButton{
-	position:absolute;
-	right:0px;
-	top:62px;
-}
-#officeButton{
-	position:absolute;
-	right:0px;
-	top:83px;
-}
-#utilityButton{
-	position:absolute;
-	right:0px;
-	top:104px;
-}
-#storageButton{
-	position:absolute;
-	right:0px;
-	top:125px;
-}*/
-
-
-#renderCanvas{
-	width:inherit;
-	height: 300px;
-	/*z-index: -1;*/
-	margin-top: 0px;
+.background {
+   position: absolute;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+   z-index:-1;
+   overflow: hidden;
 }
 
-#graphicsDiv{
-	/*background-color: red;*/
-	height:100%;
-	width: 100%;
-	/*width:600px;*/
-	position: relative;
+.etcheader {
+    border: 1px solid darkgreen;
+    background-color: lightgreen;
 }
 
-
-#threeDTour {
-	color:green;
-	width:500px;
-	height:300px;
-	font-size: 20px;
-	background-color: black;
-	float:left;
+.etcbody {
+    border: 1px solid darkgreen;
 }
 
-#clear{
-	clear: both;
-}
-.topOfBox{
-	position:relative;
-	width:100%;
-}
-#prevNext{
-	/*background-color: black;*/
-	/*border: 1px solid black;*/
-	/*position:absolute;*/
-	/*right: 0px;*/
-}
-#questionBox{
-	width:100%;
+.row {
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
-.round {border-radius: 5px 5px 5px 5px;
+.overlay{
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,.8); /* dim the background*/
 }
 
-.roundTop{border-top-left-radius:5px;
-		border-top-right-radius: 5px
-	}
-.roundBottom{border-bottom-left-radius:5px;
-			border-bottom-right-radius:5px;
-			}
-.accordionList{
-	height:200px;
-	background-color: black;
+.count {
+    font-size: 1.9em;
 }
 
-#rightColumnWidth{
-	width:20%;
+.questionDiv {
+    font-size: 1.5em;
 }
 
-#rightColumn{
-	border: 2px solid black;
-	float:left;
-	position: absolute;
-	margin-left: 6%;
-	margin-right: 5%;
-	margin-top: 2%;
-	width:200px;
-	vertical-align: top;
+.questionLabel{
+    font-size: 1.3em;
 }
 
-#login{
-	right:5%;
-	position:relative;
-	border: 2px solid black;
+.modal.in {
+   display:block;
 }
-
-#pointsBox{
-	border: 2px solid black;
-	margin-left: 0px;
-}
-
-

@@ -22,19 +22,22 @@
 
     angular.module('stringFormat', []).filter('reinsertCommas', function () {
         return function (input) {
-            return input.replace(/;;/g, ',').replace(/;/g, ',');
+            if (input)
+                return input.replace(/;;/g, ',').replace(/;/g, ',');
+            else
+                return "";
         }
     });
     
     app.service('userService', function () {
         var userData = {
-            Dispos: {},
-            Energy: {},
-            Food: {},
-            Furnis: {},
-            Pollut: {},
-            Water: {},
-            Waste: {},};
+            Dispos: [],
+            Energy: [],
+            Food: [],
+            Furnis: [],
+            Pollut: [],
+            Water: [],
+            Waste: [],};
         
         this.user = function () {
             return userData;
@@ -44,6 +47,10 @@
             userData[field] = data;
         }; 
         
+        this.saveTempItem = function (field, item, index){
+            userData[field][index] = item;
+        }
+
         this.getTemp = function (field) {
             return userData[field];
         };

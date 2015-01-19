@@ -85,5 +85,19 @@ a {
 }
 
 #buttonCarousel{
-  display:inherit !important;
+  /*display:inherit !important;*/
+}
+
+.sliderButton{
+  cursor:pointer;
+  cursor:hand;
+}
+
+.sliderButton.img:active{
+  background-color: black;
+  margin: 1px solid red;
+}
+
+.owl-wrapper{
+
 }
