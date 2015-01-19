@@ -51,7 +51,8 @@
                         .then(function(response){});
                     }
                 }
-                $window.location.href = '/#/';
+                //$window.location.href = '/#/';
+                alert("Selections been saved!")
             } else {
                 $scope.loginModal();
             }
