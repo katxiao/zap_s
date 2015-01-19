@@ -47,7 +47,7 @@
                 for (var i = 0; i < $scope.standards.length; i++) {
                     if ($scope.standards[i].option) {
                         $scope.standards[i].percentage = $scope.standards[i].percentage ? $scope.standards[i].percentage : 100;
-                        $http.put('/api/standards', {standardId : $scope.standards[i]._id, selectedOption : parseInt($scope.standards[i].option), percentage : $scope.standards[i].percentage})
+                        $http.put('/api/standards', {standardId : $scope.standards[i]._id, selectedOption : parseFloat($scope.standards[i].option), percentage : $scope.standards[i].percentage})
                         .then(function(response){});
                     }
                 }

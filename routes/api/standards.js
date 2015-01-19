@@ -31,7 +31,6 @@ router.get('/:category', function (req, res) {
 });
 
 router.put('/', utils.restrict, function (req, res) {
-	console.log(req.body);
 	var standardId = req.body.standardId;
 	var selectedOption = req.body.selectedOption;
 	var percentage = req.body.percentage;
@@ -39,7 +38,6 @@ router.put('/', utils.restrict, function (req, res) {
 	Standard.findOne( {_id: standardId}, function(err, standard) {
 		if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
 		if (!standard) return utils.sendErrResponse(res, 404, "Standard does not exist.");
-		console.log('standard',standard);
 		Client.findOne({_id: req.user[0]._id}, function(err, client) {
 			if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
 			var found = false;
