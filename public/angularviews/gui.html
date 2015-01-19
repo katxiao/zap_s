@@ -48,4 +48,16 @@
         <div class="text-center" style="z-index: 4;">Total</div>
         </div>
     </div>
+    <!--Login Modal -->
+    <div class="modal fade in" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <span>Tutorial</span><button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()"><span aria-hidden="true">&times;</span></button>
+                    <span ng-show="showLogInErrorMessage" class="error">{{message}}</span><br />
+                    <button class="btn btn-default" style="background-color:#00b1ff;" ng-click="modalPageIncrement()">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

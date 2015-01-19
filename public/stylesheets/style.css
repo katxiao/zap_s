@@ -11,6 +11,10 @@ a {
   color: #FFFFFF;
 }
 
+.modal-open {
+    overflow: scroll;
+}
+
 /*#guiDiv {
     display: none;
 }*/
@@ -78,4 +82,8 @@ a {
 
 .questionLabel{
     font-size: 1.3em;
+}
+
+.modal.in {
+   display:block;
 }
