@@ -20,7 +20,7 @@
         $scope.index = 0;
         $scope.previousPoints = 0;
         
-        console.log(userService.user());
+        //console.log(userService.user());
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
@@ -48,7 +48,12 @@
                         }
                     }
                 }
-                userService.saveTemp(shorten($routeParams.category), $scope.standards);
+                if (userService.isEmpty(shorten($routeParams.category))) {
+                    //console.log($scope.standards);
+                    userService.saveTemp(shorten($routeParams.category), $scope.standards);
+                }    
+                else
+                    loadStandards();
                 if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
                     //delete old questions from green points
                 }
@@ -74,14 +79,14 @@
             return max;
         }
 
-        $scope.computeScore = function(score)
-        {
+        $scope.computeScore = function (score, answerIndex, percent) {
             var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
-            console.log($scope.pointsEarned, $scope.minRequired);
-            $scope.pointsEarned -= $scope.previousPoints;
-            $scope.pointsEarned += Number(score);
+            userService.saveTempItem($routeParams.category, 
+                                    { question: $scope.standards[$scope.index]._id, option: answerIndex, percentage: percent || 100, answered: true },
+                                    $scope.index);
+            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) - Number($scope.previousPoints);
             $scope.previousPoints = Number(score);
             if ($scope.pointsEarned >= $scope.minRequired)
                 $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
@@ -103,6 +108,19 @@
         var shorten = function (s) {
             return s.substring(0, Math.min(s.length, 6));
         }
+        
+        var loadStandards = function () {
+            var userTempData = userService.getTemp($routeParams.category);
+            //console.log(userTempData);
+            for (var index in userTempData) {
+                //console.log(userTempData[index].option);
+                if (userTempData[index].answered) {
+                    //console.log(userTempData[index].option);
+                    $scope.standards[index].choice = $scope.standards[index].optionList[userTempData[index].option].points;
+                    $scope.standards[index].percentage = userTempData[index].percentage;
+                }
+            }
+        }
 
         $scope.moveLeft = function () {
             if($scope.index > 0)
@@ -118,8 +136,6 @@
                 $scope.previousPoints = $scope.standards[$scope.index].choice || 0;
             }
         }
-
-        $scope.log = function () { console.log('time');}
 
         $scope.etcs = {
             Legislation: {
