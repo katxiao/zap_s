@@ -25,6 +25,29 @@
             return input.replace(/;;/g, ',').replace(/;/g, ',');
         }
     });
+    
+    app.service('userService', function () {
+        var userData = {
+            Dispos: {},
+            Energy: {},
+            Food: {},
+            Furnis: {},
+            Pollut: {},
+            Water: {},
+            Waste: {},};
+        
+        this.user = function () {
+            return userData;
+        };
+        
+        this.saveTemp = function (field, data) {
+            userData[field] = data;
+        }; 
+        
+        this.getTemp = function (field) {
+            return userData[field];
+        };
+    });
 
     app.config(['$routeProvider',
         function ($routeProvider) {
@@ -35,6 +58,10 @@
                 .when('/:category', {
                     templateUrl: '/angularviews/gui.html',
                     controller: 'categoryController'
+                })
+                .when('/:room/:item', {
+                    templateUrl: '/angularviews/gui.html',
+                    controller: 'itemController'
                 })
                 .otherwise({
                     templateUrl: '/angularviews/gui.html',

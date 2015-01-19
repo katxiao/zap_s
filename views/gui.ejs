@@ -9,8 +9,11 @@
     <title>Green My Restaurant</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
-	<link rel='stylesheet' href='/stylesheets/style.css' media="only screen and (min-width: 601px)"/>
-	<link href="/stylesheets/mobile.css" rel="stylesheet" type="text/css" media="only screen and (max-width: 600px)" />
+	<link rel='stylesheet' href='/stylesheets/style.css' media="only screen and (min-width: 721px)"/>
+	<link href="/stylesheets/mobile.css" rel="stylesheet" type="text/css" media="only screen and (max-width: 720px)" />
+	<link rel = "stylesheet" href = "../owl-carousel/owl.carousel.css">
+	<link rel = "stylesheet" href = "../owl-carousel/owl.theme.css">
+	<script src = "../owl-carousel/owl.carousel.js"></script>
 
     <script src = "../babylon.js"></script>
 
@@ -42,35 +45,67 @@
       </div>
     </nav>
 	<div class="container-fluid">
+    <div id="buttonCarousel" class="owl-carousel btn-group sliderButtons" role = "group" aria-label = "..." style = "display:none">
+      <div class = "btn-group.btn-group-justified" role = "group">
+        <button id = "Disposables" type = "button" class = "btn btn-default button">Disposables</button>
+      </div>
+      <div class = "btn-group.btn-group-justified" role = "group">
+        <button id = "Energy" type = "button" class = "btn btn-default button">Energy</button>
+      </div>
+      <div class = "btn-group.btn-group-justified" role = "group">
+        <button id = "Food" type = "button" class = "btn btn-default button">Food</button>
+      </div>
+      <div class = "btn-group.btn-group-justified" role = "group">
+        <button id = "Furnishings and Building Mat" type = "button" class = "btn btn-default button">Building Materials</button>
+      </div>
+      <div class = "btn-group.btn-group-justified" role = "group">
+        <button id = "Poll & Chem Reduction" type = "button" class = "btn btn-default button">Reduction</button>
+      </div>
+      <div class = "btn-group.btn-group-justified" role = "group">
+      <button id = "Waste" type = "button" class = "btn btn-default button">Waste</button>
+      </div>
+      <div class = "btn-group.btn-group-justified" role = "group">
+      <button id = "Water" type = "button" class = "btn btn-default button">Water</button>
+      </div>
+    </div>
     <div class="col-md-8 col-sm-8" id="guiDiv">
       <div id="centerColumn">
 				<div class="row">
 					<div id="graphicsDiv" class = "btn-group" role = "group" aria-label = "...">
             <div id = "buttons" class = "btn-group-vertical" role = "group" aria-label="...">
               <div id = "settings" class="btn-group" role="group">
-                <button type="button" class="btn btn-default dropdown-toggle button" data-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn btn-default dropdown-toggle button graphicsButton" data-toggle="dropdown" aria-expanded="false">
                   <span class="glyphicon glyphicon-cog"></span>
                   Settings
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">View Tutorial</a></li>
+                  <li><a href="#" data-toggle="modal" data-target="#tutorialModal">View Tutorial</a></li>
                   <li><a href="#">Other things</a></li>
                   <li><a href="#">Other other things</a></li>
                 </ul>
             </div>
-							<button id = "diningRoomButton" type = "button" class = "btn btn-default button">Dining Room</button>
+							<button id = "diningRoomButton" type = "button" class = "btn btn-default button graphicsButton">Dining Room</button>
 
-							<button id = "restroomButton" type = "button" class = "btn btn-default button">Restroom</button>
+							<button id = "restroomButton" type = "button" class = "btn btn-default button graphicsButton">Restroom</button>
 
-              <button id = "kitchenButton" type = "button" class = "btn btn-default button">Kitchen</button>
+              <button id = "kitchenButton" type = "button" class = "btn btn-default button graphicsButton">Kitchen</button>
 
-              <button id = "storageButton" type = "button" class = "btn btn-default button">Storage</button>
+              <button id = "storageButton" type = "button" class = "btn btn-default button graphicsButton">Storage</button>
 
-              <button id = "utilityButton" type = "button" class = "btn btn-default button">Utility</button>
+              <button id = "utilityButton" type = "button" class = "btn btn-default button graphicsButton">Utility</button>
 
-              <button id = "officeButton" type = "button" class = "btn btn-default button">Office</button>
+              <button id = "officeButton" type = "button" class = "btn btn-default button graphicsButton">Office</button>
             </div>
+            <script>
+               $(document).ready(function(){
+                      $("#buttonCarousel").owlCarousel({
+                        items:7,
+                        itemsDesktop: false,
+                        itemsDesktopSmall: false,
+                      });
+                   });
+            </script>
 						<canvas id="renderCanvas"></canvas>
 					</div>
 				</div>
@@ -78,37 +113,37 @@
         </div>
 		<div class="col-md-4 col-sm-8" style="padding: 1em; position: relative;"> 
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Disposable" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="Disposable" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{minRequired}}" style="width: 0%"></div>
 				<div class="progress-text" id="DisposableAfter">
 					<a href="/gui/#/Disposables">Disposables</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Energy" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="Energy" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div class="progress-text" id="EnergyAfter">
 					<a href="/gui/#/Energy">Energy</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Food" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="Food" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div class="progress-text" id="FoodAfter">
 					<a href="/gui/#/Food">Food</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="FandB" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="FandB" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div class="progress-text" id="FandBAfter">
 					<a href="/gui/#/Sustainable Furnishings & Building Materials">Furnishings and Building Mat.</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="PollChem" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="PollChem" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div class="progress-text" id="PollChemAfter">
 					<a href="/gui/#/Pollution & Chemical Reduction">Poll. & Chem .Reduction</a>
 				</div>
 			</div>
 			<div class="progress progress-category">
-				<div class="progress-bar progress-bar-danger" id="Waste" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
+				<div class="progress-bar progress-bar-danger" id="Waste" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 0%"></div>
 				<div class="progress-text" id="WasteAfter">
 					<a href="/gui/#/Waste">Waste</a>
 				</div>
@@ -183,28 +218,9 @@
                     $('#storageButton').click(function(){
                       updatePosition(15, 6, 13, "Storage");
                     })
-                    // $('#diningRoomButton').mouseleave(function() {
-                    //   $(this).css('opacity','1.0');
-                    // })
-                    // $('#restroomButton').click(function() {
-                    //   updatePosition(-13, 6, 13, "Restroom");
-                    // });
-                    // $('#kitchenButton').click(function(){
-                    //   updatePosition(10, 6, -20, "Kitchen");
-                    // })
-                    // $('#officeButton').click(function(){
-                    //   updatePosition(10, 6, -5, "Office");
-                    // })
-                    // $('#utilityButton').click(function(){
-                    //   updatePosition(5, 6, 13, "Utility");
-                    // })
-                    // $('#storageButton').click(function(){
-                    //   updatePosition(15, 6, 13, "Storage");
-                    // })
-                    // $(document).keydown(function(e){
-                    // 	if(e.which === 40){
-                    // 		// console.log(camera.fov);
-                    // 	}
+
+                    // $(document).ready(function(){
+                    //   $("#buttonCarousel").owlCarousel();
                     // });
 
                     // Once the scene is loaded, just register a render loop to render it

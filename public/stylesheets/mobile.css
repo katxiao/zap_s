@@ -57,6 +57,10 @@ a {
     margin-top: 0px;
 }
 
+.modal-open {
+    overflow: scroll;
+}
+
 .overlay{
   position: fixed;
   display: block;
@@ -78,4 +82,8 @@ a {
 
 .questionLabel{
     font-size: 1.0em;
+}
+
+#buttonCarousel{
+  display:inherit !important;
 }
