@@ -93,10 +93,10 @@ a {
   cursor:hand;
 }
 
-.sliderButton.img:active{
-  background-color: black;
-  margin: 1px solid red;
+.sliderButton:active{
+  color: #004C00;
 }
+
 
 .owl-wrapper{
 
