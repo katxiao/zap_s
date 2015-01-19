@@ -6,10 +6,10 @@
         .module('guiApp')
         .controller('categoryController', categoryController);
 
-    categoryController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams'];
+    categoryController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$routeParams', 'userService'];
 
-    function categoryController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams) {
-        $scope.title = 'guiController';
+    function categoryController($scope, $http, $cookies, $window, $location, $routeParams, userService) {
+        $scope.modalInit = 'hide';
 
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
@@ -19,6 +19,8 @@
 
         $scope.index = 0;
         $scope.previousPoints = 0;
+        
+        console.log(userService.user());
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
@@ -46,8 +48,9 @@
                         }
                     }
                 }
+                userService.saveTemp(shorten($routeParams.category), $scope.standards);
                 if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
-
+                    //delete old questions from green points
                 }
             });
         });
@@ -73,25 +76,32 @@
 
         $scope.computeScore = function(score)
         {
-            $scope.pointsEarned = document.getElementById($routeParams.category).getAttribute("aria-valuenow");
+            var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
+            $scope.pointsEarned = bar.getAttribute("aria-valuenow");
+            $scope.minRequired = bar.getAttribute("aria-valuemax");
+            console.log($scope.pointsEarned, $scope.minRequired);
             $scope.pointsEarned -= $scope.previousPoints;
             $scope.pointsEarned += Number(score);
             $scope.previousPoints = Number(score);
             if ($scope.pointsEarned >= $scope.minRequired)
-                $('#' + $routeParams.category).removeClass('progress-bar-danger').addClass('progress-bar-success');
+                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
-                $('#' + $routeParams.category).removeClass('progress-bar-success').addClass('progress-bar-danger');
+                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
             console.log($scope.pointsEarned, score);
-            document.getElementById($routeParams.category).setAttribute("aria-valuenow", $scope.pointsEarned);
-            var bar = $('#' + $routeParams.category);
-            bar.width(Math.min($scope.pointsEarned * 100.0 / document.getElementById($routeParams.category).getAttribute("aria-valuemax"), 100) + "%");
+            bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+            var barjQ = $('#' + shorten($routeParams.category) + 'Bar');
+            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
             if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
-                bar.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
-                $('#' + $routeParams.category + 'After').html("");
+                barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + shorten($routeParams.category) + 'BarAfter').html("");
             } else {
-                bar.html("");
-                $('#' + $routeParams.category + 'After').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
+                barjQ.html("");
+                $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
             }
+        }
+        
+        var shorten = function (s) {
+            return s.substring(0, Math.min(s.length, 6));
         }
 
         $scope.moveLeft = function () {

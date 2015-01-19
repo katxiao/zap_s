@@ -15,9 +15,9 @@ a {
     overflow: scroll;
 }
 
-/*#guiDiv {
-    display: none;
-}*/
+#buttonCarousel.owl-carousel {
+    visibility: hidden;
+}
 
 .success {
     color: green;

@@ -9,14 +9,14 @@
     guiController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams'];
 
     function guiController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams) {
-        $scope.title = 'guiController';
+        $scope.modalInit = 'in';
         
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
 
         $scope.index = 0;
         $scope.previousPoints = 0;
-        console.log('guiController');
+
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
             if ($scope.user) $scope.greenPoints = $scope.user.GPs;
@@ -44,7 +44,8 @@
         $scope.login = function() {
             $window.location.href = "/#/login";
         }
-
+        
+        
         $scope.computeMaxPossible = function (standards) {
             var max = 0;
             for(var index in standards) {
@@ -61,23 +62,31 @@
         }
 
         $scope.computeScore = function (score, category) {
+            var bar = document.getElementById(shorten(category) + 'Bar');
+            $scope.pointsEarned = bar.getAttribute("aria-valuenow");
+            $scope.minRequired = bar.getAttribute("aria-valuemax");
             $scope.pointsEarned -= $scope.previousPoints;
             $scope.pointsEarned += Number(score);
             $scope.previousPoints = Number(score);
             if ($scope.pointsEarned >= $scope.minRequired)
-                $('#' + category).removeClass('progress-bar-danger').addClass('progress-bar-success');
+                $('#' + shorten(category)).removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
-                $('#' + category).removeClass('progress-bar-success').addClass('progress-bar-danger');
+                $('#' + shorten(category)).removeClass('progress-bar-success').addClass('progress-bar-danger');
             console.log($scope.pointsEarned, score);
-            var bar = $('#' + $routeParams.category);
-            bar.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            document.getElementById(shorten(category)).setAttribute("aria-valuenow", $scope.pointsEarned);
+            var barjQ = $('#' + shorten(category));
+            barjQ.width(Math.min($scope.pointsEarned * 100.0 / document.getElementById(category).getAttribute("aria-valuemax"), 100) + "%");
             if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
-                bar.html('<a href="/gui/#/' + category + '">' + category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
-                $('#' + category + 'After').html("");
+                barjQ.html('<a href="/gui/#/' + category + '">' + category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + shorten(category) + 'BarAfter').html("");
             } else {
-                bar.html("");
-                $('#' + category + 'After').html('<a href="/gui/#/' + category + '">' + category + '</a>');
+                barjQ.html("");
+                $('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
             }
+        }
+        
+        var shorten = function (s) {
+            return s.substring(0, Math.min(s.length, 6));
         }
 
         $scope.moveLeft = function () {
