@@ -89,10 +89,10 @@ a {
 }
 
 .sliderButton{
-  
+  cursor:pointer;
+  cursor:hand;
 }
 
-.owl-item{
-  background-color: black;
-  width:90%;
+.owl-wrapper{
+
 }

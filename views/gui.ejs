@@ -9,7 +9,7 @@
     <title>Green My Restaurant</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
-	<link rel='stylesheet' href='/stylesheets/style.css' media="only screen and (min-width: 721px)"/>
+	<link rel='stylesheet' href='/stylesheets/desktop.css' media="only screen and (min-width: 721px)"/>
 	<link href="/stylesheets/mobile.css" rel="stylesheet" type="text/css" media="only screen and (max-width: 720px)" />
 	<link rel = "stylesheet" href = "../owl-carousel/owl.carousel.css">
 	<link rel = "stylesheet" href = "../owl-carousel/owl.theme.css">
@@ -18,35 +18,48 @@
     <script src = "../babylon.js"></script>
 
     <!-- Custom styles for this template -->
-    <link href="/stylesheets/Desktop.css" rel="stylesheet">
+    <link href="/stylesheets/base.css" rel="stylesheet">
   </head>
   <body ng-app="guiApp">
 	<div data-ng-include data-src="'/angularviews/navbar.html'"></div>
     <div data-ng-include data-src="'/angularviews/login.html'"></div>
 	<div class="container-fluid">
-    <div id="buttonCarousel" class="owl-carousel btn-group sliderButtons" role = "group" aria-label = "..." style = "display:none">
-      <div class = "btn-group.btn-group-justified" role = "group">
-        <button id = "Disposables" type = "button" class = "btn btn-default button">Disposables</button>
+
+    <div id="buttonCarousel" class="owl-carousel sliderButtons"  aria-label = "...">
+      <div class = "sliderButton">
+        <img src="../carouselImages/rsz_disposables.jpg">
+          <h4>Disposables</h4>
       </div>
-      <div class = "btn-group.btn-group-justified" role = "group">
-        <button id = "Energy" type = "button" class = "btn btn-default button">Energy</button>
+      <div class = "sliderButton">
+        <img src="../carouselImages/rsz_energy.jpg">
+          <h4>Energy</h4>
       </div>
-      <div class = "btn-group.btn-group-justified" role = "group">
-        <button id = "Food" type = "button" class = "btn btn-default button">Food</button>
+      <div class = "sliderButton">
+        <img src="../carouselImages/rsz_food.png">
+          <h4>Food</h4>
       </div>
-      <div class = "btn-group.btn-group-justified" role = "group">
-        <button id = "Furnishings and Building Mat" type = "button" class = "btn btn-default button">Building Materials</button>
+
+      <div class="sliderButton">
+        <img src="../carouselImages/rsz_furnishings.png">
+          <h4>Furnishings</h4>
       </div>
-      <div class = "btn-group.btn-group-justified" role = "group">
-        <button id = "Poll & Chem Reduction" type = "button" class = "btn btn-default button">Reduction</button>
+
+      <div class="sliderButton">
+        <img src="../carouselImages/rsz_pollution.jpg">
+          <h4>Pollution</h4>
       </div>
-      <div class = "btn-group.btn-group-justified" role = "group">
-      <button id = "Waste" type = "button" class = "btn btn-default button">Waste</button>
+
+      <div class="sliderButton">
+        <img src="../carouselImages/rsz_waste.jpg">
+          <h4>Waste</h4>
       </div>
-      <div class = "btn-group.btn-group-justified" role = "group">
-      <button id = "Water" type = "button" class = "btn btn-default button">Water</button>
+
+      <div class="sliderButton">
+        <img src="../carouselImages/rsz_water.jpg">
+          <h4>Water</h4>
       </div>
     </div>
+                
     <div class="col-md-8 col-sm-8" id="guiDiv">
       <div id="centerColumn">
 				<div class="row">
@@ -79,10 +92,13 @@
             <script>
                $(document).ready(function(){
                       $("#buttonCarousel").owlCarousel({
-                        // items:7,
-                        // itemsDesktop: false,
-                        // itemsDesktopSmall: false,
-                      });
+                            items: 7,
+                            itemsDesktop : [1000,7], //5 items between 1000px and 901px
+                            itemsDesktopSmall : [900,5], // betweem 900px and 601px
+                            itemsTablet: [600,3], //2 items between 600 and 0
+                            itemsTabletSmall: [400, 2],
+                            itemsMobile : [200, 1] // itemsMobile disabled - inherit from itemsTablet
+                        })
                    });
             </script>
 						<canvas id="renderCanvas"></canvas>
