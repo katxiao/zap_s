@@ -172,7 +172,7 @@
             var canvas = document.getElementById("renderCanvas");
             var engine = new BABYLON.Engine(canvas, true);
 
-            BABYLON.SceneLoader.Load("", "../babylon/DemoRestaurant.babylon", engine, function (newScene) {
+            BABYLON.SceneLoader.Load("", "../babylon/DemoRestaurantV2.babylon", engine, function (newScene) {
                 // Wait for textures and shaders to be ready
                 // console.log(newScene);
                 newScene.executeWhenReady(function () {
@@ -199,27 +199,23 @@
                     }
 
                     $('#diningRoomButton').click(function() {
-                      updatePosition(13, 6, 15, "Dining Room");
+                      updatePosition(-15, 6, -15, "Dining Room");
                     });
                     $('#restroomButton').click(function() {
-                      updatePosition(-13, 6, 13, "Restroom");
+                      updatePosition(-19, 6, 25, "Restroom");
                     });
                     $('#kitchenButton').click(function(){
-                      updatePosition(10, 6, -20, "Kitchen");
+                      updatePosition(15, 6, -25, "Kitchen");
                     })
                     $('#officeButton').click(function(){
-                      updatePosition(10, 6, -5, "Office");
+                      updatePosition(15, 6, 0, "Office");
                     })
                     $('#utilityButton').click(function(){
-                      updatePosition(5, 6, 13, "Utility");
+                      updatePosition(7.5, 6, 25, "Utility");
                     })
                     $('#storageButton').click(function(){
-                      updatePosition(15, 6, 13, "Storage");
+                      updatePosition(22.5, 6, 0, "Storage");
                     })
-
-                    // $(document).ready(function(){
-                    //   $("#buttonCarousel").owlCarousel();
-                    // });
 
                     // Once the scene is loaded, just register a render loop to render it
                     engine.runRenderLoop(function() {
