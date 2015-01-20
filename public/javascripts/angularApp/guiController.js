@@ -31,6 +31,7 @@
                                 $scope.standards[i].option = $scope.greenPoints[j].option;
                                 $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
                                 $scope.greenPoints[j].matched = true;
+                                $scope.computeScore($scope.standards[i].option, $scope.standards[i].category);
                                 break;
                             }
                         }
