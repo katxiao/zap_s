@@ -19,8 +19,6 @@
 
         $scope.index = 0;
         $scope.previousPoints = 0;
-        
-        //console.log(userService.user());
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
@@ -28,7 +26,6 @@
                 $scope.greenPoints = $scope.user.GPs;
             $http.get('/api/standards/' + $routeParams.category).success(function (data) {
                 $scope.standards = data;
-                $scope.maxPossible = $scope.computeMaxPossible($scope.standards);
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
                     if ($scope.user) {
@@ -49,7 +46,6 @@
                     }
                 }
                 if (userService.isEmpty(shorten($routeParams.category))) {
-                    //console.log($scope.standards);
                     userService.saveTemp(shorten($routeParams.category), $scope.standards);
                 }    
                 else
@@ -59,9 +55,9 @@
                 }
             });
         });
-
-        $scope.login = function() {
-            $window.location.href = "/#/login";
+        
+        $scope.loginModal = function () {
+            $('#loginModal').modal()
         }
 
         $scope.computeMaxPossible = function (standards) {
@@ -111,12 +107,11 @@
         
         var loadStandards = function () {
             var userTempData = userService.getTemp($routeParams.category);
-            //console.log(userTempData);
             for (var index in userTempData) {
                 //console.log(userTempData[index].option);
                 if (userTempData[index].answered) {
                     //console.log(userTempData[index].option);
-                    $scope.standards[index].choice = $scope.standards[index].optionList[userTempData[index].option].points;
+                    $scope.standards[index].option = $scope.standards[index].optionList[userTempData[index].option].points;
                     $scope.standards[index].percentage = userTempData[index].percentage;
                 }
             }
@@ -126,14 +121,31 @@
             if($scope.index > 0)
             {
                 $scope.index -= 1;
-                $scope.previousPoints = $scope.standards[$scope.index].choice || 0;
+                $scope.previousPoints = $scope.standards[$scope.index].option || 0;
             }
         }
 
         $scope.moveRight = function () {
             if ($scope.index < ($scope.standards.length - 1)) {
                 $scope.index += 1;
-                $scope.previousPoints = $scope.standards[$scope.index].choice || 0;
+                $scope.previousPoints = $scope.standards[$scope.index].option || 0;
+            }
+        }
+        
+        $scope.save = function () {
+            if ($scope.user) {
+                for (var i = 0; i < $scope.standards.length; i++) {
+                    if ($scope.standards[i].option) {
+                        $scope.standards[i].percentage = $scope.standards[i].percentage ? $scope.standards[i].percentage : 100;
+                        console.log($scope.standards[i]._id, parseFloat($scope.standards[i].option), $scope.standards[i].percentage);
+                        $http.put('/api/standards', { standardId : $scope.standards[i]._id, selectedOption : parseFloat($scope.standards[i].option), percentage : $scope.standards[i].percentage })
+                        .then(function (response) { });
+                    }
+                }
+                //$window.location.href = '/#/';
+                alert("Selections been saved!")
+            } else {
+                $scope.loginModal();
             }
         }
 
@@ -144,14 +156,69 @@
                 open: true
             }
         }
-
+        
         $scope.logout = function () {
             $http.get("/logout").success(function (data) {
-                $window.location.href = '/#/login'
-            }).error(function(err) {
+                $window.location.href = '/#'
+            }).error(function (err) {
                 $scope.message = "Logout unsuccessful. Try again.";
                 $scope.showErrorMessage = true;
             })
+        }
+
+        $scope.login = function (username, password) {
+            if (username === undefined || password === undefined) {
+                $scope.message = "All fields must be filled out.";
+                $scope.showLogInErrorMessage = true;
+                $scope.showErrorMessage = true;
+            } else {
+                $http.post('/login', { username: username, password: password }).success(function (data) {
+                    $('#modal').modal('hide');
+                    $window.location.href = "/#/profile";
+                }).error(function (err) {
+                    $scope.logInErrorMessage = "Login unsuccessful. Try again.";
+                    $scope.showLogInErrorMessage = true;
+                });
+            }
+        };
+        
+        $scope.signup = function (username, password, confpassword) {
+            if (username === undefined || password === undefined || confpassword === undefined) {
+                $scope.message = "All fields must be filled out.";
+                $scope.showSignUpErrorMessage = true;
+                $scope.showErrorMessage = true;
+            } else if (!validateForm(username)) {
+                $scope.logInErrorMessage = "Username must be an email";
+                $scope.showLogInErrorMessage = true;
+            } else {
+                if (confpassword === password) {
+                    $http.post("/client/index", { username: username, password: password }).success(function (data) {
+                        $scope.usernamesignup = "";
+                        $scope.passwordsignup = "";
+                        $scope.confirmpassword = "";
+                        $('#signUpModal').modal('hide');
+                        $window.location.href = "/#/";
+                    }).error(function (err) {
+                        $scope.message = "Registration unsuccessful. Try again.";
+                        $scope.showSignUpErrorMessage = true;
+                        $scope.showErrorMessage = true;
+                    });
+                } else {
+                    $scope.logInErrorMessage = "Password and confirmation password do not match. Try again.";
+                    $scope.showLogInErrorMessage = true;
+                }                ;
+            }
+
+        };
+        
+        var validateForm = function (username) {
+            var x = username;
+            var atpos = x.indexOf("@");
+            var dotpos = x.lastIndexOf(".");
+            if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
+                return false;
+            }
+            return true;
         }
 
         $scope.scrollTo = function (id) {

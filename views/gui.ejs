@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <title>Green My Restaurant</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap-3.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel='stylesheet' href='/stylesheets/desktop.css' media="only screen and (min-width: 721px)"/>
 	<link href="/stylesheets/mobile.css" rel="stylesheet" type="text/css" media="only screen and (max-width: 720px)" />
 	<link rel = "stylesheet" href = "../owl-carousel/owl.carousel.css">
@@ -27,36 +27,36 @@
 
     <div id="buttonCarousel" class="owl-carousel sliderButtons"  aria-label = "...">
       <div class = "sliderButton">
-        <img src="../carouselImages/rsz_disposables.jpg">
-          <h4>Disposables</h4>
+        <a href="/gui/#/Disposables"><img src="../carouselImages/rsz_disposables.jpg">
+          <h4>Disposables</h4></a>
       </div>
       <div class = "sliderButton">
-        <img src="../carouselImages/rsz_energy.jpg">
-          <h4>Energy</h4>
+        <a href="/gui/#/Energy"><img src="../carouselImages/rsz_energy.jpg">
+          <h4>Energy</h4></a>
       </div>
       <div class = "sliderButton">
-        <img src="../carouselImages/rsz_food.png">
-          <h4>Food</h4>
+        <a href="/gui/#/Food"><img src="../carouselImages/rsz_food.png">
+          <h4>Food</h4></a>
       </div>
 
       <div class="sliderButton">
-        <img src="../carouselImages/rsz_furnishings.png">
-          <h4>Furnishings</h4>
+        <a href="/gui/#/Sustainable Furnishings & Building Materials"><img src="../carouselImages/rsz_furnishings.png">
+          <h4>Furnishings</h4></a>
       </div>
 
       <div class="sliderButton">
-        <img src="../carouselImages/rsz_pollution.jpg">
-          <h4>Pollution</h4>
+        <a href="/gui/#/Pollution & Chemical Reduction"><img src="../carouselImages/rsz_pollution.jpg">
+          <h4>Pollution</h4></a>
       </div>
 
       <div class="sliderButton">
-        <img src="../carouselImages/rsz_waste.jpg">
-          <h4>Waste</h4>
+        <a href="/gui/#/Waste"><img src="../carouselImages/rsz_waste.jpg">
+          <h4>Waste</h4></a>
       </div>
 
       <div class="sliderButton">
-        <img src="../carouselImages/rsz_water.jpg">
-          <h4>Water</h4>
+        <a href="/gui/#/Water"><img src="../carouselImages/rsz_water.jpg">
+          <h4>Water</h4></a>
       </div>
     </div>
                 
@@ -73,8 +73,6 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="#" data-toggle="modal" data-target="#tutorialModal">View Tutorial</a></li>
-                  <li><a href="#">Other things</a></li>
-                  <li><a href="#">Other other things</a></li>
                 </ul>
             </div>
 							<button id = "diningRoomButton" type = "button" class = "btn btn-default button graphicsButton">Dining Room</button>
@@ -201,7 +199,6 @@
 					var rotate = function(axis, rotate) {
 						camera.rotation[axis] += rotate;
 					}
-					var count = 0;
 
                     $('#diningRoomButton').click(function() {
                       updatePosition(-15, 6, -15, "Dining Room");

@@ -22,22 +22,30 @@
             if ($scope.user) $scope.greenPoints = $scope.user.GPs;
             $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;
-                //for (var i = 0; i < $scope.standards.length; i++) {
-                //    var found = false;
-                //    if ($scope.user) {
-                //        for (var j = 0; j < $scope.greenPoints.length; j++) {
-                //            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
-                //                found = true;
-                //                $scope.standards[i].option = $scope.greenPoints[j].option;
-                //                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
-                //            }
-                //        }
-                //        if (!found) {
-                //            $scope.standards[i].option = undefined;
-                //            $scope.standards[i].percentage = undefined;
-                //        }
-                //    }
-                //}
+                for (var i = 0; i < $scope.standards.length; i++) {
+                    var found = false;
+                    if ($scope.user) {
+                        for (var j = 0; j < $scope.greenPoints.length; j++) {
+                            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
+                                found = true;
+                                $scope.standards[i].option = $scope.greenPoints[j].option;
+                                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
+                                $scope.greenPoints[j].matched = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            $scope.standards[i].option = undefined;
+                            $scope.standards[i].percentage = undefined;
+                            ++countNotFound;
+                        }
+                    }
+                }
+                if (userService.isEmpty(shorten($routeParams.category))) {
+                    userService.saveTemp(shorten($routeParams.category), $scope.standards);
+                }    
+                else
+                    loadStandards();
             });
         });
 
