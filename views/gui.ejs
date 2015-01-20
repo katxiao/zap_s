@@ -167,6 +167,7 @@
 	<script src="/javascripts/angularApp/guiApp.js"></script>
 	<script src="/javascripts/angularApp/guiController.js"></script>
 	<script src="/javascripts/angularApp/categoryController.js"></script>
+  <script src="/javascripts/angularApp/itemController.js"></script>
 	<script>
         if (BABYLON.Engine.isSupported()) {
             var canvas = document.getElementById("renderCanvas");
@@ -198,7 +199,7 @@
                           item = meshName.substring(index+1);
                         }
                         if (room !== undefined && item!== undefined) {
-                            window.location.href = '/gui/#/'+room+'/'+item;
+                            window.location.href = '/gui/#/item/'+room+'/'+item;
                         }
                         console.log('cameraInfo: ' + camera.cameraRotation);
                         console.log('cameraPosition: ' + camera.position);

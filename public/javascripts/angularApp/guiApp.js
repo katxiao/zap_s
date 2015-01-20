@@ -66,7 +66,7 @@
                     templateUrl: '/angularviews/gui.html',
                     controller: 'categoryController'
                 })
-                .when('/:room/:item', {
+                .when('/item/:room/:item', {
                     templateUrl: '/angularviews/gui.html',
                     controller: 'itemController'
                 })

@@ -23,10 +23,12 @@
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
+            console.log('user',$scope.user);
             if ($scope.user) 
                 $scope.greenPoints = $scope.user.GPs;
             $http.get('/api/standards/item?room=' + $routeParams.room + '&item=' + $routeParams.item).success(function (data) {
-                $scope.standards = data.content.standards;
+                console.log('DATA', data);
+                $scope.standards = data.content ? data.content.standards : [];
                 $scope.maxPossible = $scope.computeMaxPossible($scope.standards);
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
