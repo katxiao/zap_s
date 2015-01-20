@@ -180,14 +180,14 @@
                     newScene.activeCamera.attachControl(canvas);
                     var camera = newScene.activeCamera;
                     var initialCameraPosition = camera.position;
-                    var initialCameraRotation = camera.cameraRotation;
+                    var initialCameraRotation = camera.rotation;
                     var initialCameraFOV = camera.fov;
                     // camera.position.z = 5;
 
                     canvas.addEventListener("click", function(){
                         var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);
                         console.log('mesh name: ' + pickResult.pickedMesh.name);
-                        console.log('cameraInfo: ' + camera.cameraRotation);
+                        console.log('cameraInfo: ' + camera.rotation);
                         console.log('cameraPosition: ' + camera.position);
                         // console.log('initialCameraInfo: '+ initialCameraRotation.z);
                       });
@@ -197,6 +197,11 @@
                       camera.position.y = 6;
                       camera.position.z = newScene.getMeshByName(roomName).position.z;
                     }
+
+					var rotate = function(axis, rotate) {
+						camera.rotation[axis] += rotate;
+					}
+					var count = 0;
 
                     $('#diningRoomButton').click(function() {
                       updatePosition(13, 6, 15, "Dining Room");
