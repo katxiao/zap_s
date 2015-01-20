@@ -19,7 +19,10 @@
 
         $http.get('/current_auth').success(function(data) {
             $scope.user = data.content.user;
-            if ($scope.user) $scope.greenPoints = $scope.user.GPs;
+            if ($scope.user) {
+                $scope.admin = $scope.user.admin;
+                $scope.greenPoints = $scope.user.GPs;
+            }
             $http.get('/api/standards/Energy').success(function (data) {
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {

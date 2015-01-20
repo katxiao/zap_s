@@ -37,6 +37,10 @@
                     templateUrl: '/angularviews/gui.html',
                     controller: 'guiController'
                 })
+                .when('/admin', {
+                    templateUrl: '/angularViews/admin.html',
+                    controller: 'adminController'
+                })
                 .when('/reset', {
                     templateUrl: '/angularviews/reset.html',
                     controller: 'resetController'

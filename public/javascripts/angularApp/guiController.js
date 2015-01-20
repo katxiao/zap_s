@@ -19,6 +19,7 @@
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
+            $scope.admin = $scope.user.admin;
             if ($scope.user) $scope.greenPoints = $scope.user.GPs;
             $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;

@@ -7,16 +7,18 @@ var standardSchema = mongoose.Schema({
     item: { type: String, required: true },
     question: { type: String, required: true },
     optionList: [{ text: { type: String }, points: { type: Number } }],
+    room: { type: String},
     filters: [{ text: { type: String } }]
 });
 
 // statics
-standardSchema.statics.register = function(category, item, question, options, callback) {
+standardSchema.statics.register = function(category, item, question, options, room, callback) {
     var standard = new Standard({
         category: category,
         item: item,
         question: question,
-        options: options
+        options: options,
+        room: room
     });
     standard.save(callback);
 };

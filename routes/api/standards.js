@@ -30,11 +30,21 @@ router.get('/:category', function (req, res) {
     });
 });
 
+router.get('/item', function(req, res) {
+	var room = req.query.room;
+	var item = req.query.item;
+	if (room === undefined || item === undefined) return utils.sendErrResponse(res, 400, 'Bad Request: missing parameters.');
+	Standard.find({room: room, item: item}).exec(function(err, standards) {
+		if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
+		utils.sendSuccessResponse(res, {standards: standards});
+	});
+})
+
 router.put('/', utils.restrict, function (req, res) {
 	var standardId = req.body.standardId;
 	var selectedOption = req.body.selectedOption;
 	var percentage = req.body.percentage;
-	if (standardId === undefined || selectedOption === undefined || percentage === undefined) return utils.sendErrResponse(res, 400, 'Bad request: missing parameters');
+	if (standardId === undefined || selectedOption === undefined || percentage === undefined) return utils.sendErrResponse(res, 400, 'Bad request: missing parameters.');
 	Standard.findOne( {_id: standardId}, function(err, standard) {
 		if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
 		if (!standard) return utils.sendErrResponse(res, 404, "Standard does not exist.");

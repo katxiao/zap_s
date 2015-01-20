@@ -1,0 +1,26 @@
+<section>
+	<div data-ng-include data-src="'angularviews/navbar.html'"></div>
+    <span ng-show="showErrorMessage" class="error">{{message}}</span>
+    <h2>Administrative Homepage</h2>
+
+    <form id   =  "uploadForm"
+     enctype   =  "multipart/form-data"
+     action    =  "/upload"
+     method    =  "post"
+	>
+	<input type="file" name="myFile" />
+	<input type="submit" value="Submit File" name="submit">
+	</form>
+
+    <table>
+    	<tr> <td><b>Username</b></td> <td><b>Admin?</b></td> <tr>
+	    <tr ng-repeat="a in allUsers">
+	        <td>
+	            {{a.username}}
+	        </td>
+	        <td>
+	            {{a.admin}}
+	        </td>
+	    </tr>
+	</table>
+</section>
