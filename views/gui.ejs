@@ -187,6 +187,19 @@
                     canvas.addEventListener("click", function(){
                         var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);
                         console.log('mesh name: ' + pickResult.pickedMesh.name);
+                        var meshName = pickResult.pickedMesh.name;
+                        var index = meshName.indexOf("-");
+                        var indexDot = meshName.indexOf(".");
+                        var room = meshName.substring(0, index);
+                        var item = ''
+                        if (indexDot !== -1) {
+                          item = meshName.substring(index+1, indexDot);
+                        } else {
+                          item = meshName.substring(index+1);
+                        }
+                        if (room !== undefined && item!== undefined) {
+                            window.location.href = '/gui/#/'+room+'/'+item;
+                        }
                         console.log('cameraInfo: ' + camera.cameraRotation);
                         console.log('cameraPosition: ' + camera.position);
                         // console.log('initialCameraInfo: '+ initialCameraRotation.z);
