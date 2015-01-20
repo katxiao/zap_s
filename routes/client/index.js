@@ -7,14 +7,40 @@ var sendgrid = require("sendgrid")(process.env.SENDGRID_USERNAME, process.env.SE
 var Client = require("../../models/client").Client;
 var Standard = require("../../models/standard").Standard;
 
-/* GET a client. */
-router.get('/:client_id', function(req, res) {
-    Client.findOne({_id:req.params.client_id}).exec(function(err, client) {
+/* GET all clients. */
+router.get('/', function(req, res) {
+    if (!req.user[0].admin) return utils.sendErrResponse(res, 401, 'Access denied: Admin only.');
+    Client.find({}).exec(function(err, clients) {
         if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
-        if (!client) return utils.sendErrResponse(res, 500, 'Resource not found: Client does not exist.');
-        utils.sendSuccessResponse(res, {client: client});
+        for (var i = 0; i < clients.length; i++) {
+            clients[i].password = undefined;
+        }
+        utils.sendSuccessResponse(res, {clients: clients});
     });
 });
+
+/* GET a client by Id */
+router.get('/:id', function(req, res) {
+    Client.findOne( {_id: req.params.id} ).exec(function(err, client) {
+        if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+        if (!client) return utils.sendErrResponse(res, 500, 'Resource not found: Client does not exist.');
+        delete client.password;
+        utils.sendSuccessResponse(res, {client: client});
+    })
+});
+
+router.put('/', function(req, res) {
+    var admin = req.body.admin;
+    if (admin === true || admin === false) return utils.sendErrResponse(res, 400, 'Bad Request: invalid parameters.');
+    if (!req.user[0].admin) return utils.sendErrResponse(res, 401, 'Access denied: Admin only.')
+    Client.findOne({_id: req.body.id}).exec(function(err, client) {
+        if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+        if (!client) return utils.sendErrResponse(res, 500, 'Resource not found: Client does not exist.');
+        client.admin = admin;
+        client.save();
+        utils.sendSuccessResponse(res, {});
+    })
+})
 
 /**
  * POST registers client
@@ -50,6 +76,7 @@ router.post("/", function(req, res) {
     });
 });
 
+/* reset user password */
 router.post('/reset', function(req, res) {
     var username = req.body.username;
     var oldPassword = req.body.oldPassword;
@@ -68,14 +95,6 @@ router.post('/reset', function(req, res) {
         });
     })
 })
-
-router.get('/:id', function(req, res) {
-	Client.findOne( {_id: req.params.id} ).exec(function(err, client) {
-		if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
-		if (!client) return utils.sendErrResponse(res, 500, 'Resource not found: Client does not exist.');
-		utils.sendSuccessResponse(res, {client: client});
-	})
-});
 
 /**
  * Sends an email with a password reset link to the user.

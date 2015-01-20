@@ -8,7 +8,7 @@
     itemController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$routeParams', 'userService'];
 
     function itemController($scope, $http, $cookies, $window, $location, $routeParams, userService) {
-        $scope.modalInit = 'hide';
+        //$scope.modalInit = 'hide';
 
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
@@ -23,6 +23,7 @@
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
+            $scope.admin = $scope.user.admin;
             console.log('user',$scope.user);
             if ($scope.user) 
                 $scope.greenPoints = $scope.user.GPs;
@@ -49,10 +50,10 @@
                         }
                     }
                 }
-                userService.saveTemp(shorten($routeParams.category), $scope.standards);
-                if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
-                    //delete old questions from green points
-                }
+                // userService.saveTemp(shorten($routeParams.category), $scope.standards);
+                // if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
+                //     //delete old questions from green points
+                // }
             });
         });
 

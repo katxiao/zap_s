@@ -1,24 +1,31 @@
-﻿//Author: Jamar Brooks
 (function () {
     'use strict';
 
     angular
         .module('myApp')
-        .controller('profileController', profileController);
+        .controller('adminController', adminController);
 
-    profileController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll'];
+    adminController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll'];
 
-    function profileController($scope, $http, $cookies, $window, $location, $anchorScroll) {
-        $scope.title = 'profileController';
+    function adminController($scope, $http, $cookies, $window, $location, $anchorScroll) {
+        $scope.title = 'adminController';
         $scope.message = '';
         $scope.showErrorMessage = false;
         $scope.user = undefined;
+        $scope.admin = undefined;
+        $scope.allUsers = [];
 
         $http.get("/current_auth").then(function(response) {
             var data = response.data;
             if (data.success && data.content.user) {
                 $scope.user = data.content.user;
-                $scope.admin = $scope.user.admin;
+                $scope.admin = data.content.user.admin;
+                if (!$scope.admin) {
+                    $window.location.href = "/#/";
+                }
+                $http.get("/client/index").then(function(response) {
+                    $scope.allUsers = response.data.content.clients;
+                })
             } else {
                 $window.location.href = "/#/";
             }

@@ -6,6 +6,7 @@ var utils = require("../utils/utils");
 var clientSchema = mongoose.Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
+    admin: { type: Boolean, default: false},
     location: { State: { type: String }, City: { type: String }, ZipCode: { type: Number }},
     GPs: [{ question: { type: mongoose.Schema.Types.ObjectId, ref: "Standard" }, option: { type: Number }, percentage: { type: Number } }],
     VGPs: [{ question: { type: mongoose.Schema.Types.ObjectId, ref: "Standard" }, option: { type: Number }, percentage: { type: Number } }],
