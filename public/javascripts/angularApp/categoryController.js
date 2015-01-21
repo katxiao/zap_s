@@ -66,6 +66,10 @@
                 $('#' + shorten($routeParams.category) + 'Bar').parent().addClass('progress-category-active');
             });
         });
+        
+        $scope.loginModal = function () {
+            $('#loginModal').modal()
+        }
 
         $scope.computeMaxPossible = function (standards) {
             var max = 0;
@@ -173,14 +177,6 @@
             })
         }
 
-        $scope.loginModal = function () {
-            $('#loginModal').modal();
-        }
-
-        $scope.signUpModal = function() {
-            $('#signUpModal').modal();
-        }
-
         $scope.login = function (username, password) {
             if (username === undefined || password === undefined) {
                 $scope.message = "All fields must be filled out.";
@@ -197,33 +193,31 @@
             }
         };
         
-        $scope.signup = function (username, password, confpassword, city, state, zipcode, organization) {
-            if (organization === undefined || username === undefined || password === undefined || confpassword === undefined || city === undefined || state === undefined || zipcode === undefined) {
+        $scope.signup = function (username, password, confpassword) {
+            if (username === undefined || password === undefined || confpassword === undefined) {
                 $scope.message = "All fields must be filled out.";
-                $scope.showLogInErrorMessage = true;
+                $scope.showSignUpErrorMessage = true;
+                $scope.showErrorMessage = true;
             } else if (!validateForm(username)) {
                 $scope.logInErrorMessage = "Username must be an email";
                 $scope.showLogInErrorMessage = true;
             } else {
-                if(confpassword === password) {
-                    $http.post("/client/index", {username: username, password: password, organization: organization, city: city, state: state, zipcode: zipcode}).success(function(data) {
+                if (confpassword === password) {
+                    $http.post("/client/index", { username: username, password: password }).success(function (data) {
                         $scope.usernamesignup = "";
                         $scope.passwordsignup = "";
                         $scope.confirmpassword = "";
-                        $scope.organization = "";
-                        $scope.city = "";
-                        $scope.state = "";
-                        $scope.zipcode = "";
                         $('#signUpModal').modal('hide');
-                        $scope.login(username, password);
-                    }).error(function(err) {
+                        $window.location.href = "/#/";
+                    }).error(function (err) {
                         $scope.message = "Registration unsuccessful. Try again.";
-                        $scope.showLogInErrorMessage = true;
+                        $scope.showSignUpErrorMessage = true;
+                        $scope.showErrorMessage = true;
                     });
                 } else {
                     $scope.logInErrorMessage = "Password and confirmation password do not match. Try again.";
                     $scope.showLogInErrorMessage = true;
-                };
+                }                ;
             }
 
         };

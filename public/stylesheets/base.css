@@ -1,6 +1,16 @@
 body {
   padding-top: 50px;
 }
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding-top: .25em;
+    padding-bottom: .25em;
+}
+
 .starter-template {
   padding: 40px 15px;
   text-align: center;
@@ -164,17 +174,14 @@ a{
     background-color: rgba(0, 38, 255, 0.3);
     border-radius: .1em;
     font-size: 2em;
-    display:inline;
 }
 
 .categoryhead .progress {
     height: 1em;
-    margin-top: 10px;
 }
 
 .categoryhead .progress.progress-bar {
     height: 1em;
-    font-size: 2em;
 }
 
 .panel-heading a:after {

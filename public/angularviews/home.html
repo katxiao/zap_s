@@ -1,18 +1,18 @@
 ﻿<section>
     <div data-ng-include data-src="'/angularviews/navbar.html'"></div>
     <div data-ng-include data-src="'/angularviews/login.html'"></div>
-    <h2>Welcome to Green My Restaurant</h2>
+    <h2>Welcome to Green My Restaurant!</h2>
     <div class="progress">
         <div class="progress-bar progress-bar-success" id="TotalBar" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="240" style="width: 0%">
         </div>
     </div>
     <div ng-repeat="category in categoryKeys">
         <div class="categoryhead">
-            <div class="progress">
-                <div class="progress-bar progress-bar-danger" id="{{category}}Bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="10"></div>
+            {{category}}
+            <!--<div class="progress">
+                <div class="progress-bar progress-bar-danger" id="{{category}}Bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10"></div>
                 <span>{{category}}</span>
-
-            </div>
+            </div>-->
         </div>
         <table>
             <tr ng-repeat="standard in standardsByCategory[category]">
@@ -24,7 +24,7 @@
                 </td>
                 <td>
                     <span class="pull-right">
-                        <input ng-model="standard.percentage" size="3" />%
+                        <input ng-model="standard.percentage" size="3" ng-change="computeScore(standard.category, $index, standard.percentage, standard.previousPoints)" />%
                     </span>
                 </td>
             </tr>
