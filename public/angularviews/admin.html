@@ -2,25 +2,56 @@
 	<div data-ng-include data-src="'angularviews/navbar.html'"></div>
     <span ng-show="showErrorMessage" class="error">{{message}}</span>
     <h2>Administrative Homepage</h2>
+    <div>
+	    <h4>Upload New Standards</h4>
+	    <form id   =  "uploadForm"
+	     enctype   =  "multipart/form-data"
+	     action    =  "/upload"
+	     method    =  "post"
+		>
+		<input type="file" name="myFile" />
+		<input type="submit" value="Submit File" name="submit">
+		</form>
+	</div>
 
-    <form id   =  "uploadForm"
-     enctype   =  "multipart/form-data"
-     action    =  "/upload"
-     method    =  "post"
-	>
-	<input type="file" name="myFile" />
-	<input type="submit" value="Submit File" name="submit">
-	</form>
+<div class="panel-group" id="accordion">
 
-    <table>
-    	<tr> <td><b>Username</b></td> <td><b>Admin?</b></td> <tr>
-	    <tr ng-repeat="a in allUsers">
-	        <td>
-	            {{a.username}}
-	        </td>
-	        <td>
-	            {{a.admin}}
-	        </td>
-	    </tr>
-	</table>
+    <div class="panel panel-default" id="panel2">
+        <div class="panel-heading">
+             <h4 class="panel-title">
+        <a data-toggle="collapse" data-target="#collapseTwo" 
+           href="" class="collapsed">
+          All Users
+        </a>
+      </h4>
+
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+            <div class="panel-body">
+			        <div id="collapseOne" class="panel-collapse collapse in">
+			            <div class="panel-body">
+						    <table>
+						    	<tr> <td><b>Username</b></td> <td><b>Admin?</b></td> <tr>
+							    <tr ng-repeat="a in allUsers">
+							        <td>
+							            {{a.username}}
+							        </td>
+							        <td>
+							            {{a.admin}}
+							        </td>
+							        <td ng-if="!a.admin">
+							        	<button class="btn btn-default adminButton" ng-click="makeAdmin(a._id)">Make admin</button>
+							        </td>
+							        <td ng-if="a.admin">
+							        	<button class="btn btn-default alert-danger adminButton" ng-click="removeAdmin(a._id)">Remove admin</button>
+							        </td>
+							    </tr>
+							</table>
+			            </div>
+			        </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </section>
