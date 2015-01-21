@@ -8,16 +8,19 @@ var clientSchema = mongoose.Schema({
     password: { type: String, required: true },
     admin: { type: Boolean, default: false},
     location: { State: { type: String }, City: { type: String }, ZipCode: { type: Number }},
+    organization: {type: String},
     GPs: [{ question: { type: mongoose.Schema.Types.ObjectId, ref: "Standard" }, option: { type: Number }, percentage: { type: Number } }],
     VGPs: [{ question: { type: mongoose.Schema.Types.ObjectId, ref: "Standard" }, option: { type: Number }, percentage: { type: Number } }],
-    viewedTutorial: { type: Boolean }
+    viewedTutorial: { type: Boolean, default: false }
 });
 
 // statics
-clientSchema.statics.register = function(username, password, callback) {
+clientSchema.statics.register = function(username, password, location, organization, callback) {
     var client = new Client({
        username: username,
-       password: password
+       password: password,
+       location: location,
+       organization: organization
     });
     client.save(callback);
 };
