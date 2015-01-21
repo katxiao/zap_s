@@ -212,3 +212,7 @@ a{
 .adminButton {
 	width: 150px;
 }
+
+.admin-user-panel {
+	padding: 0 10px 0 10px;
+}

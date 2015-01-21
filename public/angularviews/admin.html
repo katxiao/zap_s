@@ -33,16 +33,16 @@
 						    <table>
 						    	<tr> <td><b>Username</b></td> <td><b>Admin?</b></td> <tr>
 							    <tr ng-repeat="a in allUsers">
-							        <td>
+							        <td class="admin-user-panel">
 							            {{a.username}}
 							        </td>
-							        <td>
+							        <td class="admin-user-panel">
 							            {{a.admin}}
 							        </td>
-							        <td ng-if="!a.admin">
+							        <td class="admin-user-panel" ng-if="!a.admin">
 							        	<button class="btn btn-default adminButton" ng-click="makeAdmin(a._id)">Make admin</button>
 							        </td>
-							        <td ng-if="a.admin">
+							        <td class="admin-user-panel" ng-if="a.admin">
 							        	<button class="btn btn-default alert-danger adminButton" ng-click="removeAdmin(a._id)">Remove admin</button>
 							        </td>
 							    </tr>
