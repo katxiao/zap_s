@@ -14,6 +14,7 @@
 	<link rel = "stylesheet" href = "../owl-carousel/owl.carousel.css">
 	<link rel = "stylesheet" href = "../owl-carousel/owl.theme.css">
 	<script src = "../owl-carousel/owl.carousel.js"></script>
+  <script src="../DemoRestaurant.js"></script>
 
     <script src = "../babylon.js"></script>
 
@@ -88,6 +89,8 @@
               <button id = "officeButton" type = "button" class = "btn btn-default button graphicsButton">Office</button>
 
               <button id = "entranceButton" type = "button" class = "btn btn-default button graphicsButton">Entrance</button>
+
+              <button id = "testMovementButton" type = "button" class = "btn btn-default button graphicsButton">Test</button>
             </div>
             <script>
                $(document).ready(function(){
@@ -296,6 +299,10 @@
                       updateRotation(0, -Math.PI/8, 0);
                     })
 
+                    $('#testMovementButton').click(function(){
+                      navigate({x:-7, y:-42}, {x:-7, y:-30}, 1, 0, camera);
+                    });
+                    // bfs(testStart, testEnd, DemoRestaurant);
                     
                     // Once the scene is loaded, just register a render loop to render it
                     engine.runRenderLoop(function() {
