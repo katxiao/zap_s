@@ -30,10 +30,11 @@ router.get('/:id', function(req, res) {
 });
 
 router.put('/', function(req, res) {
-    var admin = req.body.admin;
-    if (admin === true || admin === false) return utils.sendErrResponse(res, 400, 'Bad Request: invalid parameters.');
+    var admin = Boolean(req.body.admin);
+    var id = req.body.clientId;
+    if (!(admin === true || admin === false) || id === undefined) return utils.sendErrResponse(res, 400, 'Bad Request: invalid parameters.');
     if (!req.user[0].admin) return utils.sendErrResponse(res, 401, 'Access denied: Admin only.')
-    Client.findOne({_id: req.body.id}).exec(function(err, client) {
+    Client.findOne({_id: id}).exec(function(err, client) {
         if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
         if (!client) return utils.sendErrResponse(res, 500, 'Resource not found: Client does not exist.');
         client.admin = admin;
