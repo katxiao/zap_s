@@ -22,7 +22,7 @@
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
-            $scope.admin = $scope.user.admin;
+            //$scope.admin = $scope.user.admin;
             if ($scope.user) 
                 $scope.greenPoints = $scope.user.GPs;
             $http.get('/api/standards/' + $routeParams.category).success(function (data) {
@@ -55,6 +55,15 @@
                 if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
                     //delete old questions from green points
                 }
+                $('#DisposBar').parent().addClass('progress-category');
+                $('#EnergyBar').parent().addClass('progress-category');
+                $('#FoodBar').parent().addClass('progress-category');
+                $('#SustaiBar').parent().addClass('progress-category');
+                $('#PollutBar').parent().addClass('progress-category');
+                $('#WaterBar').parent().addClass('progress-category');
+                $('#WasteBar').parent().addClass('progress-category');
+                $('#' + shorten($routeParams.category) + 'Bar').parent().removeClass('progress-category');
+                $('#' + shorten($routeParams.category) + 'Bar').parent().addClass('progress-category-active');
             });
         });
         

@@ -20,11 +20,7 @@ a {
 }
 
 .progress-category {
-    background-color: lightgrey;
-    position: relative;
-    width: 100%;
-    color: black;
-    padding: 1px;
+    display: none;
 }
 
 .progress-text {

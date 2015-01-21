@@ -186,4 +186,10 @@ a{
 	margin-left: 0px;
 }
 
-
+.progress-category-active {
+    background-color: lightgrey;
+    position: relative;
+    width: 100%;
+    color: black;
+    padding: 1px;
+}
