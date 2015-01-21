@@ -45,10 +45,15 @@
                     templateUrl: '/angularviews/reset.html',
                     controller: 'resetController'
                 })
+                .when('/:category',{
+                    templateUrl: '/angularviews/home.html',
+                    controller: 'homeController'
+                })
                 .otherwise({
                     templateUrl: '/angularviews/home.html',
                     controller: 'homeController'
                 })
+
         }
     ])
 })();

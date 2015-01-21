@@ -86,6 +86,8 @@
               <button id = "utilityButton" type = "button" class = "btn btn-default button graphicsButton">Utility</button>
 
               <button id = "officeButton" type = "button" class = "btn btn-default button graphicsButton">Office</button>
+
+              <button id = "entranceButton" type = "button" class = "btn btn-default button graphicsButton">Entrance</button>
             </div>
             <script>
                $(document).ready(function(){
@@ -243,38 +245,55 @@
                         if (room !== undefined && item!== undefined) {
                             window.location.href = '/gui/#/'+room+'/'+item;
                         }
-                        console.log('cameraInfo: ' + camera.rotation);
+                        console.log('cameraRotation: ' + camera.rotation);
                         console.log('cameraPosition: ' + camera.position);
                         // console.log('initialCameraInfo: '+ initialCameraRotation.z);
                       });
 
-                    var updatePosition = function(x,y,z, roomName){
-                      camera.position.x = newScene.getMeshByName(roomName).position.x;
-                      camera.position.y = 6;
-                      camera.position.z = newScene.getMeshByName(roomName).position.z;
+                    var updatePosition = function(x,y,z){
+                      camera.position.x = x;
+                      camera.position.y = y;
+                      camera.position.z = z;
+                    }
+
+                    var updateRotation = function(x, y, z){
+                      camera.rotation.x = x;
+                      camera.rotation.y = y;
+                      camera.rotation.z = z;
                     }
 
 					var rotate = function(axis, rotate) {
 						camera.rotation[axis] += rotate;
 					}
 
+                    $('#entranceButton').click(function(){
+                      updatePosition(-7, 7, -42);
+                      updateRotation(0, 0, 0);
+                    })
+
                     $('#diningRoomButton').click(function() {
-                      updatePosition(-15, 6, -15, "Dining-Floor");
+                      updatePosition(-4, 8, 10);
+                      updateRotation(0, 6*Math.PI/5, 0);
                     });
                     $('#restroomButton').click(function() {
-                      updatePosition(-19, 6, 25, "Restroom-Floor");
+                      updatePosition(-8, 8, 28);
+                      updateRotation(0,7*Math.PI/5 , 0);
                     });
                     $('#kitchenButton').click(function(){
-                      updatePosition(15, 6, -25, "Kitchen-Floor");
+                      updatePosition(0, 8, -15);
+                      updateRotation(0, 3*Math.PI/5, 0)
                     })
                     $('#officeButton').click(function(){
-                      updatePosition(15, 6, 0, "Office-Floor");
+                      updatePosition(5, 8, -10);
+                      updateRotation(0, Math.PI/4, 0);
                     })
                     $('#utilityButton').click(function(){
-                      updatePosition(7.5, 6, 25, "Utility-Floor");
+                      updatePosition(4, 8, 18);
+                      updateRotation(0, Math.PI/8, 0)
                     })
                     $('#storageButton').click(function(){
-                      updatePosition(22.5, 6, 0, "Storage-Floor");
+                      updatePosition(27, 8, 18);
+                      updateRotation(0, -Math.PI/8, 0);
                     })
 
                     // Once the scene is loaded, just register a render loop to render it

@@ -7,15 +7,6 @@
             <span class="sr-only">40% Complete (success)</span>
         </div>
     </div>
-    <table>
-        <tr ng-repeat="standard in standards">
-            <td>
-                {{standard.question | reinsertCommas}}
-            </td>
-            <td ng-repeat="option in standard.optionList">
-                <input type="radio" ng-model="standard.option" value="{{option.points}}">{{option.text}}</input>
-            </td>
-        </tr>
-    </table>
+    <div data-ng-include data-src="'angularviews/listViewPanel.html'"></div>
     <button class='btn btn-default' ng-click="save()">Save</button>
 </section>

@@ -58,7 +58,6 @@
         };
 
         this.isEmpty = function (field) {
-            console.log(field);
             return userData[field].length === 0;
         }
     });

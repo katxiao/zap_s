@@ -6,9 +6,9 @@
         .module('myApp')
         .controller('homeController', homeController);
 
-    homeController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll'];
+    homeController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams'];
 
-    function homeController($scope, $http, $cookies, $window, $location, $anchorScroll) {
+    function homeController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams) {
         $scope.title = 'homeController';
         $scope.user = undefined;
         $scope.logInErrorMessage = '';
@@ -23,7 +23,7 @@
                 $scope.admin = $scope.user.admin;
                 $scope.greenPoints = $scope.user.GPs;
             }
-            $http.get('/api/standards/Energy').success(function (data) {
+            $http.get('/api/standards/' + ($routeParams.category || 'Energy')).success(function (data) {
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
