@@ -16,9 +16,6 @@
         
         $scope.pointsEarned = 0;
         $scope.minRequired = 80;
-        var categoryID = "#" + $routeParams.category;
-        $(categoryID.replace(/\s/g, "")).addClass("active");
-        $(categoryID.split(" ")[0].toLowerCase()).addClass("active");
 
         $http.get('/current_auth').success(function(data) {
             $scope.user = data.content.user;
