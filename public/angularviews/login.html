@@ -36,43 +36,47 @@
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <span ng-show="showLogInErrorMessage" class="error">{{logInErrorMessage}}</span>
-                <div class="container-fluid">
+<!--                 <div class="container-fluid"> -->
                     <div class="row">
                         <div class="col-md-4">
                             <h4>Log In</h4>
-                            <input type="text" ng-model="usernamelogin" placeholder="Email" required /></br>
-                            <input type="password" ng-model="passwordlogin" placeholder="Password" required/></br>
+                            Email: <input type="text" ng-model="usernamelogin" placeholder="Email" required /></br>
+                            Password: <input type="password" ng-model="passwordlogin" placeholder="Password" required/></br>
                             <button class="btn btn-default " style="background-color:#00b1ff" ng-click="login(usernamelogin, passwordlogin)">Login</button>
                         </div>
-                        <div class="col-md-4">
+<!--                         <div class="col-md-4">
                             <h4>Sign Up</h4>
                             <input type="text" ng-model="usernamesignup" placeholder="Email" required/></br>
                             <input type="password" ng-model="passwordsignup" placeholder="Password" required/></br>
                             <input type="password" ng-model="confirmpassword" placeholder="Confirm Password" required/></br>
                             <button class="btn btn-default" style="background-color:#00b1ff" ng-click="signup(usernamesignup, passwordsignup, confirmpassword)">Sign Up</button>
-                        </div>
-                    </div>
+                        </div> -->
+<!--                     </div> -->
                 </div> 
             </div>
         </div>
       </div>
     </div>
 
-    <!-- Sign Up Modal --><!-- 
+    <!-- Sign Up Modal -->
     <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <span ng-show="showSignUpErrorMessage" class="error">{{message}}</span>
+                <span ng-show="showLogInErrorMessage" class="error">{{logInErrorMessage}}</span>
                 <h4>Sign Up</h4>
-                <input type="text" ng-model="usernamesignup" placeholder="Username"/></br>
-                <input type="password" ng-model="passwordsignup" placeholder="Password" /></br>
-                <input type="password" ng-model="confirmpassword" placeholder="Confirm Password" /></br>
-                <button class="btn btn-default" style="background-color:#00b1ff" ng-click="signup(usernamesignup, passwordsignup, confirmpassword)">Sign Up</button>
+                Organization: <input type="text" ng-model="organization" placeholder="Organization"/></br>
+                Email: <input type="text" ng-model="usernamesignup" placeholder="Email"/></br>
+                Password: <input type="password" ng-model="passwordsignup" placeholder="Password" /></br>
+                Comfirm Password: <input type="password" ng-model="confirmpassword" placeholder="Confirm Password" /></br>
+                City: <input type="text" ng-model="city" placeholder="City" /></br>
+                State: <input type="text" ng-model="state" placeholder="State" /></br>
+                Zipcode: <input type="number" ng-model="zipcode" placeholder="Zipcode" /></br>
+                <button class="btn btn-default" style="background-color:#00b1ff" ng-click="signup(usernamesignup, passwordsignup, confirmpassword, city, state, zipcode, organization)">Sign Up</button>
             </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
 </section>

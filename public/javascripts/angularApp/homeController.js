@@ -16,6 +16,8 @@
         
         $scope.pointsEarned = 0;
         $scope.minRequired = 80;
+        
+        $scope.standardsByCategory = {};
 
         $http.get('/current_auth').success(function(data) {
             $scope.user = data.content.user;
@@ -23,7 +25,7 @@
                 $scope.admin = $scope.user.admin;
                 $scope.greenPoints = $scope.user.GPs;
             }
-            $http.get('/api/standards/' + ($routeParams.category || 'Energy')).success(function (data) {
+            $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
@@ -41,7 +43,14 @@
                             $scope.standards[i].percentage = undefined;
                         }
                     }
+                    if ($scope.standardsByCategory[$scope.standards[i].category]) {
+                        $scope.standardsByCategory[$scope.standards[i].category].push($scope.standards[i]);
+                    } else {
+                        $scope.standardsByCategory[$scope.standards[i].category] = [$scope.standards[i]];
+                    }
                 }
+                $scope.categoryKeys = Object.keys($scope.standardsByCategory);
+                console.log(Object.keys($scope.standardsByCategory));
             });
         });
 
@@ -66,8 +75,12 @@
             $window.location.href = '/gui/#/';
         }
 
-        $scope.loginModal = function() {
+        $scope.loginModal = function () {
             $('#loginModal').modal();
+        }
+
+        $scope.signUpModal = function() {
+            $('#signUpModal').modal();
         }
 
         $scope.logout = function() {
@@ -100,26 +113,28 @@
             }
         };
 
-        $scope.signup = function (username, password, confpassword) {
-            if (username === undefined || password === undefined || confpassword === undefined) {
+        $scope.signup = function (username, password, confpassword, city, state, zipcode, organization) {
+            if (organization === undefined || username === undefined || password === undefined || confpassword === undefined || city === undefined || state === undefined || zipcode === undefined) {
                 $scope.message = "All fields must be filled out.";
-                $scope.showSignUpErrorMessage = true;
-                $scope.showErrorMessage = true;
+                $scope.showLogInErrorMessage = true;
             } else if (!validateForm(username)) {
                 $scope.logInErrorMessage = "Username must be an email";
                 $scope.showLogInErrorMessage = true;
             } else {
                 if(confpassword === password) {
-                    $http.post("/client/index", {username: username, password: password}).success(function(data) {
+                    $http.post("/client/index", {username: username, password: password, organization: organization, city: city, state: state, zipcode: zipcode}).success(function(data) {
                         $scope.usernamesignup = "";
                         $scope.passwordsignup = "";
                         $scope.confirmpassword = "";
+                        $scope.organization = "";
+                        $scope.city = "";
+                        $scope.state = "";
+                        $scope.zipcode = "";
                         $('#signUpModal').modal('hide');
-                        $window.location.href = "/#/";
+                        $scope.login(username, password);
                     }).error(function(err) {
                         $scope.message = "Registration unsuccessful. Try again.";
-                        $scope.showSignUpErrorMessage = true;
-                        $scope.showErrorMessage = true;
+                        $scope.showLogInErrorMessage = true;
                     });
                 } else {
                     $scope.logInErrorMessage = "Password and confirmation password do not match. Try again.";
