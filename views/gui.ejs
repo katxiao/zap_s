@@ -206,9 +206,9 @@
                         // console.log('initialCameraInfo: '+ initialCameraRotation.z);
                       });
 
-                    var updatePosition = function(x,y,z, roomName){
+                    var updatePosition = function(x,y,z, roomame){
                       camera.position.x = newScene.getMeshByName(roomName).position.x;
-                      camera.position.y = 6;
+                      camera.position.y = y;
                       camera.position.z = newScene.getMeshByName(roomName).position.z;
                     }
 

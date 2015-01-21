@@ -7,15 +7,64 @@
             <span class="sr-only">40% Complete (success)</span>
         </div>
     </div>
-    <table>
-        <tr ng-repeat="standard in standards">
-            <td>
-                {{standard.question | reinsertCommas}}
-            </td>
-            <td ng-repeat="option in standard.optionList">
-                <input type="radio" ng-model="standard.option" value="{{option.points}}">{{option.text}}</input>
-            </td>
-        </tr>
-    </table>
+    <a href="/gui/#/{{standards[index].category}}" class="count">{{standards[index].category}}</a>
+    <div role="tabpanel" class = "questions">
+  <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li id = "disposables" role="presentation"><a href="#Disposables" aria-controls="disposables" role="tab" data-toggle="tab">Disposables</a></li>
+        <li id = "energy" role="presentation"><a href="#Energy" aria-controls="energy" role="tab" data-toggle="tab">Energy</a></li>
+        <li id = "food" role="presentation"><a href="#Food" aria-controls="food" role="tab" data-toggle="tab">Food</a></li>
+        <li id = "sustainable" role="presentation"><a href="#Sustainable Furnishings & Building Materials" aria-controls="furnishings" role="tab" data-toggle="tab">Furnishings</a></li>
+        <li id = "pollution" role="presentation"><a href="#Pollution & Chemical Reduction" aria-controls="pollution" role="tab" data-toggle="tab">Pollution</a></li>
+        <li id = "waste" role="presentation"><a href="#Waste" aria-controls="waste" role="tab" data-toggle="tab">Waste</a></li>
+        <li id = "water" role="presentation"><a href="#Water" aria-controls="water" role="tab" data-toggle="tab">Water</a><li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane" id="Disposables">
+            <div data-ng-include data-src="'angularviews/listViewPanel.html'"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="Energy">
+            <div data-ng-include data-src="'angularviews/listViewPanel.html'"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="Food">
+            <div data-ng-include data-src="'angularviews/listViewPanel.html'"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="SustainableFurnishings&BuildingMaterials">
+            <div data-ng-include data-src="'angularviews/listViewPanel.html'"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="Pollution&ChemicalReduction">
+            <div data-ng-include data-src="'angularviews/listViewPanel.html'"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="Waste">
+            <div data-ng-include data-src="'angularviews/listViewPanel.html'"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="Water">
+            <div data-ng-include data-src="'angularviews/listViewPanel.html'"></div>
+        </div>
+      </div>
+    </div>
+     
+<!--     <script>
+    $('a[data-toggle="tab"]').click('shown.bs.tab', function(e){
+      var targetPanel = $(e.target).attr("href");
+      var targetTab = "#" + $(e.target).attr("aria-controls");
+      console.log(targetPanel);
+      console.log(currentPanel);
+      console.log(targetTab);
+      console.log(currentTab);
+      if (currentPanel != null && currentPanel != targetPanel){
+        $(targetPanel).addClass("active");
+        $(targetTab).addClass("active");
+      }
+      else{
+        $(targetPanel).addClass("active");
+        $(targetTab).addClass("active");
+        currentPanel = targetPanel;
+        currentTab = targetTab;
+      }
+    });
+    </script> -->
     <button class='btn btn-default' ng-click="save()">Save</button>
 </section>
