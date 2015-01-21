@@ -1,5 +1,21 @@
 ﻿<section>
 	<div data-ng-include data-src="'angularviews/navbar.html'"></div>
-    <h2>Welcome, {{user.username}}!</h2>
+    <h2>Welcome, {{user.organization}}!</h2>
     <span ng-show="showErrorMessage" class="error">{{message}}</span>
+    <h4>User Information</h4>
+    <div>
+    	<ul>
+		    <li>
+		    	Organization: {{user.organization}}
+		    </li>
+		    <li>
+		    	Email: {{user.username}}
+		    </li>
+		    <li>
+		    	Location: {{user.location.City}}, {{user.location.State}} {{user.location.ZipCode}}
+		    </li>
+		</ul>
+	</div>
+
+    <button class='btn btn-default'>Change Password</button>
 </section>

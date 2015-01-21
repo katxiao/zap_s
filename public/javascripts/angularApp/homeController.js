@@ -113,6 +113,10 @@
             $('#loginModal').modal();
         }
 
+        $scope.signUpModal = function() {
+            $('#signUpModal').modal();
+        }
+
         $scope.logout = function() {
             $http.get("/logout").success(function (data) {
                 $window.location.href = '/#'
@@ -143,26 +147,28 @@
             }
         };
 
-        $scope.signup = function (username, password, confpassword) {
-            if (username === undefined || password === undefined || confpassword === undefined) {
+        $scope.signup = function (username, password, confpassword, city, state, zipcode, organization) {
+            if (organization === undefined || username === undefined || password === undefined || confpassword === undefined || city === undefined || state === undefined || zipcode === undefined) {
                 $scope.message = "All fields must be filled out.";
-                $scope.showSignUpErrorMessage = true;
-                $scope.showErrorMessage = true;
+                $scope.showLogInErrorMessage = true;
             } else if (!validateForm(username)) {
                 $scope.logInErrorMessage = "Username must be an email";
                 $scope.showLogInErrorMessage = true;
             } else {
                 if(confpassword === password) {
-                    $http.post("/client/index", {username: username, password: password}).success(function(data) {
+                    $http.post("/client/index", {username: username, password: password, organization: organization, city: city, state: state, zipcode: zipcode}).success(function(data) {
                         $scope.usernamesignup = "";
                         $scope.passwordsignup = "";
                         $scope.confirmpassword = "";
+                        $scope.organization = "";
+                        $scope.city = "";
+                        $scope.state = "";
+                        $scope.zipcode = "";
                         $('#signUpModal').modal('hide');
-                        $window.location.href = "/#/";
+                        $scope.login(username, password);
                     }).error(function(err) {
                         $scope.message = "Registration unsuccessful. Try again.";
-                        $scope.showSignUpErrorMessage = true;
-                        $scope.showErrorMessage = true;
+                        $scope.showLogInErrorMessage = true;
                     });
                 } else {
                     $scope.logInErrorMessage = "Password and confirmation password do not match. Try again.";

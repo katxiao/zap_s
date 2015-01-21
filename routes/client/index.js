@@ -55,6 +55,12 @@ router.post("/", function(req, res) {
 
     var username = req.body.username;
     var password = req.body.password;
+    var organization = req.body.organization;
+    var state = req.body.state;
+    var city = req.body.city;
+    var zipcode = req.body.zipcode;
+
+    if (username === undefined || password === undefined || organization === undefined || state === undefined || city === undefined || zipcode === undefined || typeof state !== "string" || typeof city !== "string" || typeof zipcode !== "number") return utils.sendErrResponse(res, 400, 'Bad Request: missing body parameter(s).')
 
     Client.findOne({username: username}, function(err, client) {
         
@@ -62,8 +68,12 @@ router.post("/", function(req, res) {
 
         // user does not exist, create
         if (!client) {
+            var location = {};
+            location.State = state;
+            location.City = city;
+            location.ZipCode = zipcode;
             
-            Client.register(username, password, function(err, u) {
+            Client.register(username, password, location, organization, function(err, u) {
                 if (err) return utils.sendErrResponse(res, 500, "Error saving new user.");
                 // don't pass password to client side
                 delete u.password;
