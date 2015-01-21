@@ -16,6 +16,8 @@
         
         $scope.pointsEarned = 0;
         $scope.minRequired = 80;
+        
+        $scope.standardsByCategory = {};
 
         $http.get('/current_auth').success(function(data) {
             $scope.user = data.content.user;
@@ -23,7 +25,7 @@
                 $scope.admin = $scope.user.admin;
                 $scope.greenPoints = $scope.user.GPs;
             }
-            $http.get('/api/standards/' + ($routeParams.category || 'Energy')).success(function (data) {
+            $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
@@ -41,7 +43,14 @@
                             $scope.standards[i].percentage = undefined;
                         }
                     }
+                    if ($scope.standardsByCategory[$scope.standards[i].category]) {
+                        $scope.standardsByCategory[$scope.standards[i].category].push($scope.standards[i]);
+                    } else {
+                        $scope.standardsByCategory[$scope.standards[i].category] = [$scope.standards[i]];
+                    }
                 }
+                $scope.categoryKeys = Object.keys($scope.standardsByCategory);
+                console.log(Object.keys($scope.standardsByCategory));
             });
         });
 
@@ -66,7 +75,7 @@
             $window.location.href = '/gui/#/';
         }
 
-        $scope.loginModal = function() {
+        $scope.loginModal = function () {
             $('#loginModal').modal();
         }
 

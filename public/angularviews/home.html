@@ -1,21 +1,24 @@
 ﻿<section>
-    <div data-ng-include data-src="'angularviews/navbar.html'"></div>
-    <div data-ng-include data-src="'angularviews/login.html'"></div>
-    <h2>Welcome</h2>
+    <div data-ng-include data-src="'/angularviews/navbar.html'"></div>
+    <div data-ng-include data-src="'/angularviews/login.html'"></div>
+    <h2>Welcome to Green My Restaurant</h2>
     <div class="progress">
         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="100" style="width: {{pointsEarned}}%">
             <span class="sr-only">40% Complete (success)</span>
         </div>
     </div>
-    <table>
-        <tr ng-repeat="standard in standards">
-            <td>
-                {{standard.question | reinsertCommas}}
-            </td>
-            <td ng-repeat="option in standard.optionList">
-                <input type="radio" ng-model="standard.option" value="{{option.points}}">{{option.text}}</input>
-            </td>
-        </tr>
-    </table>
+    <div ng-repeat="category in categoryKeys">
+        <h2 class="categoryhead">{{category}}</h2>
+        <table>
+            <tr ng-repeat="standard in standardsByCategory[category]">
+                <td style="width:60%; font-size: 1.5em; ">
+                    {{standard.question | reinsertCommas}}
+                </td>
+                <td style="font-size: 1.5em;" ng-repeat="option in standard.optionList">
+                    <input type="radio" ng-model="standard.option" value="{{option.points}}">{{option.text}}</input>
+                </td>
+            </tr>
+        </table>
+    </div>
     <button class='btn btn-default' ng-click="save()">Save</button>
 </section>

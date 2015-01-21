@@ -6,9 +6,9 @@
         .module('guiApp')
         .controller('guiController', guiController);
 
-    guiController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams'];
+    guiController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams', 'userService'];
 
-    function guiController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams) {
+    function guiController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams, userService) {
         $scope.modalInit = 'in';
         
         $scope.pointsEarned = 0;

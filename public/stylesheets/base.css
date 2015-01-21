@@ -70,40 +70,6 @@ a{
 	height:20px;
 }*/
 
-/*#diningRoomButton{
-	position:absolute;
-	right:0px;
-	top:41px;
-}
-
-#kitchenButton{
-	position:absolute;
-	right:0px;
-	top:20px;
-}
-
-#restroomButton{
-	position:absolute;
-	right:0px;
-	top:62px;
-}
-#officeButton{
-	position:absolute;
-	right:0px;
-	top:83px;
-}
-#utilityButton{
-	position:absolute;
-	right:0px;
-	top:104px;
-}
-#storageButton{
-	position:absolute;
-	right:0px;
-	top:125px;
-}*/
-
-
 #renderCanvas{
 	width:inherit;
 	height: 300px;
@@ -192,6 +158,11 @@ a{
     width: 100%;
     color: black;
     padding: 1px;
+}
+
+.categoryhead {
+    background-color: rgba(0, 38, 255, 0.3);
+    border-radius: .1em;
 }
 
 .panel-heading a:after {
