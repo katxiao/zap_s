@@ -2,12 +2,4 @@
 	<div data-ng-include data-src="'angularviews/navbar.html'"></div>
     <h2>Welcome, {{user.username}}!</h2>
     <span ng-show="showErrorMessage" class="error">{{message}}</span>
-    <form id="uploadForm"
-          enctype="multipart/form-data"
-          action="/upload"
-          method="post"
-          ng-show="true">
-        <input type="file" name="myFile" />
-        <input type="submit" value="Submit File" name="submit">
-    </form>
 </section>
