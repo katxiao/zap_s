@@ -22,6 +22,15 @@ clientSchema.statics.register = function(username, password, callback) {
     client.save(callback);
 };
 
+clientSchema.statics.registerAdmin = function(callback) {
+    var client = new Client({
+        username: 'admin',
+        password: 'admin',
+        admin: true
+    });
+    client.save(callback);
+}
+
 clientSchema.statics.login = function(username, password, callback) {
     Client.findOne({username: username, password: password}, {password: 0}).exec(callback);
 }
