@@ -214,12 +214,11 @@
                       camera.position.z = z;
                     }
 
-                    var updateRotation = function(x, y, z){
+                    var updateRotation = function(x,y,z){
                       camera.rotation.x = x;
                       camera.rotation.y = y;
                       camera.rotation.z = z;
                     }
-
 
                     $('#entranceButton').click(function(){
                       updatePosition(-7, 7, -42);
@@ -250,6 +249,7 @@
                       updateRotation(0, -Math.PI/8, 0);
                     })
 
+                    
                     // Once the scene is loaded, just register a render loop to render it
                     engine.runRenderLoop(function() {
                         newScene.render();
@@ -263,5 +263,6 @@
             })    ;
         }
     </script>
+
   </body>
 </html>
