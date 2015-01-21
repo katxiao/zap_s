@@ -67,7 +67,7 @@
         }
 
         $scope.loginModal = function() {
-            $('#loginModal').modal()
+            $('#loginModal').modal();
         }
 
         $scope.logout = function() {

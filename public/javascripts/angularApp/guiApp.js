@@ -34,7 +34,7 @@
             Dispos: [],
             Energy: [],
             Food: [],
-            Furnis: [],
+            Sustai: [],
             Pollut: [],
             Water: [],
             Waste: [],};
@@ -44,7 +44,9 @@
         };
         
         this.saveTemp = function (field, data) {
-            userData[field] = data;
+            for (var index in data) {
+                userData[field].push({ question: data[index]._id, option: 0, percentage: 0, answered: false});
+            }
         }; 
         
         this.saveTempItem = function (field, item, index){
@@ -54,6 +56,10 @@
         this.getTemp = function (field) {
             return userData[field];
         };
+
+        this.isEmpty = function (field) {
+            return userData[field].length === 0;
+        }
     });
 
     app.config(['$routeProvider',

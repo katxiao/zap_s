@@ -21,7 +21,7 @@
                         </div>
                         <br />
                         <div style = "float:right">
-                            <label class="questionLabel" ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].choice" value="{{option.points}}" onclick="console.log(3);" ng-change="computeScore(option.points)" />{{option.text}}</label>
+                            <label class="questionLabel" ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].option" value="{{option.points}}" ng-change="computeScore(option.points, $index, standards[index].percentage)" />{{option.text}}</label>
                             <input ng-model="standards[index].percentage" size="3" />%
                             <div class="scrollBar"></div>
                         </div>
@@ -29,12 +29,14 @@
                 </div>
             </div>
         </div>
-            <div class="progress">
+            <!--<div class="progress">
             <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%">
                 <span class="sr-only">40% Complete (success)</span>
             </div>
-            </div>
-
+            </div>-->
+        <center>
+            <button class='btn btn-default' ng-click="save()">Save</button>
+        </center>
         <!-- Bottom accordion drop down-->
         <div ng-repeat="etc in etcs" class="container-fluid">
         <h3 class="row etcheader roundTop" ng-class='{"round":!etc.open}' ng-click="etc.open = !etc.open;">
