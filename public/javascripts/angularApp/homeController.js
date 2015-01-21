@@ -66,7 +66,8 @@
             $window.location.href = '/gui/#/';
         }
 
-        $scope.loginModal = function() {
+        $scope.loginModal = function () {
+            console.log($('#loginModal'));
             $('#loginModal').modal();
         }
 
