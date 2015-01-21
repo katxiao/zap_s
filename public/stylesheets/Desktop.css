@@ -3,6 +3,14 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding-bottom: .5em;
+}
+
 a {
   color: #00B7FF;
 }
@@ -37,6 +45,15 @@ a {
     position:absolute;
     right:0;
     z-index: 4;
+}
+
+.categoryhead .progress-text {
+    position:absolute;
+    left:auto;
+    right:auto;
+    z-index: 4;
+    color: mediumspringgreen;
+    width: 20%;
 }
 
 .background {

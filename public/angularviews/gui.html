@@ -21,7 +21,9 @@
                         </div>
                         <br />
                         <div style = "float:right">
-                            <label class="questionLabel" ng-repeat="option in standards[index].optionList"><input type="radio" ng-model="standards[index].option" value="{{option.points}}" ng-change="computeScore(option.points, $index, standards[index].percentage)" />{{option.text}}</label>
+                            <label class="questionLabel" ng-repeat="option in standards[index].optionList">
+                                <input type="radio" ng-model="standards[index].option" value="{{option.points}}" ng-change="computeScore(option.points, $index, standards[index].percentage)" />{{option.text}}
+                            </label>
                             <input ng-model="standards[index].percentage" size="3" />%
                             <div class="scrollBar"></div>
                         </div>
@@ -58,9 +60,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <span>Tutorial</span><button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()"><span aria-hidden="true">&times;</span></button>
+                    <span>Would you like to take the AROUND THE WORLD Tour?</span><button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()"><span aria-hidden="true">&times;</span></button>
                     <span ng-show="showLogInErrorMessage" class="error">{{message}}</span><br />
-                    <button class="btn btn-default" style="background-color:#00b1ff;" ng-click="modalPageIncrement()">Next</button>
+                    <button class="btn btn-default" style="background-color:#00b1ff; margin-right: 0;" ng-click="modalPageIncrement()">Yes</button>
                 </div>
             </div>
         </div>
