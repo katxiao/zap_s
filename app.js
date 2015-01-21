@@ -12,6 +12,7 @@ var passport = require("passport");
 var routes = require('./routes/index');
 var standards = require('./routes/api/standards');
 var clients = require('./routes/client/index');
+var Client = require("./models/client").Client;
 
 var app = express();
 
@@ -90,5 +91,11 @@ db.once("open", function () {
      //});
     console.log("Connected to Mongoose.");
 });
+
+// Try inserting admin into db
+Client.registerAdmin(function(err, u) {
+        if (err) return utils.sendErrResponse(res, 500, "Error saving new user.");
+    }
+)
 
 module.exports = app;
