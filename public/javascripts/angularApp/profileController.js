@@ -22,10 +22,10 @@
                 $scope.user = data.content.user;
                 $scope.admin = $scope.user.admin;
                 
-                for (var index in $scope.user.GPs) {
-                    $http.get('/api/standards/individual/' + $scope.user.GPs[index].question).success(function (standard) {
-                        console.log(standard);
+                $scope.user.GPs.forEach(function (selection, index) {
+                    $http.get('/api/standards/individual/' + selection.question).success(function (standard) {
                         var selection = $scope.user.GPs[index];
+                        console.log(index, selection);
                         if ($scope.pointsByCategory[standard.category]) {
                             $scope.pointsByCategory[standard.category].value += selection.option * selection.percentage / 100.0;
                             $scope.pointsByCategory[standard.category].questions.push({
@@ -36,15 +36,15 @@
                             $scope.pointsByCategory[standard.category] = {
                                 value: selection.option * selection.percentage / 100.0,
                                 questions: [{
-                                    question: standard.question,
-                                    value: selection.option * selection.percentage / 100.0
-                                }]
+                                        question: standard.question,
+                                        value: selection.option * selection.percentage / 100.0
+                                    }]
                             };
                         }
                     }).then(function () {
                         $scope.categoryKeys = Object.keys($scope.pointsByCategory);
                     });
-                }
+                });
             } else {
                 $window.location.href = "/#/";
             }
@@ -114,6 +114,13 @@
 
         };
         
+        $scope.abbrev = function (input) {
+            if (input.length < 21)
+                return input;
+            else
+                return input.substring(0, 18) + "...";
+        }
+
         var validateForm = function (username) {
             var x = username;
             var atpos = x.indexOf("@");

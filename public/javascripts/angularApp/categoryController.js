@@ -20,7 +20,6 @@
         $scope.index = 0;
         $scope.previousPoints = 0;
         
-        
         $scope.etcs = {
             Legislation: {
                 header: 'Legislation',
@@ -34,9 +33,10 @@
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
-            //$scope.admin = $scope.user.admin;
-            if ($scope.user) 
+            if ($scope.user) {
+                $scope.admin = $scope.user.admin;
                 $scope.greenPoints = $scope.user.GPs;
+            }
             $http.get('/api/standards/' + $routeParams.category).success(function (data) {
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {
@@ -127,8 +127,8 @@
             userService.saveTempItem($routeParams.category, 
                                     { question: $scope.standards[$scope.index]._id, option: answerIndex, percentage: percent || 100, answered: true },
                                     $scope.index);
-            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) - Number($scope.previousPoints);
-            $scope.previousPoints = Number(score);
+            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Number(percent || 100) / 100.0 - Number($scope.previousPoints);
+            $scope.previousPoints = Number(score) * Number(percent || 100) / 100.0;
             if ($scope.pointsEarned >= $scope.minRequired)
                 $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
@@ -146,6 +146,32 @@
             }
         }
         
+        $scope.computeScore = function (score, percent) {
+            var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
+            $scope.pointsEarned = bar.getAttribute("aria-valuenow");
+            $scope.minRequired = bar.getAttribute("aria-valuemax");
+            userService.saveTempItem($routeParams.category, 
+                                    { question: $scope.standards[$scope.index]._id, option: answerIndex, percentage: percent || 100, answered: true },
+                                    $scope.index);
+            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Number(percent || 100) / 100.0 - Number($scope.previousPoints);
+            $scope.previousPoints = Number(score) * Number(percent || 100) / 100.0;
+            if ($scope.pointsEarned >= $scope.minRequired)
+                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+            else
+                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+            console.log($scope.pointsEarned, score);
+            bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+            var barjQ = $('#' + shorten($routeParams.category) + 'Bar');
+            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
+                barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + shorten($routeParams.category) + 'BarAfter').html("");
+            } else {
+                barjQ.html("");
+                $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
+            }
+        }
+
         var shorten = function (s) {
             return s.substring(0, Math.min(s.length, 6));
         }
@@ -171,6 +197,7 @@
         }
 
         $scope.moveRight = function () {
+            console.log($scope.standards[$scope.index]);
             if ($scope.index < ($scope.standards.length - 1)) {
                 $scope.index += 1;
                 $scope.previousPoints = $scope.standards[$scope.index].option || 0;

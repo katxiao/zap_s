@@ -217,6 +217,10 @@ a{
     background-color: azure;
 }
 
+/*.summary span {
+    height: 2em;
+}*/
+
 /* Modal */
 .modal-form {
 	padding: 0 10px 0 10px;

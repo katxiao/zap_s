@@ -19,15 +19,15 @@
         $scope.index = 0;
         $scope.previousPoints = 0;
         
-        console.log(userService.user());
+        //console.log(userService.user());
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
-            $scope.admin = $scope.user.admin;
-            console.log('user',$scope.user);
-            if ($scope.user) 
+            if ($scope.user) {
+                $scope.admin = $scope.user.admin;
                 $scope.greenPoints = $scope.user.GPs;
-            $http.get('/api/standards/item?room=' + $routeParams.room + '&item=' + $routeParams.item).success(function (data) {
+            }
+            $http.get('/api/standards/' + $routeParams.room + '/' + $routeParams.item).success(function (data) {
                 console.log('DATA', data);
                 $scope.standards = data.content ? data.content.standards : [];
                 $scope.maxPossible = $scope.computeMaxPossible($scope.standards);
