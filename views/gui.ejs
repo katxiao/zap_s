@@ -14,6 +14,7 @@
 	<link rel = "stylesheet" href = "../owl-carousel/owl.carousel.css">
 	<link rel = "stylesheet" href = "../owl-carousel/owl.theme.css">
 	<script src = "../owl-carousel/owl.carousel.js"></script>
+  <!-- <script src="/DemoRestaurant.js"></script> -->
 
     <script src = "../babylon.js"></script>
 
@@ -88,6 +89,8 @@
               <button id = "officeButton" type = "button" class = "btn btn-default button graphicsButton">Office</button>
 
               <button id = "entranceButton" type = "button" class = "btn btn-default button graphicsButton">Entrance</button>
+
+              <!-- <button id = "testMovementButton" type = "button" class = "btn btn-default button graphicsButton">Test</button> -->
             </div>
             <script>
                $(document).ready(function(){
@@ -222,11 +225,9 @@
                 // console.log(newScene);
                 newScene.executeWhenReady(function () {
                     // Attach camera to canvas inputs
-                    newScene.activeCamera.attachControl(canvas);
+
+                  newScene.activeCamera.attachControl(canvas);
                     var camera = newScene.activeCamera;
-                    var initialCameraPosition = camera.position;
-                    var initialCameraRotation = camera.rotation;
-                    var initialCameraFOV = camera.fov;
                     // camera.position.z = 5;
 
                     canvas.addEventListener("click", function(){
@@ -266,9 +267,9 @@
                       camera.rotation.z = z;
                     }
 
-          					var rotate = function(axis, rotate) {
-          						camera.rotation[axis] += rotate;
-          					}
+                    var rotate = function(axis, rotate) {
+                      camera.rotation[axis] += rotate;
+                    }
 
                     $('#entranceButton').click(function(){
                       updatePosition(-7, 7, -42);
@@ -286,20 +287,131 @@
                     $('#kitchenButton').click(function(){
                       updatePosition(0, 8, -15);
                       updateRotation(0, 3*Math.PI/5, 0)
-                    })
+                    });
                     $('#officeButton').click(function(){
                       updatePosition(5, 8, -10);
                       updateRotation(0, Math.PI/4, 0);
-                    })
+                    });
                     $('#utilityButton').click(function(){
                       updatePosition(4, 8, 18);
                       updateRotation(0, Math.PI/8, 0)
-                    })
+                    });
                     $('#storageButton').click(function(){
                       updatePosition(27, 8, 18);
                       updateRotation(0, -Math.PI/8, 0);
-                    })
+                    });
 
+                    var distance;
+                    var direction;
+                    var degree;
+                    var rotationDirection;  
+                    var navigate = function(path){
+                      for(var i = 0; i < path.length; i++){
+                        var start = path[i][0];
+                        var destination = path[i][1];
+                        var driveSpeed = path[i][2];
+                        var rotationSpeed = path[i][3];
+                        var initialRotation = path[i][4];
+                        var camera = path[i][5];
+                        if (start.x === destination.x){
+                          distance = Math.abs(destination.y - start.y);
+                          if (destination.y > start.y){
+                            direction = {x:0, y:1};
+                          }
+                          else{
+                            direction = {x:0, y:-1};
+                          }
+                        }
+
+
+                        else if (start.y === destination.y){
+                          distance = Math.abs(destination.x - start.x);
+                          if (destination.x > start.x){
+                            direction = {x:1, y:0};
+                          }
+                          else{
+                            direction = {x:-1, y:0};
+                          }
+                        }
+                        else{
+                          console.log("Points for navigation are not orthogonal");
+                        }
+
+                        degree = Math.atan2((destination.y-start.y), (destination.x - start.x)) - initialRotation;
+                        console.log(degree);
+                        if (degree >= 0){
+                          rotationDirection = 1;
+                        }
+                        else{
+                          rotationDirection = -1;
+                        }
+                        console.log(rotationDirection);
+                        if (driveSpeed === 0 && rotationSpeed != 0){
+                          rotateToGoal(degree, rotationSpeed, camera)
+                        }
+
+                        if (rotationSpeed === 0 && driveSpeed != 0){
+                          moveToGoal(distance, driveSpeed, direction, camera)
+                        }
+                      }
+                    }
+                    var currentRotation = 0;
+                    var currentDistance = 0;
+                    var moveInterval = -1;
+                    var moveToGoal = function(distance, speed, direction, camera){
+                      moveInterval = setInterval(function(){move(distance, camera, direction);}, 1000/speed);
+                    }
+                    var move = function(distance, camera, direction){
+                      camera.position.x += 0.1*direction.x;
+                      camera.position.z += 0.1*direction.y;
+                      currentDistance += (direction.y + direction.x)*0.1;
+                      console.log("currentDistance: ", currentDistance);
+                      console.log("distance: ", distance);
+                      if (Math.abs(currentDistance) >= distance){
+                        console.log("here!");
+                        clearInterval(moveInterval);
+                        // currentDistance = 0;
+                        moveInterval = -1;
+                      }
+
+                    }
+
+                    var rotateToGoal = function(degree, speed, camera){
+                      rotateInterval = setInterval(function(){rotate(degree, camera);}, 1000/speed);
+                    }
+
+                    var rotate = function(degree, camera){
+                      camera.rotation.y += 0.01*rotationDirection;
+                      currentRotation += 0.01*rotationDirection;
+                      console.log(currentRotation);
+                      if (Math.abs(currentRotation) >= degree){
+                        clearInterval(rotateInterval);
+                        rotateInterval =-1;
+                        currentRotation = 0;
+                        
+                      }
+                    }
+
+
+                    $('#testMovementButton').click(function(){
+                      navigate([[{x:-7, y:-42}, {x:-7, y:-30}, 50, 0, Math.PI/2, camera],
+                              [{x:-7, y:-30}, {x:-5, y:-30}, 50, 0, Math.PI/2, camera]
+                        ]);
+                      // navigate({x:-7, y:-30}, {x:-5, y:-30}, 50, 0, Math.PI/2, camera);
+                      // navigateHere([[-7, -42, -5, -42, 50, 0, Math.PI/2, camera],
+                      //             [-7, -30, -5, -30, 50, 0, Math.PI/2, camera]
+                      // ]);
+          
+                    });
+
+
+                    var navigateHere = function(c){
+                      for(var i = 0; i < c.length; i++){
+                        navigate({x:c[i][0], y:c[i][1]}, {x:c[i][2], y:c[i][3]}, c[i][4], c[i][5], c[i][6], c[i][7]);
+                      }
+                    } 
+
+                    // bfs(testStart, testEnd, DemoRestaurant);
                     
                     // Once the scene is loaded, just register a render loop to render it
                     engine.runRenderLoop(function() {
@@ -307,12 +419,10 @@
                     });
                     window.addEventListener("resize", function(){
                      engine.resize();
-                    })
+                    });  
                 });
-            }, function (progress) {
-                // To do: give progress feedback to user
-            })    ;
-        }
+            });
+          }
     </script>
 
   </body>

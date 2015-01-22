@@ -21,6 +21,7 @@
         $scope.fourStar = 240;
 
         $scope.standardsByCategory = {};
+        $scope.categoryKeys = [];
 
         $http.get('/current_auth').success(function(data) {
             $scope.user = data.content.user;
@@ -39,6 +40,7 @@
                                 found = true;
                                 $scope.standards[i].option = $scope.greenPoints[j].option;
                                 $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
+                                $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
                                 break;
                             }
                         }
@@ -51,11 +53,36 @@
                         $scope.standardsByCategory[$scope.standards[i].category].push($scope.standards[i]);
                     } else {
                         $scope.standardsByCategory[$scope.standards[i].category] = [$scope.standards[i]];
+                        $scope.categoryKeys.push($scope.standards[i].category);
                     }
                 }
-                $scope.categoryKeys = Object.keys($scope.standardsByCategory);
+                initializeBar();
             });
         });
+        
+        var initializeBar = function () {
+            var bar = document.getElementById('TotalBar');
+            $scope.minRequired = bar.getAttribute("aria-valuemax");
+            if ($scope.pointsEarned >= $scope.fourStar)
+                $('#TotalBar').addClass('progress-bar-info');
+            else if ($scope.pointsEarned >= $scope.threeStar)
+                $('#TotalBar').addClass('progress-bar-primary');
+            else if ($scope.pointsEarned >= $scope.twoStar)
+                $('#TotalBar').addClass('progress-bar-success');
+            else
+                $('#TotalBar').addClass('progress-bar-danger');
+            bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+            var barjQ = $('#TotalBar');
+            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
+            if ($scope.pointsEarned >= $scope.fourStar)
+                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star**');
+            else if ($scope.pointsEarned >= $scope.threeStar)
+                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star**');
+            else if ($scope.pointsEarned >= $scope.twoStar)
+                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star**');
+            else
+                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
+        }
 
         $scope.save = function() {
             if ($scope.user) {

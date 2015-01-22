@@ -7,7 +7,7 @@
         </div>
     </div>
     <div ng-repeat="category in categoryKeys">
-        <div class="categoryhead">
+        <div id="{{category}}" class="categoryhead" data-spy="affix" data-offset-top="125">
             {{category}}
             <!--<div class="progress">
                 <div class="progress-bar progress-bar-danger" id="{{category}}Bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10"></div>

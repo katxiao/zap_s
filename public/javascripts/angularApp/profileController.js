@@ -13,12 +13,38 @@
         $scope.message = '';
         $scope.showErrorMessage = false;
         $scope.user = undefined;
+        
+        $scope.pointsByCategory = {};
 
-        $http.get("/current_auth").then(function(response) {
+        $http.get("/current_auth/").then(function(response) {
             var data = response.data;
             if (data.success && data.content.user) {
                 $scope.user = data.content.user;
                 $scope.admin = $scope.user.admin;
+                
+                for (var index in $scope.user.GPs) {
+                    $http.get('/api/standards/individual/' + $scope.user.GPs[index].question).success(function (standard) {
+                        console.log(standard);
+                        var selection = $scope.user.GPs[index];
+                        if ($scope.pointsByCategory[standard.category]) {
+                            $scope.pointsByCategory[standard.category].value += selection.option * selection.percentage / 100.0;
+                            $scope.pointsByCategory[standard.category].questions.push({
+                                question: standard.question,
+                                value: selection.option * selection.percentage / 100.0
+                            });
+                        } else {
+                            $scope.pointsByCategory[standard.category] = {
+                                value: selection.option * selection.percentage / 100.0,
+                                questions: [{
+                                    question: standard.question,
+                                    value: selection.option * selection.percentage / 100.0
+                                }]
+                            };
+                        }
+                    }).then(function () {
+                        $scope.categoryKeys = Object.keys($scope.pointsByCategory);
+                    });
+                }
             } else {
                 $window.location.href = "/#/";
             }

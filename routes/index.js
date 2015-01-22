@@ -50,7 +50,7 @@ router.post('/upload', function (req, res, next) {
                 fs.readFile(req.files.myFile.path, 'utf8', function (err, data) {
                     data = data.trim();
                     var lines = data.split("\n");
-                    console.log("Line: ", lines.splice(0, 1));
+                    //console.log("Line: ", lines.splice(0, 1));
                     Standard.find({category: lines[0].split(",")[0]}).exec(function (err, existingStandards) {
                         var latestMatched = 0;
                         var uploadId = Math.round(Math.random() * 10000);
@@ -65,7 +65,7 @@ router.post('/upload', function (req, res, next) {
                                     var options = [];
                                     for (var index = 0; index < optionsList.length; index++)
                                         options.push({ text: optionsList[index], points: Number(gpsList[index]) });
-                                    var standard = new Standard({ category: standardData[0], item: "Don't have yet.", question: standardData[2], optionList: options, uploadId: uploadId });
+                                    var standard = new Standard({ category: standardData[0], item: standardData[7] || "Don't have yet.", question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[13],uploadId: uploadId });
                                     standard.save();
                                 }
                             } else {
