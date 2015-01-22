@@ -19,6 +19,18 @@
 
         $scope.index = 0;
         $scope.previousPoints = 0;
+        
+        
+        $scope.etcs = {
+            Legislation: {
+                header: 'Legislation',
+                open: true
+            },
+            ecofacts: {
+                header: 'EcoFacts',
+                open: true
+            }
+        }
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
@@ -36,7 +48,7 @@
                                 $scope.standards[i].option = $scope.greenPoints[j].option;
                                 $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
                                 $scope.greenPoints[j].matched = true;
-                                $scope.computeScore($scope.standards[i].option);
+                                $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage /100.0;
                                 break;
                             }
                         }
@@ -46,7 +58,9 @@
                             ++countNotFound;
                         }
                     }
+
                 }
+                initializeBar();
                 if (userService.isEmpty(shorten($routeParams.category))) {
                     userService.saveTemp(shorten($routeParams.category), $scope.standards);
                 }    
@@ -64,8 +78,28 @@
                 $('#WasteBar').parent().addClass('progress-category');
                 $('#' + shorten($routeParams.category) + 'Bar').parent().removeClass('progress-category');
                 $('#' + shorten($routeParams.category) + 'Bar').parent().addClass('progress-category-active');
+                $scope.etcKeys = Object.keys($scope.etcs);
             });
         });
+        
+        var initializeBar = function () {
+            var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
+            $scope.minRequired = bar.getAttribute("aria-valuemax");
+            if ($scope.pointsEarned >= $scope.minRequired)
+                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+            else
+                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+            bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+            var barjQ = $('#' + shorten($routeParams.category) + 'Bar');
+            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
+                barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + shorten($routeParams.category) + 'BarAfter').html("");
+            } else {
+                barjQ.html("");
+                $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
+            }
+        }
         
         $scope.loginModal = function () {
             $('#loginModal').modal()
@@ -157,14 +191,6 @@
                 alert("Selections been saved!")
             } else {
                 $scope.loginModal();
-            }
-        }
-
-        $scope.etcs = {
-            Legislation: {
-                header: 'Legislation',
-                content: 'Laws and stuff',
-                open: true
             }
         }
         

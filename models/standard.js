@@ -7,7 +7,8 @@ var standardSchema = mongoose.Schema({
     item: { type: String, required: true },
     question: { type: String, required: true },
     optionList: [{ text: { type: String }, points: { type: Number } }],
-    room: { type: String},
+    room: { type: String },
+    ecofacts: {type: String, default: "None currently available" },
     filters: [{ text: { type: String } }]
 });
 

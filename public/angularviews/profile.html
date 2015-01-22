@@ -2,7 +2,7 @@
 	<div data-ng-include data-src="'angularviews/navbar.html'"></div>
     <h2>Welcome, {{user.organization}}!</h2>
     <span ng-show="showErrorMessage" class="error">{{message}}</span>
-    <h4>User Information</h4>
+    <h3>User Information</h3>
     <div>
     	<ul>
 		    <li>
@@ -16,6 +16,15 @@
 		    </li>
 		</ul>
 	</div>
-
+    <h3>
+        Summary
+    </h3>
+    <div class="col-md-4 col-sm-12 summary" ng-repeat="category in categoryKeys">
+        <h4 style="color: darkgreen">{{category}} <span class="pull-right" style="color:darkblue">{{pointsByCategory[category].value}} Points</span></h4>
+        <div ng-repeat="question in pointsByCategory[category].questions">
+            <span class="pull-left" style="width: 50%">{{question.question}}</span>
+            <span class="pull-right" style="width: 50%">{{question.value}}</span>
+        </div>
+    </div>
     <button class='btn btn-default'>Change Password</button>
 </section>
