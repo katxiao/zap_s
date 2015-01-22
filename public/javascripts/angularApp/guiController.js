@@ -68,6 +68,7 @@
         }
 
         $scope.computeScore = function (score, category) {
+            console.log()
             var bar = document.getElementById(shorten(category) + 'Bar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");

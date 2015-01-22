@@ -30,6 +30,20 @@ router.get('/:category', function (req, res) {
     });
 });
 
+router.get('/individual/:id', function (req, res) {
+    Standard.findById(req.params.id, function (err, standard) {
+        if (err) {
+            res.statusCode = 500;
+            res.write(err);
+            res.end();
+        } else {
+            res.statusCode = 200;
+            res.json(standard);
+            res.end();
+        }
+    });
+});
+
 router.get('/item', function(req, res) {
 	var room = req.query.room;
 	var item = req.query.item;

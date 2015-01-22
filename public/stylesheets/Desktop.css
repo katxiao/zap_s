@@ -39,6 +39,15 @@ a {
     z-index: 4;
 }
 
+.categoryhead .progress-text {
+    position:absolute;
+    left:auto;
+    right:auto;
+    z-index: 4;
+    color: mediumspringgreen;
+    width: 20%;
+}
+
 .background {
    position: absolute;
    top: 0;
