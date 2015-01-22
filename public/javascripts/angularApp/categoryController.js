@@ -48,7 +48,8 @@
                                 $scope.standards[i].option = $scope.greenPoints[j].option;
                                 $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
                                 $scope.greenPoints[j].matched = true;
-                                $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage /100.0;
+                                $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
+                                $scope.previousPoints = $scope.greenPoints[0].option * $scope.greenPoints[0].percentage / 100.0;
                                 break;
                             }
                         }
@@ -124,6 +125,7 @@
             var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
+            console.log($scope.pointsEarned, $scope.previousPoints);
             userService.saveTempItem($routeParams.category, 
                                     { question: $scope.standards[$scope.index]._id, option: answerIndex, percentage: percent || 100, answered: true },
                                     $scope.index);
@@ -146,13 +148,16 @@
             }
         }
         
-        $scope.computeScore = function (score, percent) {
+        $scope.computePercentScore = function (score, percent) {
             var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
+            var answerIndex = userService.getTempOption($routeParams.category, 
+                                    $scope.index);
             userService.saveTempItem($routeParams.category, 
                                     { question: $scope.standards[$scope.index]._id, option: answerIndex, percentage: percent || 100, answered: true },
                                     $scope.index);
+            console.log(Number(score) * Number(percent || 100) / 100.0, percent || 100);
             $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Number(percent || 100) / 100.0 - Number($scope.previousPoints);
             $scope.previousPoints = Number(score) * Number(percent || 100) / 100.0;
             if ($scope.pointsEarned >= $scope.minRequired)
@@ -192,7 +197,7 @@
             if($scope.index > 0)
             {
                 $scope.index -= 1;
-                $scope.previousPoints = $scope.standards[$scope.index].option || 0;
+                $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;
             }
         }
 
@@ -200,7 +205,8 @@
             console.log($scope.standards[$scope.index]);
             if ($scope.index < ($scope.standards.length - 1)) {
                 $scope.index += 1;
-                $scope.previousPoints = $scope.standards[$scope.index].option || 0;
+                console.log($scope.standards[$scope.index].option, $scope.standards[$scope.index].option || 0);
+                $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;;
             }
         }
         

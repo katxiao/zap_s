@@ -115,10 +115,10 @@
         };
         
         $scope.abbrev = function (input) {
-            if (input.length < 21)
+            if (input.length < 12)
                 return input;
             else
-                return input.substring(0, 18) + "...";
+                return input.substring(0, 9) + "...";
         }
 
         var validateForm = function (username) {

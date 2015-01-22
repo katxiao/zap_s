@@ -56,6 +56,9 @@
         this.getTemp = function (field) {
             return userData[field];
         };
+        this.getTempOption = function (field, index) {
+            return userData[field][index];
+        };
 
         this.isEmpty = function (field) {
             return userData[field].length === 0;
