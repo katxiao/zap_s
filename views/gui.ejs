@@ -90,7 +90,7 @@
 
               <button id = "entranceButton" type = "button" class = "btn btn-default button graphicsButton">Entrance</button>
 
-              <!-- <button id = "testMovementButton" type = "button" class = "btn btn-default button graphicsButton">Test</button> -->
+              <button id = "testMovementButton" type = "button" class = "btn btn-default button graphicsButton">Test</button>
             </div>
             <script>
                $(document).ready(function(){
@@ -301,48 +301,54 @@
                     var direction;
                     var degree;
                     var rotationDirection;  
-                    var navigate = function(start, destination, driveSpeed, rotationSpeed, initialRotation, camera){
-                      if (start.x === destination.x){
-                        distance = Math.abs(destination.y - start.y);
-                        if (destination.y > start.y){
-                          direction = {x:0, y:1};
+                    var navigate = function(path){
+                      for(var i = 0; i < path.length; i++){
+                        var start = path[i][0];
+                        var destination = path[i][1];
+                        var driveSpeed = path[i][2];
+                        var rotationSpeed = path[i][3];
+                        var initialRotation = path[i][4];
+                        var camera = path[i][5];
+                        if (start.x === destination.x){
+                          distance = Math.abs(destination.y - start.y);
+                          if (destination.y > start.y){
+                            direction = {x:0, y:1};
+                          }
+                          else{
+                            direction = {x:0, y:-1};
+                          }
+                        }
+
+
+                        else if (start.y === destination.y){
+                          distance = Math.abs(destination.x - start.x);
+                          if (destination.x > start.x){
+                            direction = {x:1, y:0};
+                          }
+                          else{
+                            direction = {x:-1, y:0};
+                          }
                         }
                         else{
-                          direction = {x:0, y:-1};
+                          console.log("Points for navigation are not orthogonal");
                         }
-                      }
 
-
-                      else if (start.y === destination.y){
-                        distance = Math.abs(destination.x - start.x);
-                        if (destination.x > start.x){
-                          direction = {x:1, y:0};
+                        degree = Math.atan2((destination.y-start.y), (destination.x - start.x)) - initialRotation;
+                        console.log(degree);
+                        if (degree >= 0){
+                          rotationDirection = 1;
                         }
                         else{
-                          direction = {x:-1, y:0};
+                          rotationDirection = -1;
                         }
-                      }
-                      else{
-                        console.log("Points for navigation are not orthogonal");
-                      }
+                        console.log(rotationDirection);
+                        if (driveSpeed === 0 && rotationSpeed != 0){
+                          rotateToGoal(degree, rotationSpeed, camera)
+                        }
 
-                      degree = Math.atan2((destination.y-start.y), (destination.x - start.x)) - initialRotation;
-                      console.log(degree);
-                      if (degree >= 0){
-                        rotationDirection = 1;
-                      }
-                      else{
-                        rotationDirection = -1;
-                      }
-                      console.log(rotationDirection);
-
-                      if (driveSpeed === 0 && rotationSpeed != 0){
-                        rotateToGoal(degree, rotationSpeed, camera)
-                      }
-
-                      if (rotationSpeed === 0 && driveSpeed != 0){
-                        moveToGoal(distance, driveSpeed, direction, camera)
-          
+                        if (rotationSpeed === 0 && driveSpeed != 0){
+                          moveToGoal(distance, driveSpeed, direction, camera)
+                        }
                       }
                     }
                     var currentRotation = 0;
@@ -382,9 +388,12 @@
                       }
                     }
 
+
                     $('#testMovementButton').click(function(){
-                      navigate({x:-7, y:-42}, {x:-7, y:-30}, 50, 0, Math.PI/2, camera);
-                      navigate({x:-7, y:-30}, {x:-5, y:-30}, 50, 0, Math.PI/2, camera);
+                      navigate([[{x:-7, y:-42}, {x:-7, y:-30}, 50, 0, Math.PI/2, camera],
+                              [{x:-7, y:-30}, {x:-5, y:-30}, 50, 0, Math.PI/2, camera]
+                        ]);
+                      // navigate({x:-7, y:-30}, {x:-5, y:-30}, 50, 0, Math.PI/2, camera);
                       // navigateHere([[-7, -42, -5, -42, 50, 0, Math.PI/2, camera],
                       //             [-7, -30, -5, -30, 50, 0, Math.PI/2, camera]
                       // ]);
