@@ -14,7 +14,33 @@
         $scope.showErrorMessage = false;
         $scope.user = undefined;
         
-        $scope.pointsByCategory = {};
+        $scope.pointsByCategory = {
+            Energy: {
+                value: 0,
+                question: []
+            }, 
+            Disposables: {
+                value: 0,
+                question: []
+            },
+            Waste: {
+                value: 0,
+                question: []
+            },
+            Water: {
+                value: 0,
+                question: []
+            }
+        };
+        $scope.pointsByCategory["Sustainable Furnishings & Building Materials"] = {
+            value: 0,
+            question: []
+        };
+        $scope.pointsByCategory["Pollution & Chemical Reduction"] = {
+            value: 0,
+            question: []
+        };
+        $scope.totalPoints = 0;
 
         $http.get("/current_auth/").then(function(response) {
             var data = response.data;
@@ -26,7 +52,8 @@
                     $http.get('/api/standards/individual/' + selection.question).success(function (standard) {
                         var selection = $scope.user.GPs[index];
                         console.log(index, selection);
-                        if ($scope.pointsByCategory[standard.category]) {
+                        if ($scope.pointsByCategory[standard.category].value != 0) {
+                            $scope.totalPoints += selection.option * selection.percentage / 100.0;
                             $scope.pointsByCategory[standard.category].value += selection.option * selection.percentage / 100.0;
                             $scope.pointsByCategory[standard.category].questions.push({
                                 question: standard.question,
