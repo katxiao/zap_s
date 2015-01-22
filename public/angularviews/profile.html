@@ -3,19 +3,25 @@
     <h2>Welcome, {{user.organization}}!</h2>
     <span ng-show="showErrorMessage" class="error">{{message}}</span>
     <h3>User Information</h3>
-    <div>
-    	<ul>
-		    <li>
-		    	Organization: {{user.organization}}
-		    </li>
-		    <li>
-		    	Email: {{user.username}}
-		    </li>
-		    <li>
-		    	Location: {{user.location.City}}, {{user.location.State}} {{user.location.ZipCode}}
-		    </li>
-		</ul>
-	</div>
+    <div class="col-md-6">
+        <ul>
+            <li>
+                Organization: {{user.organization}}
+            </li>
+            <li>
+                Email: {{user.username}}
+            </li>
+            <li>
+                Location: {{user.location.City}}, {{user.location.State}} {{user.location.ZipCode}}
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <a style="text-decoration: underline" target="_blank" href="http://dinegreen.org">Get help with the remaining steps needed for certification.</a><br />
+        <a style="text-decoration: underline" target="_blank" href="http://dinegreen.org/restaurants/services.asp#certify">Get your claims verified</a><br />
+        <a style="text-decoration: underline" target="_blank" href="http://dinegreen.org">Become a Certified Green Restaurant&reg; for only $50 per month</a>
+    </div>
+    <button class='btn btn-default'>Change Password</button>
     <center>
         <h3>
             Summary: Total Points {{totalPoints}}
@@ -30,5 +36,4 @@
             <span class="pull-right" style="width: 50%">{{question.value}}</span>
         </div>
     </div>
-    <br /><button class='btn btn-default'>Change Password</button>
 </section>
