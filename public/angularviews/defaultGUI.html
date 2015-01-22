@@ -1,0 +1,71 @@
+<section>
+    <div data-ng-include data-src="'/angularviews/navbar.html'"></div>
+    <div data-ng-include data-src="'/angularviews/login.html'"></div>
+    <div class="row">
+<!--     <div id="questionBox">
+        <div class="container-fluid">
+            <div class="row round" style="border: solid 1px black;">
+                <div class="container-fluid round">
+                    <div class="row roundTop" style="background-color:lightgrey;">
+                        <a href="/gui/#/{{standards[index].category}}" class="count">{{standards[index].category}}</a>
+                        <div class = "btn-group pull-right">
+                            <button id = "prevNext" type = "button" class = "btn btn-default" ng-click="moveLeft()"><span>Prev</span></button>
+                          
+                            <button id = "prevNext" type = "button" class = "btn btn-default" ng-click = "moveRight()"><span>Next</span></button>
+                        </div>
+                        <span class="pull-right count">{{index + 1}} of {{standards.length}}</span>
+                    </div>
+                    <div class="row">
+                        <div class="questionDiv">
+                            <b>{{standards[index].question | reinsertCommas}}</b>
+                        </div>
+                        <br />
+                        <div style = "float:right">
+                            <label class="questionLabel" ng-repeat="option in standards[index].optionList">
+                                <input type="radio" ng-model="standards[index].option" value="{{option.points}}" ng-change="computeScore(option.points, $index, standards[index].percentage)" />{{option.text}}
+                            </label>
+                            <input ng-model="standards[index].percentage" size="3" />%
+                            <div class="scrollBar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+            <!--<div class="progress">
+            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="10" style="width: {{pointsEarned}}%">
+                <span class="sr-only">40% Complete (success)</span>
+            </div>
+            </div>-->
+        <center>
+            <h3> Choose a category on the right to begin!</h3>
+        </center>
+        <!-- Bottom accordion drop down-->
+        <div ng-repeat="etc in etcKeys" class="container-fluid etcetera">
+            <h3 class="row etcheader roundTop" ng-class='{"round":!etcs[etc].open}' ng-click="etcs[etc].open = !etcs[etc].open;">
+                {{etcs[etc].header}}
+            </h3>
+            <div class="row etcbody roundBottom" ng-show="etcs[etc].open" style="font-size: 1.1em">
+                {{standards[index][etc] | reinsertCommas}}
+            </div>
+        </div>
+        <div class="overlay" ng-show="showMessageModal">
+        <div class="modal">
+            {{message}}
+        </div>
+        <div class="text-center" style="z-index: 4;">Total</div>
+        </div>
+    </div>
+    <!--Login Modal -->
+    <div class="modal fade {{modalInit}}" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <span>Would you like to take the AROUND THE WORLD Tour?</span><button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()"><span aria-hidden="true">&times;</span></button>
+                    <span ng-show="showLogInErrorMessage" class="error">{{message}}</span><br />
+                    <button class="btn btn-default" style="background-color:#00b1ff; margin-right: 0;" ng-click="modalPageIncrement()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>

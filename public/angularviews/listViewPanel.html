@@ -1,0 +1,10 @@
+<table>
+    <tr ng-repeat="standard in standards">
+        <td>
+            {{standard.question | reinsertCommas}}
+        </td>
+        <td ng-repeat="option in standard.optionList">
+            <input type="radio" ng-model="standard.option" value="{{option.points}}">{{option.text}}</input>
+        </td>
+    </tr>
+</table>
