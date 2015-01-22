@@ -206,3 +206,8 @@ a{
 .admin-user-panel {
 	padding: 0 10px 0 10px;
 }
+
+/* Modal */
+.modal-form {
+	padding: 0 10px 0 10px;
+}
