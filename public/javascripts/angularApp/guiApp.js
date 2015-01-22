@@ -69,7 +69,7 @@
         function ($routeProvider) {
             $routeProvider.
                 when('/', {
-                    templateUrl: '/angularviews/gui.html',
+                    templateUrl: '/angularviews/defaultGUI.html',
                     controller: 'guiController'})
                 .when('/:category', {
                     templateUrl: '/angularviews/gui.html',
@@ -80,7 +80,7 @@
                     controller: 'itemController'
                 })
                 .otherwise({
-                    templateUrl: '/angularviews/gui.html',
+                    templateUrl: '/angularviews/defaultGUI.html',
                     controller: 'guiController'
                 });
         }
