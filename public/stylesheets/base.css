@@ -72,6 +72,11 @@ a{
 	opacity:1;
 }
 
+#saveButton{
+	margin-right:auto;
+	/*position:absolute;*/
+}
+
 #renderCanvas{
 	width:inherit;
 	height: 300px;

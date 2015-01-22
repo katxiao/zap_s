@@ -90,7 +90,7 @@
 
               <button id = "entranceButton" type = "button" class = "btn btn-default button graphicsButton">Entrance</button>
 
-              <button id = "testMovementButton" type = "button" class = "btn btn-default button graphicsButton">Test</button>
+              <!-- <button id = "testMovementButton" type = "button" class = "btn btn-default button graphicsButton">Test</button> -->
             </div>
             <script>
                $(document).ready(function(){
@@ -383,10 +383,11 @@
                     }
 
                     $('#testMovementButton').click(function(){
-
-                      navigateHere([[-7, -42, -5, -42, 50, 0, Math.PI/2, camera],
-                                  [-7, -30, -5, -30, 50, 0, Math.PI/2, camera]
-                      ]);
+                      navigate({x:-7, y:-42}, {x:-7, y:-30}, 50, 0, Math.PI/2, camera);
+                      navigate({x:-7, y:-30}, {x:-5, y:-30}, 50, 0, Math.PI/2, camera);
+                      // navigateHere([[-7, -42, -5, -42, 50, 0, Math.PI/2, camera],
+                      //             [-7, -30, -5, -30, 50, 0, Math.PI/2, camera]
+                      // ]);
           
                     });
 
