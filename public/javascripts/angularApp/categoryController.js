@@ -21,13 +21,21 @@
         $scope.previousPoints = 0;
         
         $scope.etcs = {
-            Legislation: {
+            legislation: {
                 header: 'Legislation',
-                open: true
+                open: false
             },
             ecofacts: {
                 header: 'EcoFacts',
-                open: true
+                open: false
+            },
+            rebateincentives: {
+                header: 'Rebates/Incentives', 
+                open: false
+            },
+            solutions: {
+                header: 'Product Solutions',
+                open: false
             }
         }
 
@@ -192,7 +200,7 @@
                 if (userTempData[index].answered) {
                     //console.log(userTempData[index].option);
                     $scope.standards[index].option = $scope.standards[index].optionList[userTempData[index].option].points;
-                    $scope.standards[index].percentage = userTempData[index].percentage;
+                    $scope.standards[index].percentage = userTempData[index].percentage || 100;
                 }
             }
         }
