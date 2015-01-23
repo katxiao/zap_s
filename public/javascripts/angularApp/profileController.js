@@ -13,6 +13,7 @@
         $scope.message = '';
         $scope.showErrorMessage = false;
         $scope.user = undefined;
+        $scope.showChangePasswordError = false;
         
         $scope.pointsByCategory = {
             Energy: {
@@ -147,6 +148,27 @@
             }
 
         };
+
+        $scope.changePasswordModal = function() {
+            $('#changePasswordModal').modal();
+        }
+
+        $scope.changePassword = function(oldPassword, newPassword, confirmNewPassword) {
+            if (newPassword === confirmNewPassword) {
+                $http.post('/client/index/reset', {username: $scope.user.username, oldPassword: oldPassword, newPassword: newPassword})
+                .success(function(data) {
+                    $('#changePasswordModal').modal('hide');
+                    alert("Password successfully changed!");
+                }).error(function(err) {
+                    console.log('ERR',err);
+                    $scope.showChangePasswordError = true;
+                    $scope.changePasswordError = err.err ? err.err : "Could not change password.";
+                })
+            } else {
+                $scope.showChangePasswordError = true;
+                $scope.changePasswordError = "Passwords do not match!";
+            }
+        }
         
         $scope.abbrev = function (input) {
             if (input.length < 12)

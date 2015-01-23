@@ -58,6 +58,9 @@
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <span ng-show="showLogInErrorMessage" class="error">{{logInErrorMessage}}</span>
+        <table>
+        <tr>
+            <td class="modal-form">
                 <h4>Sign Up</h4>
                 <table>
                     <tr>
@@ -83,8 +86,13 @@
                     </tr>
                 </table>
                 <button class="btn btn-default" style="background-color:#00b1ff" ng-click="signup(usernamesignup, passwordsignup, confirmpassword, city, state, zipcode, organization)">Sign Up</button>
-            </div>
-        </div>
+            </td>
+            <td class="modal-form">
+                <h4>Already have an account?</h4>
+                <a href="" ng-click="loginModal()" ng-show="!user">Log In</a>
+            </td>
+            </tr>
+        </table>
       </div>
     </div>
 
