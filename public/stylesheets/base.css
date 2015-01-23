@@ -221,6 +221,7 @@ a{
     height: 25em;
     background-color: azure;
     border: 1px solid black;
+    overflow: auto;
 }
 
 /*.summary span {
