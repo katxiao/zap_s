@@ -182,7 +182,7 @@
                 newScene.executeWhenReady(function () {
                     // Attach camera to canvas inputs
 
-                  newScene.activeCamera.attachControl(canvas);
+                  newScene.activeCamera.attachControl(canvas, false);
                     var camera = newScene.activeCamera;
                     // camera.position.z = 5;
 
@@ -200,6 +200,10 @@
                           item = meshName.substring(index+1);
                         }
                         if (room !== undefined && item!== undefined) {
+                            // $http.get('/api/standards/item?room=' + $routeParams.room + '&item=' + $routeParams.item).success(function(data) {
+                            //       console.log("getting item data");
+                            //       console.log(data);
+                            // });
                             window.location.href = '/gui/#/'+room+'/'+item;
                         }
                         console.log('cameraRotation: ' + camera.rotation);

@@ -96,7 +96,7 @@
                 //$window.location.href = '/#/';
                 alert("Selections been saved!")
             } else {
-                $scope.loginModal();
+                $scope.signUpModal();
             }
 
         }
@@ -188,6 +188,7 @@
         }
 
         $scope.loginModal = function () {
+            $('#signUpModal').modal('hide');
             $('#loginModal').modal();
         }
 
