@@ -63,16 +63,18 @@ router.post('/upload', function (req, res, next) {
                                 //console.log(standardData[3]);
                                 var optionsList = standardData[3].split(";;");
                                 var gpsList = standardData[4].split(";;");
+                                var legislationZips = standardData[10].split(";;");
+                                var rebateZips = standardData[12].split(";;");
                                 //var filtersList = standardData[6].split(";;");
                                 console.log(optionsList.length, gpsList.length);
-                                if (optionsList.length === gpsList.length) {
+                                if (optionsList.length > 0 || optionsList.length === gpsList.length) {
                                     var options = [];
                                     for (var index = 0; index < optionsList.length; index++) {
-                                        console.log(gpsList[index], Number(gpsList[index]));
+                                        //console.log(gpsList[index], Number(gpsList[index]));
                                         options.push({ text: optionsList[index], points: Number(gpsList[index]) });
                                     }
-                                        options.push({ text: optionsList[index], points: Number(gpsList[index]) });
-                                    var standard = new Standard({ category: standardData[0], item: standardData[7] || "Don't have yet.", question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[13],uploadId: uploadId });
+                                    //options.push({ text: optionsList[index], points: Number(gpsList[index]) });
+                                    var standard = new Standard({ category: standardData[0], item: standardData[7] || "Don't have yet.", question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[13], legislation: { message: standardData[9], zipCodes: legislationZips}, rebateincentives: {message: standardData[11], zipCodes: rebateZips}, solutions: standardData[14]});
                                     standard.save(function (err) { console.log("Success", err); });
                                 }
                             } else {

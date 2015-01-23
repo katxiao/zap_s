@@ -21,13 +21,21 @@
         $scope.previousPoints = 0;
         
         $scope.etcs = {
-            Legislation: {
+            legislation: {
                 header: 'Legislation',
-                open: true
+                open: false
             },
             ecofacts: {
                 header: 'EcoFacts',
-                open: true
+                open: false
+            },
+            rebateincentives: {
+                header: 'Rebates/Incentives', 
+                open: false
+            },
+            solutions: {
+                header: 'Product Solutions',
+                open: false
             }
         }
 
@@ -39,6 +47,7 @@
             }
             $http.get('/api/standards/' + $routeParams.category).success(function (data) {
                 $scope.standards = data;
+                console.log($scope.standards[0]['legislation'], $scope.standards[1]['legislation']);
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
                     if ($scope.user) {
@@ -192,7 +201,7 @@
                 if (userTempData[index].answered) {
                     //console.log(userTempData[index].option);
                     $scope.standards[index].option = $scope.standards[index].optionList[userTempData[index].option].points;
-                    $scope.standards[index].percentage = userTempData[index].percentage;
+                    $scope.standards[index].percentage = userTempData[index].percentage || 100;
                 }
             }
         }
@@ -229,6 +238,23 @@
             } else {
                 $scope.loginModal();
             }
+        }
+
+        $scope.forgotPasswordModal = function() {
+            $('#loginModal').modal('hide');
+            $('#forgotPasswordModal').modal();
+        }
+
+        $scope.resetPassword = function(email) {
+            $http.post("/client/index/email", {username: email})
+            .success(function(data) {
+                $scope.forgotPasswordEmail = '';
+                alert("Reset link sent to your email!");
+                $('#forgotPasswordModal').modal('hide');
+            }).error(function(err) {
+                $scope.forgotPasswordMessage = err.err ? err.err : "Unsuccessful."
+                $scope.showForgotPasswordMessage = true;
+            })
         }
         
         $scope.logout = function () {

@@ -13,6 +13,7 @@
         $scope.message = '';
         $scope.showErrorMessage = false;
         $scope.user = undefined;
+        $scope.showChangePasswordError = false;
         
         $scope.pointsByCategory = {
             Energy: {
@@ -28,6 +29,10 @@
                 question: []
             },
             Water: {
+                value: 0,
+                question: []
+            },
+            Food: {
                 value: 0,
                 question: []
             }
@@ -83,6 +88,23 @@
                 $window.location.href = "/#/";
             }
         });
+
+        $scope.forgotPasswordModal = function() {
+            $('#loginModal').modal('hide');
+            $('#forgotPasswordModal').modal();
+        }
+
+        $scope.resetPassword = function(email) {
+            $http.post("/client/index/email", {username: email})
+            .success(function(data) {
+                $scope.forgotPasswordEmail = '';
+                alert("Reset link sent to your email!");
+                $('#forgotPasswordModal').modal('hide');
+            }).error(function(err) {
+                $scope.forgotPasswordMessage = err.err ? err.err : "Unsuccessful."
+                $scope.showForgotPasswordMessage = true;
+            })
+        }
 
         $scope.logout = function() {
             $http.get("/logout").success(function (data) {
@@ -147,6 +169,30 @@
             }
 
         };
+
+        $scope.changePasswordModal = function() {
+            $('#changePasswordModal').modal();
+        }
+
+        $scope.changePassword = function(oldPassword, newPassword, confirmNewPassword) {
+            if (newPassword === confirmNewPassword) {
+                $http.post('/client/index/reset', {username: $scope.user.username, oldPassword: oldPassword, newPassword: newPassword})
+                .success(function(data) {
+                    $scope.oldPassword = '';
+                    $scope.newPassword = '';
+                    $scope.confirmNewPassword = '';
+                    $('#changePasswordModal').modal('hide');
+                    alert("Password successfully changed!");
+                }).error(function(err) {
+                    console.log('ERR',err);
+                    $scope.showChangePasswordError = true;
+                    $scope.changePasswordError = err.err ? err.err : "Could not change password.";
+                })
+            } else {
+                $scope.showChangePasswordError = true;
+                $scope.changePasswordError = "Passwords do not match!";
+            }
+        }
         
         $scope.abbrev = function (input) {
             if (input.length < 12)
