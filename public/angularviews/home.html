@@ -16,16 +16,19 @@
         </div>
         <table>
             <tr ng-repeat="standard in standardsByCategory[category]">
-                <td style="width:50%; font-size: 1.4em;">
+                <td style="width:40%; font-size: 1.4em;">
                     {{standard.question | reinsertCommas}}
                 </td>
-                <td style="font-size: 1.4em;" ng-repeat="option in standard.optionList">
-                    <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, $parent.$index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
+                <td style="width: 10%">
+
                 </td>
-                <td>
-                    <span class="pull-right">
+                <td>    
+                    <div class="col-md-4" style="font-size: 1.4em;" ng-repeat="option in standard.optionList">
+                        <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, $parent.$index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
+                    </div>
+                    <div class="pull-right col-md-4">
                         <input ng-model="standard.percentage" size="3" ng-change="computePercentScore(standard.category, standard.option, $index, standard.percentage, standard.previousPoints)" />%
-                    </span>
+                    </div>
                 </td>
             </tr>
         </table>

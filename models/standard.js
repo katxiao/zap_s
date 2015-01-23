@@ -8,10 +8,10 @@ var standardSchema = mongoose.Schema({
     question: { type: String, required: true },
     optionList: [{ text: { type: String }, points: { type: Number } }],
     room: { type: String },
-    ecofacts: { type: String, default: "None currently available" },
-    legislation: { type: String, default: "None currently available" },
-    rebateincentives: { type: String, default: "None currently available" },
-    solutions: { type: String, default: "None currently available" },
+    ecofacts: { message: { type: String, default: "None currently available" } },
+    legislation: { message: { type: String, default: "None currently available" }, zipCodes: [{ type: Number }] },
+    rebateincentives: { message: { type: String, default: "None currently available" }, zipCodes: [{ type: Number }] },
+    solutions: { message: { type: String, default: "None currently available" } },
     filters: [{ text: { type: String } }]
 });
 
