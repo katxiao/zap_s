@@ -97,13 +97,22 @@ router.post('/reset', function(req, res) {
     Client.findOne( {username : username}).exec(function(err, client) {
         if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
         if (!client) return utils.sendErrResponse(res, 500, 'User does not exist.');
-        console.log(oldPassword);
-        console.log(client.password);
         if (oldPassword !== client.password) return utils.sendErrResponse(res, 401, "Incorrect user information!");
         client.password = newPassword;
         client.save(function(err, c) {
             return utils.sendSuccessResponse(res, {});
         });
+    })
+})
+
+router.post('/email', function(req, res) {
+    var username = req.body.username;
+    Client.findOne({username: username}).exec(function(err, client) {
+        if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
+        if (!client) return utils.sendErrResponse(res, 500, "User with this email does not exist.");
+        var name = client.organization ? client.organization : '';
+        emailPasswordReset(name, username);
+        utils.sendSuccessResponse(res, {});
     })
 })
 

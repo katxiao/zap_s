@@ -13,6 +13,7 @@
         $scope.user = undefined;
         $scope.logInErrorMessage = '';
         $scope.showLogInErrorMessage = false;
+        $scope.showForgotPasswordMessage = false;
         
         $scope.pointsEarned = 0;
         
@@ -211,8 +212,16 @@
             $('#forgotPasswordModal').modal();
         }
 
-        $scope.forgotPassword = function(email) {
-            // TODO
+        $scope.resetPassword = function(email) {
+            $http.post("/client/index/email", {username: email})
+            .success(function(data) {
+                $scope.forgotPasswordEmail = '';
+                alert("Reset link sent to your email!");
+                $('#forgotPasswordModal').modal('hide');
+            }).error(function(err) {
+                $scope.forgotPasswordMessage = err.err ? err.err : "Unsuccessful."
+                $scope.showForgotPasswordMessage = true;
+            })
         }
 
         $scope.logout = function() {
@@ -322,14 +331,6 @@
                 return false;
             }
             return true;
-        }
-
-        var fromStringToHex = function(str) {
-            var hex = "";
-            for (var i = 0; i < str.length; i++) {
-                hex += str.charCodeAt(i).toString(16);
-            }
-            return hex;
         }
         // activate();
 
