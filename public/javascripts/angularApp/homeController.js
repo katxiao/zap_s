@@ -189,11 +189,20 @@
 
         $scope.loginModal = function () {
             $('#signUpModal').modal('hide');
+            $('#progressModal').modal('hide');
             $('#loginModal').modal();
         }
 
         $scope.signUpModal = function() {
+            $('#progressModal').modal('hide');
+            $('#loginModal').modal('hide');
             $('#signUpModal').modal();
+        }
+
+        $scope.progressModal = function() {
+            $('#loginModal').modal('hide');
+            $('#signUpModal').modal('hide');
+            $('#progressModal').modal();
         }
 
         $scope.logout = function() {

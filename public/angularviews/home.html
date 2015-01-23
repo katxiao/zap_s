@@ -30,5 +30,17 @@
             </tr>
         </table>
     </div>
-    <center <button class='btn btn-primary' ng-click="save()" style="width: 90%; position: fixed; bottom: 0px;">View Progress and Save</button> </center>
+    <center <button class='btn btn-primary' ng-click="progressModal()" style="width: 90%; position: fixed; bottom: 0px;">View Progress and Save</button> </center>
+
+    <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span ng-show="showProgressError" class="error">{{showProgressError}}</span>
+                <button class="btn btn-default " ng-click="save()">Save Progress</button>
+            </div>
+        </div>
+      </div>
+    </div>
 </section>
