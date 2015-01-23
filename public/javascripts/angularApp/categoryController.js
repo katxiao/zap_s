@@ -47,6 +47,7 @@
             }
             $http.get('/api/standards/' + $routeParams.category).success(function (data) {
                 $scope.standards = data;
+                console.log($scope.standards[0]['legislation'], $scope.standards[1]['legislation']);
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
                     if ($scope.user) {

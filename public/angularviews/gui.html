@@ -45,7 +45,7 @@
                 {{etcs[etc].header}}
             </h3>
             <div class="row etcbody roundBottom" ng-show="etcs[etc].open" style="font-size: 1.1em">
-                {{standards[index][etc] | reinsertCommas}}
+                {{standards[index][etc].message | reinsertCommas}}
             </div>
         </div>
         <div class="overlay" ng-show="showMessageModal">
