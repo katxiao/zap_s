@@ -18,8 +18,25 @@
 
         $scope.index = 0;
         $scope.previousPoints = 0;
-        
-        //console.log(userService.user());
+
+        $scope.etcs = {
+            legislation: {
+                header: 'Legislation',
+                open: false
+            },
+            ecofacts: {
+                header: 'EcoFacts',
+                open: false
+            },
+            rebateincentives: {
+                header: 'Rebates/Incentives', 
+                open: false
+            },
+            solutions: {
+                header: 'Product Solutions',
+                open: false
+            }
+        }
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
@@ -50,12 +67,64 @@
                         }
                     }
                 }
-                // userService.saveTemp(shorten($routeParams.category), $scope.standards);
-                // if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
-                //     //delete old questions from green points
-                // }
+                // TODO: do not do this
+                // Initalize ALL category bars on load
+                // For each answered question, add points to the appropriate category in userService
+                var category = $scope.standards.length > 0 ? $scope.standards[1].category : "Energy";
+                initializeBar(category);
+                userService.saveTemp(shorten(category), $scope.standards);
+                if (userService.isEmpty(category)) {
+                    userService.saveTemp(category, $scope.standards);
+                }    
+                else {
+                    loadStandards(category);
+                }
+                if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
+                    //delete old questions from green points
+                }
+                $('#DisposBar').parent().addClass('progress-category');
+                $('#EnergyBar').parent().addClass('progress-category');
+                $('#FoodBar').parent().addClass('progress-category');
+                $('#SustaiBar').parent().addClass('progress-category');
+                $('#PollutBar').parent().addClass('progress-category');
+                $('#WaterBar').parent().addClass('progress-category');
+                $('#WasteBar').parent().addClass('progress-category');
+                $('#' + shorten(category) + 'Bar').parent().removeClass('progress-category');
+                $('#' + shorten(category) + 'Bar').parent().addClass('progress-category-active');
+                $scope.etcKeys = Object.keys($scope.etcs);
             });
         });
+        var loadStandards = function (category) {
+            var userTempData = userService.getTemp(category);
+            for (var index in userTempData) {
+                //console.log(userTempData[index].option);
+                if (userTempData[index].answered) {
+                    //console.log(userTempData[index].option);
+                    $scope.standards[index].option = $scope.standards[index].optionList[userTempData[index].option].points;
+                    $scope.standards[index].percentage = userTempData[index].percentage || 100;
+                }
+            }
+        }
+
+        var initializeBar = function (category) {
+            console.log(category)
+            var bar = document.getElementById(shorten(category) + 'Bar');
+            $scope.minRequired = bar.getAttribute("aria-valuemax");
+            if ($scope.pointsEarned >= $scope.minRequired)
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+            else
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+            bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+            var barjQ = $('#' + shorten(category) + 'Bar');
+            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
+                barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + shorten(category) + 'BarAfter').html("");
+            } else {
+                barjQ.html("");
+                $('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
+            }
+        }
 
         $scope.computeMaxPossible = function (standards) {
             var max = 0;
@@ -72,9 +141,9 @@
             return max;
         }
 
-        $scope.computeScore = function(score)
+        $scope.computeScore = function(score, category)
         {
-            var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
+            var bar = document.getElementById(shorten(category) + 'Bar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
             console.log($scope.pointsEarned, $scope.minRequired);
@@ -82,19 +151,19 @@
             $scope.pointsEarned += Number(score);
             $scope.previousPoints = Number(score);
             if ($scope.pointsEarned >= $scope.minRequired)
-                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
-                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
             console.log($scope.pointsEarned, score);
             bar.setAttribute("aria-valuenow", $scope.pointsEarned);
-            var barjQ = $('#' + shorten($routeParams.category) + 'Bar');
+            var barjQ = $('#' + shorten(category) + 'Bar');
             barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
             if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
-                barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
-                $('#' + shorten($routeParams.category) + 'BarAfter').html("");
+                barjQ.html('<a href="/gui/#/' + category + '">' + category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + shorten(category) + 'BarAfter').html("");
             } else {
                 barjQ.html("");
-                $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
+                $('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
             }
         }
         
@@ -127,6 +196,23 @@
             }
         }
 
+
+        $scope.forgotPasswordModal = function() {
+            $('#loginModal').modal('hide');
+            $('#forgotPasswordModal').modal();
+        }
+
+        $scope.resetPassword = function(email) {
+            $http.post("/client/index/email", {username: email})
+            .success(function(data) {
+                $scope.forgotPasswordEmail = '';
+                alert("Reset link sent to your email!");
+                $('#forgotPasswordModal').modal('hide');
+            }).error(function(err) {
+                $scope.forgotPasswordMessage = err.err ? err.err : "Unsuccessful."
+                $scope.showForgotPasswordMessage = true;
+            })
+        }
         $scope.logout = function () {
             $http.get("/logout").success(function (data) {
                 $window.location.href = '/#/login'

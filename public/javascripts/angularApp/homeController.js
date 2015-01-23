@@ -13,6 +13,7 @@
         $scope.user = undefined;
         $scope.logInErrorMessage = '';
         $scope.showLogInErrorMessage = false;
+        $scope.showForgotPasswordMessage = false;
         
         $scope.pointsEarned = 0;
         
@@ -84,22 +85,6 @@
                 barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
         }
 
-        $scope.save = function() {
-            if ($scope.user) {
-                for (var i = 0; i < $scope.standards.length; i++) {
-                    if ($scope.standards[i].option) {
-                        $scope.standards[i].percentage = $scope.standards[i].percentage ? $scope.standards[i].percentage : 100;
-                        $http.put('/api/standards', {standardId : $scope.standards[i]._id, selectedOption : parseFloat($scope.standards[i].option), percentage : $scope.standards[i].percentage})
-                        .then(function(response){});
-                    }
-                }
-                //$window.location.href = '/#/';
-                alert("Selections been saved!")
-            } else {
-                $scope.signUpModal();
-            }
-
-        }
         
         $scope.computeScore = function (category, score, answerIndex, percent, previousPoints) {
             console.log(category, score, answerIndex, percent, previousPoints);
@@ -187,13 +172,56 @@
             $window.location.href = '/gui/#/';
         }
 
+        $scope.save = function() {
+            if ($scope.user) {
+                for (var i = 0; i < $scope.standards.length; i++) {
+                    if ($scope.standards[i].option) {
+                        $scope.standards[i].percentage = $scope.standards[i].percentage ? $scope.standards[i].percentage : 100;
+                        $http.put('/api/standards', {standardId : $scope.standards[i]._id, selectedOption : parseFloat($scope.standards[i].option), percentage : $scope.standards[i].percentage})
+                        .then(function(response){});
+                    }
+                }
+                //$window.location.href = '/#/';
+                alert("Selections been saved!")
+            } else {
+                $scope.signUpModal();
+            }
+
+        }
+
         $scope.loginModal = function () {
             $('#signUpModal').modal('hide');
+            $('#progressModal').modal('hide');
             $('#loginModal').modal();
         }
 
         $scope.signUpModal = function() {
+            $('#progressModal').modal('hide');
+            $('#loginModal').modal('hide');
             $('#signUpModal').modal();
+        }
+
+        $scope.progressModal = function() {
+            $('#loginModal').modal('hide');
+            $('#signUpModal').modal('hide');
+            $('#progressModal').modal();
+        }
+
+        $scope.forgotPasswordModal = function() {
+            $('#loginModal').modal('hide');
+            $('#forgotPasswordModal').modal();
+        }
+
+        $scope.resetPassword = function(email) {
+            $http.post("/client/index/email", {username: email})
+            .success(function(data) {
+                $scope.forgotPasswordEmail = '';
+                alert("Reset link sent to your email!");
+                $('#forgotPasswordModal').modal('hide');
+            }).error(function(err) {
+                $scope.forgotPasswordMessage = err.err ? err.err : "Unsuccessful."
+                $scope.showForgotPasswordMessage = true;
+            })
         }
 
         $scope.logout = function() {
@@ -244,7 +272,45 @@
                         $scope.state = "";
                         $scope.zipcode = "";
                         $('#signUpModal').modal('hide');
-                        $scope.login(username, password);
+                        //$scope.login(username, password);
+                        $http.post('/login', { username: username, password: password }).success(function (data) {
+                            $scope.user = data.content.user;
+                            $scope.greenPoints = $scope.user.GPs;
+                            $http.get('/api/standards/').success(function (data) {
+                                $scope.standards = data;
+                                for (var i = 0; i < $scope.standards.length; i++) {
+                                    var found = false;
+                                    $scope.standards[i].previousPoints = 0;
+                                    if ($scope.user) {
+                                        for (var j = 0; j < $scope.greenPoints.length; j++) {
+                                            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
+                                                found = true;
+                                                $scope.standards[i].option = $scope.greenPoints[j].option;
+                                                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
+                                                $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
+                                                break;
+                                            }
+                                        }
+                                        if (!found) {
+                                            $scope.standards[i].option = undefined;
+                                            $scope.standards[i].percentage = undefined;
+                                        }
+                                    }
+                                    if ($scope.standardsByCategory[$scope.standards[i].category]) {
+                                        $scope.standardsByCategory[$scope.standards[i].category].push($scope.standards[i]);
+                                    } else {
+                                        $scope.standardsByCategory[$scope.standards[i].category] = [$scope.standards[i]];
+                                        $scope.categoryKeys.push($scope.standards[i].category);
+                                    }
+                                }
+                            });
+                            $scope.save();
+                            $('#modal').modal('hide');
+                            $window.location.href = "/#/profile";
+                        }).error(function(err) {
+                            $scope.message = "Registration unsuccessful. Try again.";
+                            $scope.showLogInErrorMessage = true;
+                        });
                     }).error(function(err) {
                         $scope.message = "Registration unsuccessful. Try again.";
                         $scope.showLogInErrorMessage = true;
@@ -266,7 +332,6 @@
             }
             return true;
         }
-
         // activate();
 
         // function activate() { }

@@ -239,6 +239,23 @@
                 $scope.loginModal();
             }
         }
+
+        $scope.forgotPasswordModal = function() {
+            $('#loginModal').modal('hide');
+            $('#forgotPasswordModal').modal();
+        }
+
+        $scope.resetPassword = function(email) {
+            $http.post("/client/index/email", {username: email})
+            .success(function(data) {
+                $scope.forgotPasswordEmail = '';
+                alert("Reset link sent to your email!");
+                $('#forgotPasswordModal').modal('hide');
+            }).error(function(err) {
+                $scope.forgotPasswordMessage = err.err ? err.err : "Unsuccessful."
+                $scope.showForgotPasswordMessage = true;
+            })
+        }
         
         $scope.logout = function () {
             $http.get("/logout").success(function (data) {

@@ -89,6 +89,23 @@
             }
         });
 
+        $scope.forgotPasswordModal = function() {
+            $('#loginModal').modal('hide');
+            $('#forgotPasswordModal').modal();
+        }
+
+        $scope.resetPassword = function(email) {
+            $http.post("/client/index/email", {username: email})
+            .success(function(data) {
+                $scope.forgotPasswordEmail = '';
+                alert("Reset link sent to your email!");
+                $('#forgotPasswordModal').modal('hide');
+            }).error(function(err) {
+                $scope.forgotPasswordMessage = err.err ? err.err : "Unsuccessful."
+                $scope.showForgotPasswordMessage = true;
+            })
+        }
+
         $scope.logout = function() {
             $http.get("/logout").success(function (data) {
                 $window.location.href = '/#'
@@ -161,6 +178,9 @@
             if (newPassword === confirmNewPassword) {
                 $http.post('/client/index/reset', {username: $scope.user.username, oldPassword: oldPassword, newPassword: newPassword})
                 .success(function(data) {
+                    $scope.oldPassword = '';
+                    $scope.newPassword = '';
+                    $scope.confirmNewPassword = '';
                     $('#changePasswordModal').modal('hide');
                     alert("Password successfully changed!");
                 }).error(function(err) {
