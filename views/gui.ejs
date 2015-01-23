@@ -88,7 +88,7 @@
 
               <button id = "officeButton" type = "button" class = "btn btn-default button graphicsButton">Office</button>
 
-              <button id = "entranceButton" type = "button" class = "btn btn-default button graphicsButton">Entrance</button>
+              <button id = "entranceButton" type = "button" class = "btn btn-default button graphicsButton">Exterior</button>
 
               <!-- <button id = "testMovementButton" type = "button" class = "btn btn-default button graphicsButton">Test</button> -->
             </div>
@@ -220,13 +220,14 @@
             var canvas = document.getElementById("renderCanvas");
             var engine = new BABYLON.Engine(canvas, true);
 
-            BABYLON.SceneLoader.Load("", "../babylon/DemoRestaurantV2.babylon", engine, function (newScene) {
+            BABYLON.SceneLoader.Load("", "../babylon/TestRestaurant.babylon", engine, function (newScene) {
                 // Wait for textures and shaders to be ready
                 // console.log(newScene);
                 newScene.executeWhenReady(function () {
                     // Attach camera to canvas inputs
+                  // newScene.activeCamera = new BABYLON.TouchCamera("touchCamera", new BABYLON.Vector3(-7, 8, -42), newScene);
 
-                  newScene.activeCamera.attachControl(canvas, false);
+                  newScene.activeCamera.attachControl(canvas);
                     var camera = newScene.activeCamera;
                     // camera.position.z = 5;
 
@@ -250,6 +251,15 @@
                         console.log('cameraPosition: ' + camera.position);
                         // console.log('initialCameraInfo: '+ initialCameraRotation.z);
                       });
+                    
+                      var arrow_keys_handler = function(e) {
+                        switch(e.keyCode){
+                            case 37: case 39: case 38:  case 40: // Arrow keys
+                            e.preventDefault(); break; // Space
+                            default: break; // do not block other keys
+                          }
+                      };
+                      canvas.addEventListener("keydown", arrow_keys_handler, false);
 
                     var updatePosition = function(x,y,z){
                       camera.position.x = x;
@@ -268,7 +278,7 @@
                     }
 
                     $('#entranceButton').click(function(){
-                      updatePosition(-7, 7, -42);
+                      updatePosition(-7, 10, -62);
                       updateRotation(0, 0, 0);
                     })
 
