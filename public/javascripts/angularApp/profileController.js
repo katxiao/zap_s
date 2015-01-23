@@ -53,8 +53,7 @@
                         var selection = $scope.user.GPs[index];
                         console.log(index, selection);
                         if ($scope.pointsByCategory[standard.category].value != 0) {
-                            $scope.totalPoints += selection.option * selection.percentage / 100.0;
-                            $scope.pointsByCategory[standard.category].value += selection.option * selection.percentage / 100.0;
+                            //$scope.pointsByCategory[standard.category].value += selection.option * selection.percentage / 100.0;
                             $scope.pointsByCategory[standard.category].questions.push({
                                 question: standard.question,
                                 value: selection.option * selection.percentage / 100.0
@@ -70,6 +69,14 @@
                         }
                     }).then(function () {
                         $scope.categoryKeys = Object.keys($scope.pointsByCategory);
+                        $scope.totalPoints = 0;
+                        for (var key in $scope.pointsByCategory) {
+                            $scope.pointsByCategory[key].value = 0;
+                            for (var index in $scope.pointsByCategory[key].questions) {
+                                $scope.pointsByCategory[key].value += $scope.pointsByCategory[key].questions[index].value;
+                                $scope.totalPoints += $scope.pointsByCategory[key].questions[index].value;
+                            }
+                        }
                     });
                 });
             } else {

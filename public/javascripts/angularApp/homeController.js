@@ -106,7 +106,7 @@
             var bar = document.getElementById('TotalBar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
-            $scope.standardsByCategory[category][answerIndex].previousPoints = Number(score) * Number(percent || 100) / 100.0;
+            $scope.standardsByCategory[category][answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
             console.log(Number(score), (Number(percent || 100) / 100.0), Number(score) * (Number(percent || 100) / 100.0));
             $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Number(Number(100)/100.0) - Number(previousPoints);
             if ($scope.pointsEarned >= $scope.fourStar)
@@ -155,9 +155,9 @@
             var bar = document.getElementById('TotalBar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
-            $scope.standardsByCategory[category][answerIndex].previousPoints = Number(score) * Number(percent || 100) / 100.0;
-            $scope.previousPoints = Number(score) * Number(percent || 100) / 100.0;
-            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Number(percent || 100) / 100.0 - Number(previousPoints);
+            $scope.standardsByCategory[category][answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+            $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
             if ($scope.pointsEarned >= $scope.fourStar)
                 $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-success').addClass('progress-bar-info');
             else if ($scope.pointsEarned >= $scope.threeStar)
