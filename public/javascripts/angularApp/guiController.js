@@ -43,11 +43,6 @@
                         }
                     }
                 }
-                if (userService.isEmpty(shorten($routeParams.category))) {
-                    userService.saveTemp(shorten($routeParams.category), $scope.standards);
-                }    
-                else
-                    loadStandards();
             });
         });
         
