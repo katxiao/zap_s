@@ -66,8 +66,8 @@ router.post('/upload', function (req, res, next) {
                                 var legislationZips = standardData[10].split(";;");
                                 var rebateZips = standardData[12].split(";;");
                                 //var filtersList = standardData[6].split(";;");
-                                console.log(optionsList.length, gpsList.length);
-                                if (optionsList.length > 0 || optionsList.length === gpsList.length) {
+                                //console.log(optionsList.length, gpsList.length);
+                                if (optionsList.length > 0 && optionsList.length === gpsList.length) {
                                     var options = [];
                                     for (var index = 0; index < optionsList.length; index++) {
                                         //console.log(gpsList[index], Number(gpsList[index]));
