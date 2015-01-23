@@ -106,10 +106,9 @@
             var bar = document.getElementById('TotalBar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
-            $scope.standardsByCategory[category][answerIndex].previousPoints = Number(score);
+            $scope.standardsByCategory[category][answerIndex].previousPoints = Number(score) * Number(percent || 100) / 100.0;
             console.log(Number(score), (Number(percent || 100) / 100.0), Number(score) * (Number(percent || 100) / 100.0));
             $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Number(Number(100)/100.0) - Number(previousPoints);
-            $scope.previousPoints = Number(score);
             if ($scope.pointsEarned >= $scope.fourStar)
                 $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-success').addClass('progress-bar-info');
             else if ($scope.pointsEarned >= $scope.threeStar)
@@ -151,12 +150,14 @@
             //}
         }
         
-        $scope.computePercentScore = function (score, percent) {
+        $scope.computePercentScore = function (category, score, answerIndex, percent, previousPoints) {
+            console.log(category, score, answerIndex, percent, previousPoints);
             var bar = document.getElementById('TotalBar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
-            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Number(percent || 100) / 100.0 - Number($scope.previousPoints);
+            $scope.standardsByCategory[category][answerIndex].previousPoints = Number(score) * Number(percent || 100) / 100.0;
             $scope.previousPoints = Number(score) * Number(percent || 100) / 100.0;
+            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Number(percent || 100) / 100.0 - Number(previousPoints);
             if ($scope.pointsEarned >= $scope.fourStar)
                 $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-success').addClass('progress-bar-info');
             else if ($scope.pointsEarned >= $scope.threeStar)
@@ -165,17 +166,17 @@
                 $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-info').addClass('progress-bar-success');
             else
                 $('#TotalBar').removeClass('progress-bar-success').addClass('progress-bar-danger');
-            console.log($scope.pointsEarned, score);
             bar.setAttribute("aria-valuenow", $scope.pointsEarned);
             var barjQ = $('#TotalBar');
-            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
-            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
-                barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
-                $('#' + shorten($routeParams.category) + 'BarAfter').html("");
-            } else {
-                barjQ.html("");
-                $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
-            }
+            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
+            if ($scope.pointsEarned >= $scope.fourStar)
+                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star**');
+            else if ($scope.pointsEarned >= $scope.threeStar)
+                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star**');
+            else if ($scope.pointsEarned >= $scope.twoStar)
+                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star**');
+            else
+                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
         }
         
         var shorten = function (s) {

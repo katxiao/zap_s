@@ -50,23 +50,30 @@ router.post('/upload', function (req, res, next) {
                 fs.readFile(req.files.myFile.path, 'utf8', function (err, data) {
                     data = data.trim();
                     var lines = data.split("\n");
-                    //console.log("Line: ", lines.splice(0, 1));
+                    console.log("Line: ", lines.splice(0, 1));
                     Standard.find({category: lines[0].split(",")[0]}).exec(function (err, existingStandards) {
                         var latestMatched = 0;
                         var uploadId = Math.round(Math.random() * 10000);
                         for (var i in lines) {
+                            //console.log(lines[i]);
                             var standardData = lines[i].split(",");
                             var existence = alreadyExists(existingStandards, standardData[2], latestMatched);
+                            //console.log(existence);
                             if (standardData[0].trim() != "" && !existence.found) {
+                                //console.log(standardData[3]);
                                 var optionsList = standardData[3].split(";;");
                                 var gpsList = standardData[4].split(";;");
                                 //var filtersList = standardData[6].split(";;");
+                                console.log(optionsList.length, gpsList.length);
                                 if (optionsList.length === gpsList.length) {
                                     var options = [];
-                                    for (var index = 0; index < optionsList.length; index++)
+                                    for (var index = 0; index < optionsList.length; index++) {
+                                        console.log(gpsList[index], Number(gpsList[index]));
+                                        options.push({ text: optionsList[index], points: Number(gpsList[index]) });
+                                    }
                                         options.push({ text: optionsList[index], points: Number(gpsList[index]) });
                                     var standard = new Standard({ category: standardData[0], item: standardData[7] || "Don't have yet.", question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[13],uploadId: uploadId });
-                                    standard.save();
+                                    standard.save(function (err) { console.log("Success", err); });
                                 }
                             } else {
                                 latestMatched = existence.latestMatched;
@@ -87,7 +94,7 @@ var alreadyExists = function (existingStandards, question, latestMatched) {
     for (var index = latestMatched; index < existingStandards.length; ++index) {
         if(existingStandards[index].question === question)
         {
-            console.log(index);
+            //console.log(index);
             existingStandards[index].matched = true;
             var latest = (index === latestMatched) ? latestMatched + 1 : latestMatched;
             return { found: true, latestMatched: latest };
@@ -97,7 +104,7 @@ var alreadyExists = function (existingStandards, question, latestMatched) {
 };
 
 var removeOldStandards = function (existingStandards, latestMatched) {
-    console.log(latestMatched);
+    //console.log(latestMatched);
     for (var index = latestMatched; index < existingStandards.length; ++index) {
         if (!existingStandards[index].matched)
             Standard.findByIdAndRemove(existingStandards[index]._id);
