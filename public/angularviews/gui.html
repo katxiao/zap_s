@@ -22,9 +22,9 @@
                         <br />
                         <div style = "float:right">
                             <label class="questionLabel" ng-repeat="option in standards[index].optionList">
-                                <input type="radio" ng-model="standards[index].option" value="{{option.points}}" ng-change="computeScore(option.points, $index, standards[index].percentage)" />{{option.text}}
+                                <input type="radio" ng-model="standards[index].option" value="{{option.points}}" ng-change="computeScore(option.points, $index, standards[index].percentage)" />{{option.text  | reinsertCommas}}
                             </label>
-                            <input ng-model="standards[index].percentage" size="3" />%
+                            <input type="number" ng-model="standards[index].percentage" ng-change="computePercentScore(standards[index].option, standards[index].percentage)" size="3" />%
                             <div class="scrollBar"></div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                 <span class="sr-only">40% Complete (success)</span>
             </div>
             </div>-->
-        <center>
+        <center
             <button class='btn btn-primary' ng-click="save()" style = "width: 100%">Save My Progress!</button>
         </center>
         <!-- Bottom accordion drop down-->

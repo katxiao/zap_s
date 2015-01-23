@@ -14,7 +14,33 @@
         $scope.showErrorMessage = false;
         $scope.user = undefined;
         
-        $scope.pointsByCategory = {};
+        $scope.pointsByCategory = {
+            Energy: {
+                value: 0,
+                question: []
+            }, 
+            Disposables: {
+                value: 0,
+                question: []
+            },
+            Waste: {
+                value: 0,
+                question: []
+            },
+            Water: {
+                value: 0,
+                question: []
+            }
+        };
+        $scope.pointsByCategory["Sustainable Furnishings & Building Materials"] = {
+            value: 0,
+            question: []
+        };
+        $scope.pointsByCategory["Pollution & Chemical Reduction"] = {
+            value: 0,
+            question: []
+        };
+        $scope.totalPoints = 0;
 
         $http.get("/current_auth/").then(function(response) {
             var data = response.data;
@@ -22,12 +48,12 @@
                 $scope.user = data.content.user;
                 $scope.admin = $scope.user.admin;
                 
-                for (var index in $scope.user.GPs) {
-                    $http.get('/api/standards/individual/' + $scope.user.GPs[index].question).success(function (standard) {
-                        console.log(standard);
+                $scope.user.GPs.forEach(function (selection, index) {
+                    $http.get('/api/standards/individual/' + selection.question).success(function (standard) {
                         var selection = $scope.user.GPs[index];
-                        if ($scope.pointsByCategory[standard.category]) {
-                            $scope.pointsByCategory[standard.category].value += selection.option * selection.percentage / 100.0;
+                        console.log(index, selection);
+                        if ($scope.pointsByCategory[standard.category].value != 0) {
+                            //$scope.pointsByCategory[standard.category].value += selection.option * selection.percentage / 100.0;
                             $scope.pointsByCategory[standard.category].questions.push({
                                 question: standard.question,
                                 value: selection.option * selection.percentage / 100.0
@@ -36,15 +62,23 @@
                             $scope.pointsByCategory[standard.category] = {
                                 value: selection.option * selection.percentage / 100.0,
                                 questions: [{
-                                    question: standard.question,
-                                    value: selection.option * selection.percentage / 100.0
-                                }]
+                                        question: standard.question,
+                                        value: selection.option * selection.percentage / 100.0
+                                    }]
                             };
                         }
                     }).then(function () {
                         $scope.categoryKeys = Object.keys($scope.pointsByCategory);
+                        $scope.totalPoints = 0;
+                        for (var key in $scope.pointsByCategory) {
+                            $scope.pointsByCategory[key].value = 0;
+                            for (var index in $scope.pointsByCategory[key].questions) {
+                                $scope.pointsByCategory[key].value += $scope.pointsByCategory[key].questions[index].value;
+                                $scope.totalPoints += $scope.pointsByCategory[key].questions[index].value;
+                            }
+                        }
                     });
-                }
+                });
             } else {
                 $window.location.href = "/#/";
             }
@@ -114,6 +148,13 @@
 
         };
         
+        $scope.abbrev = function (input) {
+            if (input.length < 12)
+                return input;
+            else
+                return input.substring(0, 9) + "...";
+        }
+
         var validateForm = function (username) {
             var x = username;
             var atpos = x.indexOf("@");
