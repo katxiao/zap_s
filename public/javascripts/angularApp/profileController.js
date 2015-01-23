@@ -30,6 +30,10 @@
             Water: {
                 value: 0,
                 question: []
+            },
+            Food: {
+                value: 0,
+                question: []
             }
         };
         $scope.pointsByCategory["Sustainable Furnishings & Building Materials"] = {
