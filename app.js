@@ -93,9 +93,20 @@ db.once("open", function () {
 });
 
 // Try inserting admin into db
-Client.registerAdmin(function(err, u) {
-        if (err) return utils.sendErrResponse(res, 500, "Error saving new user.");
+Client.findOne({username:'admin'}).exec(function(err, client) {
+    if (err) {
+        console.log("error inserting admin into db");
+        return;
+    } else {
+        if (!client) {
+            Client.registerAdmin(function(err, u) {
+                if (err) return utils.sendErrResponse(res, 500, "Error saving new user.");
+                }
+            )
+        }
     }
-)
+
+});
+
 
 module.exports = app;
