@@ -86,7 +86,9 @@ a {
 .count {
     font-size: 1.9em;
 }
-
+#chooseSectionMobile{
+  display:none;
+}
 .questionDiv {
     font-size: 1.5em;
 }
