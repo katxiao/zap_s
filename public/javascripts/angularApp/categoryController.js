@@ -20,7 +20,6 @@
         $scope.index = 0;
         $scope.previousPoints = 0;
         
-        
         $scope.etcs = {
             Legislation: {
                 header: 'Legislation',
@@ -34,9 +33,10 @@
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
-            //$scope.admin = $scope.user.admin;
-            if ($scope.user) 
+            if ($scope.user) {
+                $scope.admin = $scope.user.admin;
                 $scope.greenPoints = $scope.user.GPs;
+            }
             $http.get('/api/standards/' + $routeParams.category).success(function (data) {
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {
@@ -48,7 +48,8 @@
                                 $scope.standards[i].option = $scope.greenPoints[j].option;
                                 $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
                                 $scope.greenPoints[j].matched = true;
-                                $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage /100.0;
+                                $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
+                                $scope.previousPoints = $scope.greenPoints[0].option * $scope.greenPoints[0].percentage / 100.0;
                                 break;
                             }
                         }
@@ -61,8 +62,9 @@
 
                 }
                 initializeBar();
-                if (userService.isEmpty(shorten($routeParams.category))) {
-                    userService.saveTemp(shorten($routeParams.category), $scope.standards);
+                console.log(userService.isEmpty(shorten($routeParams.category)));
+                if (userService.isEmpty($routeParams.category)) {
+                    userService.saveTemp($routeParams.category, $scope.standards);
                 }    
                 else
                     loadStandards();
@@ -124,28 +126,61 @@
             var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
-            userService.saveTempItem($routeParams.category, 
-                                    { question: $scope.standards[$scope.index]._id, option: answerIndex, percentage: percent || 100, answered: true },
-                                    $scope.index);
-            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) - Number($scope.previousPoints);
-            $scope.previousPoints = Number(score);
-            if ($scope.pointsEarned >= $scope.minRequired)
-                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
-            else
-                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
-            console.log($scope.pointsEarned, score);
-            bar.setAttribute("aria-valuenow", $scope.pointsEarned);
-            var barjQ = $('#' + shorten($routeParams.category) + 'Bar');
-            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
-            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
-                barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
-                $('#' + shorten($routeParams.category) + 'BarAfter').html("");
-            } else {
-                barjQ.html("");
-                $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
+            console.log(shorten($routeParams.category));
+            if (String(Number(percent || 100)) !== "NaN") {
+                userService.saveTempItem($routeParams.category, 
+                                        { question: $scope.standards[$scope.index]._id, option: answerIndex, percentage: Math.min(percent || 100, 100), answered: true },
+                                        $scope.index);
+                $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number($scope.previousPoints);
+                $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+                if ($scope.pointsEarned >= $scope.minRequired)
+                    $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+                else
+                    $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+                bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+                var barjQ = $('#' + shorten($routeParams.category) + 'Bar');
+                barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+                if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
+                    barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                    $('#' + shorten($routeParams.category) + 'BarAfter').html("");
+                } else {
+                    barjQ.html("");
+                    $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
+                }
             }
         }
         
+        $scope.computePercentScore = function (score, percent) {
+            var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
+            $scope.pointsEarned = bar.getAttribute("aria-valuenow");
+            $scope.minRequired = bar.getAttribute("aria-valuemax");
+            if (String(Number(percent || 100)) !== "NaN") {
+                var answerIndex = userService.getTempOption($routeParams.category, 
+                                        $scope.index);
+                userService.saveTempItem($routeParams.category, 
+                                        { question: $scope.standards[$scope.index]._id, option: answerIndex, percentage: Math.min(percent || 100, 100), answered: true },
+                                        $scope.index);
+                console.log(Number(score) * Number(percent || 100) / 100.0, percent || 100);
+                $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number($scope.previousPoints);
+                $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+                if ($scope.pointsEarned >= $scope.minRequired)
+                    $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+                else
+                    $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+                console.log($scope.pointsEarned, score);
+                bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+                var barjQ = $('#' + shorten($routeParams.category) + 'Bar');
+                barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+                if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
+                    barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+                    $('#' + shorten($routeParams.category) + 'BarAfter').html("");
+                } else {
+                    barjQ.html("");
+                    $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
+                }
+            }
+        }
+
         var shorten = function (s) {
             return s.substring(0, Math.min(s.length, 6));
         }
@@ -166,14 +201,16 @@
             if($scope.index > 0)
             {
                 $scope.index -= 1;
-                $scope.previousPoints = $scope.standards[$scope.index].option || 0;
+                $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;
             }
         }
 
         $scope.moveRight = function () {
+            console.log($scope.standards[$scope.index]);
             if ($scope.index < ($scope.standards.length - 1)) {
                 $scope.index += 1;
-                $scope.previousPoints = $scope.standards[$scope.index].option || 0;
+                console.log($scope.standards[$scope.index].option, $scope.standards[$scope.index].option || 0);
+                $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;;
             }
         }
         

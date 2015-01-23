@@ -220,7 +220,12 @@ a{
     border-radius: 1em;
     height: 25em;
     background-color: azure;
+    border: 1px solid black;
 }
+
+/*.summary span {
+    height: 2em;
+}*/
 
 /* Modal */
 .modal-form {

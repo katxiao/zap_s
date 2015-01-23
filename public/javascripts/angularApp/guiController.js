@@ -9,7 +9,7 @@
     guiController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams', 'userService'];
 
     function guiController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams, userService) {
-        $scope.modalInit = 'in';
+        $scope.modalInit = 'hide';
         
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
@@ -43,11 +43,6 @@
                         }
                     }
                 }
-                if (userService.isEmpty(shorten($routeParams.category))) {
-                    userService.saveTemp(shorten($routeParams.category), $scope.standards);
-                }    
-                else
-                    loadStandards();
             });
         });
         

@@ -29,6 +29,10 @@
         }
     });
     
+    var shorten = function (s) {
+        return s.substring(0, Math.min(s.length, 6));
+    }
+
     app.service('userService', function () {
         var userData = {
             Dispos: [],
@@ -43,22 +47,30 @@
             return userData;
         };
         
-        this.saveTemp = function (field, data) {
+        this.saveTemp = function (fullfield, data) {
+            var shortfield = shorten(fullfield);
             for (var index in data) {
-                userData[field].push({ question: data[index]._id, option: 0, percentage: 0, answered: false});
+                userData[shortfield].push({ question: data[index]._id, option: 0, percentage: 0, answered: false});
             }
         }; 
         
-        this.saveTempItem = function (field, item, index){
-            userData[field][index] = item;
+        this.saveTempItem = function (fullfield, item, index){
+            var shortfield = shorten(fullfield);
+            userData[shortfield][index] = item;
         }
 
-        this.getTemp = function (field) {
-            return userData[field];
+        this.getTemp = function (fullfield) {
+            var shortfield = shorten(fullfield);
+            return userData[shortfield];
+        };
+        this.getTempOption = function (fullfield, index) {
+            var shortfield = shorten(fullfield);
+            return userData[shortfield][index];
         };
 
-        this.isEmpty = function (field) {
-            return userData[field].length === 0;
+        this.isEmpty = function (fullfield) {
+            var shortfield = shorten(fullfield);
+            return userData[shortfield].length === 0;
         }
     });
 
