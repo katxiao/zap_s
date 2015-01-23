@@ -181,9 +181,7 @@
                     }
                 }
                 //$window.location.href = '/#/';
-                //alert("Selections been saved!")
-                $scope.showProgressModalError = true;
-                $scope.progressModalError = 'Selections have been saved!';
+                alert("Selections been saved!")
             } else {
                 $scope.signUpModal();
             }
