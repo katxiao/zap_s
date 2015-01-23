@@ -45,7 +45,27 @@
                         <td class="modal-form">Password </td> <td><input type="password" ng-model="passwordlogin" placeholder="Password" required/></td>
                     </tr>
                 </table>
-                <button class="btn btn-default " style="background-color:#00b1ff" ng-click="login(usernamelogin, passwordlogin)">Login</button>
+                <button class="btn btn-default " style="background-color:#00b1ff" ng-click="login(usernamelogin, passwordlogin)">Log In</button>
+                <a href='' ng-click='forgotPasswordModal()' style='font-size: small;'>Forgot Password?</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span ng-show="showForgotPasswordError" class="error">{{forgotPasswordError}}</span>
+                <h4>Forgot Password?</h4>
+                <table>
+                    <tr>
+                        <td class="modal-form">Registered Email </td> <td><input type="text" ng-model="forgotPasswordEmail" placeholder="Email" required /></td>
+                    </tr>
+                </table>
+                <button class="btn btn-default " style="background-color:#00b1ff" ng-click="resetPassword(forgotPasswordEmail)">Reset Password</button>
             </div>
         </div>
       </div>

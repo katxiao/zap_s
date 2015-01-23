@@ -161,6 +161,9 @@
             if (newPassword === confirmNewPassword) {
                 $http.post('/client/index/reset', {username: $scope.user.username, oldPassword: oldPassword, newPassword: newPassword})
                 .success(function(data) {
+                    $scope.oldPassword = '';
+                    $scope.newPassword = '';
+                    $scope.confirmNewPassword = '';
                     $('#changePasswordModal').modal('hide');
                     alert("Password successfully changed!");
                 }).error(function(err) {
