@@ -29,6 +29,7 @@ router.get('/:id', function(req, res) {
     })
 });
 
+/* PUT to change admin status of a user (only accessible by admins) */
 router.put('/', function(req, res) {
     var admin = Boolean(req.body.admin);
     var id = req.body.clientId;
