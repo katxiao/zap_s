@@ -14,6 +14,7 @@
         $scope.logInErrorMessage = '';
         $scope.showLogInErrorMessage = false;
         $scope.showForgotPasswordMessage = false;
+        $scope.showProgressError = false;
         
         $scope.pointsEarned = 0;
         
@@ -188,7 +189,9 @@
                     }
                 }
                 //$window.location.href = '/#/';
-                alert("Selections been saved!")
+                //alert("Selections been saved!")
+                $scope.showProgressError = true;
+                $scope.progressError = "Selections have been saved.";
             } else {
                 $scope.signUpModal();
             }
