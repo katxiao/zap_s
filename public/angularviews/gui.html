@@ -7,7 +7,7 @@
             <div class="row roundTop" style="border: solid 1px black;">
                 <div class="container-fluid round">
                     <div class="row roundTop" style="background-color:lightgrey;">
-                        <a href="/gui/#/{{standards[index].category}}" class="count">{{standards[index].category}}</a>
+                        <a href="/gui/#/{{standards[index].category}}" class="count">{{standards[index].category}}</a> ({{carefulMultiply(standards[index].option, standards[index].percentage)}} points)
                         <div class = "btn-group pull-right">
                             <button id = "prevNext" type = "button" class = "btn btn-default" ng-click="moveLeft()"><span>Prev</span></button>
                           

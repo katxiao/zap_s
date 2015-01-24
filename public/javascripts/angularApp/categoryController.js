@@ -71,13 +71,14 @@
                     }
 
                 }
-                initializeBar();
                 console.log(userService.isEmpty(shorten($routeParams.category)));
                 if (userService.isEmpty($routeParams.category)) {
                     userService.saveTemp($routeParams.category, $scope.standards);
+                    console.log(userService.getTemp($routeParams.category));
                 }    
                 else
                     loadStandards();
+                initializeBar();
                 if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
                     //delete old questions from green points
                 }
@@ -88,6 +89,7 @@
                 $('#PollutBar').parent().addClass('progress-category');
                 $('#WaterBar').parent().addClass('progress-category');
                 $('#WasteBar').parent().addClass('progress-category');
+                console.log($('#' + shorten($routeParams.category) + 'Bar').parent());
                 $('#' + shorten($routeParams.category) + 'Bar').parent().removeClass('progress-category');
                 $('#' + shorten($routeParams.category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
@@ -195,6 +197,13 @@
             return s.substring(0, Math.min(s.length, 6));
         }
         
+        $scope.carefulMultiply = function (score, percent) {
+            console.log(score, percent);
+            if (!score)
+                return 0;
+            return Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+        }
+        
         var loadStandards = function () {
             var userTempData = userService.getTemp($routeParams.category);
             for (var index in userTempData) {
@@ -203,8 +212,10 @@
                     //console.log(userTempData[index].option);
                     $scope.standards[index].option = $scope.standards[index].optionList[userTempData[index].option].points;
                     $scope.standards[index].percentage = userTempData[index].percentage || 100;
+                    $scope.pointsEarned += $scope.carefulMultiply($scope.standards[index].option, $scope.standards[index].percentage);
                 }
             }
+            $scope.previousPoints = $scope.carefulMultiply($scope.standards[0].option, $scope.standards[0].percentage);
         }
 
         $scope.moveLeft = function () {

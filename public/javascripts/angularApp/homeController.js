@@ -169,7 +169,6 @@
         }
         
         $scope.carefulMultiply = function (score, percent) {
-            console.log(score, percent);
             if (!score)
                 return 0;
             return Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
