@@ -93,7 +93,7 @@
             $scope.minRequired = bar.getAttribute("aria-valuemax");
             $scope.standardsByCategory[category][answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
             console.log(Number(score), (Number(percent || 100) / 100.0), Number(score) * (Number(percent || 100) / 100.0));
-            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Number(Number(100)/100.0) - Number(previousPoints);
+            $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
             if ($scope.pointsEarned >= $scope.fourStar)
                 $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-success').addClass('progress-bar-info');
             else if ($scope.pointsEarned >= $scope.threeStar)
@@ -114,25 +114,25 @@
             else
                 barjQ.html($scope.pointsEarned + '/' + $scope.twoStar);
 
-            //var catbar = document.getElementById(category + 'Bar');
-            //var catPE = catbar.getAttribute("aria-valuenow");
-            //var minRequired = catbar.getAttribute("aria-valuemax");
-            //catPE = Number(catPE) + Number(score) - Number(previousPoints);
-            //$scope.previousPoints = Number(score);
-            //if (catPE >= minRequired)
-            //    $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
-            //else
-            //    $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
-            //catbar.setAttribute("aria-valuenow", catPE);
-            //var catbarjQ = $('#' + shorten(category) + 'Bar');
-            //catbarjQ.width(Math.min(catPE * 100.0 / minRequired, 100) + "%");
-            //if (catPE * 100.0 / minRequired > 50) {
-            //    catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');
-            //    //$('#' + shorten(category) + 'BarAfter').html("");
-            //} else {
-            //    catbarjQ.html("");
-            //    //$('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
-            //}
+            var catbar = document.getElementById(category + 'Bar');
+            var catPE = catbar.getAttribute("aria-valuenow");
+            var minRequired = catbar.getAttribute("aria-valuemax");
+            catPE = Number(catPE) + Number(score) - Number(previousPoints);
+            $scope.previousPoints = Number(score);
+            if (catPE >= minRequired)
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+            else
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+            catbar.setAttribute("aria-valuenow", catPE);
+            var catbarjQ = $('#' + shorten(category) + 'Bar');
+            catbarjQ.width(Math.min(catPE * 100.0 / minRequired, 100) + "%");
+            if (catPE * 100.0 / minRequired > 50) {
+                catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');
+                //$('#' + shorten(category) + 'BarAfter').html("");
+            } else {
+                catbarjQ.html("");
+                //$('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
+            }
         }
         
         $scope.computePercentScore = function (category, score, answerIndex, percent, previousPoints) {
@@ -166,6 +166,13 @@
         
         var shorten = function (s) {
             return s.substring(0, Math.min(s.length, 6));
+        }
+        
+        $scope.carefulMultiply = function (score, percent) {
+            console.log(score, percent);
+            if (!score)
+                return 0;
+            return Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
         }
 
         $scope.goToGUI = function() {
