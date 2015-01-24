@@ -10,6 +10,7 @@
 
     function categoryController($scope, $http, $cookies, $window, $location, $routeParams, userService) {
         $scope.modalInit = 'hide';
+        $scope.interactive = true;
 
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
@@ -23,19 +24,19 @@
         $scope.etcs = {
             legislation: {
                 header: 'Legislation',
-                open: false
+                open: true
             },
             ecofacts: {
                 header: 'EcoFacts',
-                open: false
+                open: true
             },
             rebateincentives: {
                 header: 'Rebates/Incentives', 
-                open: false
+                open: true
             },
             solutions: {
                 header: 'Product Solutions',
-                open: false
+                open: true
             }
         }
 

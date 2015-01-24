@@ -106,13 +106,13 @@
             var barjQ = $('#TotalBar');
             barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
             if ($scope.pointsEarned >= $scope.fourStar)
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star**');
+                barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' **4-Star**');//'Total (' + 
             else if ($scope.pointsEarned >= $scope.threeStar)
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star**');
+                barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' **3-Star**');
             else if ($scope.pointsEarned >= $scope.twoStar)
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star**');
+                barjQ.html($scope.pointsEarned + '/' + $scope.threeStar + ' **2-Star**');
             else
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
+                barjQ.html($scope.pointsEarned + '/' + $scope.twoStar);
 
             //var catbar = document.getElementById(category + 'Bar');
             //var catPE = catbar.getAttribute("aria-valuenow");
