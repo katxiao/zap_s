@@ -88,7 +88,9 @@
 
               <button id = "officeButton" type = "button" class = "btn btn-default button graphicsButton">Office</button>
 
-              <button id = "entranceButton" type = "button" class = "btn btn-default button graphicsButton">Exterior</button>
+              <button id = "exteriorButton" type = "button" class = "btn btn-default button graphicsButton">Exterior</button>
+
+              <button id = "entranceButton" type = "button" class = "btn btn-default button graphicsButton">Entrance</button>
 
               <!-- <button id = "testMovementButton" type = "button" class = "btn btn-default button graphicsButton">Test</button> -->
             </div>
@@ -238,32 +240,36 @@
                     }
 
                     $('#entranceButton').click(function(){
-                      updatePosition(-7, 10, -62);
+                      updatePosition(-7, 10, -60);
                       updateRotation(0, 0, 0);
+                    })
+                    $('#exteriorButton').click(function(){
+                      updatePosition(-6, 26, -99)
+                      updateRotation (0.4, 0, 0);
                     })
 
                     $('#diningRoomButton').click(function() {
-                      updatePosition(-4, 8, 10);
+                      updatePosition(-4, 8, 21);
                       updateRotation(0, 6*Math.PI/5, 0);
                     });
                     $('#restroomButton').click(function() {
-                      updatePosition(-8, 8, 28);
+                      updatePosition(-8, 8, 39);
                       updateRotation(0,7*Math.PI/5 , 0);
                     });
                     $('#kitchenButton').click(function(){
-                      updatePosition(0, 8, -15);
+                      updatePosition(0, 8, -4);
                       updateRotation(0, 3*Math.PI/5, 0)
                     });
                     $('#officeButton').click(function(){
-                      updatePosition(5, 8, -10);
-                      updateRotation(0, Math.PI/4, 0);
+                      updatePosition(5, 8, 1);
+                      updateRotation(0.16, .56, 0);
                     });
                     $('#utilityButton').click(function(){
-                      updatePosition(4, 8, 18);
-                      updateRotation(0, Math.PI/8, 0)
+                      updatePosition(4, 8, 28);
+                      updateRotation(.25, .38, 0)
                     });
                     $('#storageButton').click(function(){
-                      updatePosition(27, 8, 18);
+                      updatePosition(27, 8, 28);
                       updateRotation(0, -Math.PI/8, 0);
                     });
 
