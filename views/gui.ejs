@@ -173,11 +173,11 @@
 	<script src="/javascripts/angularApp/guiController.js"></script>
 	<script src="/javascripts/angularApp/categoryController.js"></script>
 	<script src="/javascripts/angularApp/itemController.js"></script>
-	<script>
+	<!--<script>
         if (BABYLON.Engine.isSupported()) {
             var canvas = document.getElementById("renderCanvas");
             var engine = new BABYLON.Engine(canvas, true);
-
+            myScene = new BABYLON.Scene(engine);
             BABYLON.SceneLoader.Load("", "../babylon/TestRestaurant.babylon", engine, function (newScene) {
                 // Wait for textures and shaders to be ready
                 // console.log(newScene);
@@ -186,7 +186,17 @@
                   // newScene.activeCamera = new BABYLON.TouchCamera("touchCamera", new BABYLON.Vector3(-7, 8, -42), newScene);
 
                   newScene.activeCamera.attachControl(canvas);
-                    var camera = newScene.activeCamera;
+                  myScene = newScene;
+
+                  var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, newScene);
+                  var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", newScene);
+                  skyboxMaterial.backFaceCulling = false;
+                  skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../babylon/cubemap/cubemap", newScene);
+                  skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+                  skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+                  skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+                  skybox.material = skyboxMaterial;
+              var camera = newScene.activeCamera;
                     // camera.position.z = 5;
 
                     canvas.addEventListener("click", function(){
@@ -451,7 +461,55 @@
                 });
             });
           }
-    </script>
+    </script> -->
+        <script>
+      var canvas = document.getElementById("renderCanvas");
+      var engine = new BABYLON.Engine(canvas, true);
+      var scene = new BABYLON.Scene(engine);
+      var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI * 1.2, (Math.PI/2)*.8,20, new BABYLON.Vector3(-5, 10, -5), scene);
+      var light0 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(-10, 10, -10), scene);
+      scene.activeCamera.attachControl(canvas);
+                                  var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, scene);
+                        var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+                        skyboxMaterial.backFaceCulling = false;
+                        skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../babylon/sky16/sky16", scene);
+                        skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+                        skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+                        skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+                        skybox.material = skyboxMaterial;
+      var click = 0;
+      var stovePic = new Image();
+      window.addEventListener("click", function(){
+        var stoveDiv = document.getElementById('stovePic');
+        var pickResult = scene.pick(scene.pointerX, scene.pointerY);
+        
+        if (pickResult.pickedMesh.name === "Box"){
+          stovePic.src = pickResult.pickedMesh.id;
+          if(!(click % 2) || (click === 0)){
+            stoveDiv.appendChild(stovePic);
+          }
+          else{
+            
+            stoveDiv.removeChild(stovePic);
+          }
+          click += 1;
+        }
+      });
+
+
+      var box = BABYLON.Mesh.CreateBox("Box", 3, scene);
+      box.position.y = 1.5;
+
+      box.id = "http://www.appliancist.com/ge-range-jb850.jpg";
+      
+      engine.runRenderLoop(function() {
+        scene.render();
+      });
+
+      window.addEventListener("resize", function(){
+        engine.resize();
+      })
+      </script>
 
   </body>
 </html>
