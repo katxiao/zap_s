@@ -12,7 +12,27 @@
         'stringFormat',
         // 3rd Party Modules
         'ui.bootstrap'
-    ]);
+    ]).filter('tags', function () {
+        return function (input, filterObj) {
+            return $.grep(input, function (item) {
+                var valid = false;
+                if (filterObj && item.filters) {
+                    if (filterObj.easy) {
+                        valid = item.filters.indexOf("Easy") >= 0;
+                    }
+                    if (filterObj.lowcost && !valid) {
+                        valid = item.filters.indexOf("Low Cost") >= 0;
+                    }
+                    if (filterObj.visible && !valid) {
+                        valid = item.filters.indexOf("Visible") >= 0;
+                    }
+                } else {
+                    return true;
+                }
+                return valid;
+            });
+        }
+    });;
 
     angular.module('numbers', []).filter('maxHundred', function () {
         return function (input) {

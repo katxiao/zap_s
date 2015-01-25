@@ -10,9 +10,9 @@
     </div>
     <center>
         <ul id="filters">
-            <li><input type="checkbox" ng-model="easy" />Easy</li>
-            <li><input type="checkbox" ng-model="lowcost" />Low Cost</li>
-            <li><input type="checkbox" ng-model="visible" />Visible</li>
+            <li><input type="checkbox" ng-model="obj.easy" />Easy</li>
+            <li><input type="checkbox" ng-model="obj.lowcost" />Low Cost</li>
+            <li><input type="checkbox" ng-model="obj.visible" />Visible</li>
         </ul>
     </center>
     <div ng-repeat="category in categoryKeys">
@@ -22,15 +22,15 @@
         <div class="progress">
             <div class="progress-bar progress-bar-danger" id="{{category}}Bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10"></div>
         </div>
-        <table>
-            <tr ng-repeat="standard in standardsByCategory[category]" style="border: 1px black solid;">
+        <table class="table table-striped">
+            <tr ng-repeat="standard in standardsByCategory[category] | tags:obj" style="border: 1px black solid;">
                 <td style="width:40%; font-size: 1.4em;">
                     {{$index + 1}}. {{standard.question | reinsertCommas}}
                 </td>
                 <td style="width: 10%">
                     <center>{{carefulMultiply(standard.option, standard.percentage)}} points</center>
                 </td>
-                <td>    
+                <td>   
                     <div class="col-md-4" style="font-size: 1.4em;" ng-repeat="option in standard.optionList">
                         <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, $parent.$index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
                     </div>

@@ -22,8 +22,8 @@
     <link href="/stylesheets/base.css" rel="stylesheet">
   </head>
   <body ng-app="guiApp">
-	<!-- <div data-ng-include data-src="'/angularviews/navbar.html'"></div> -->
-    <!-- <div data-ng-include data-src="'/angularviews/login.html'"></div> -->
+<!-- 	<div data-ng-include data-src="'/angularviews/navbar.html'"></div> -->
+<!--     <div data-ng-include data-src="'/angularviews/login.html'"></div> -->
 	<div class="container-fluid">
 
     <div id="buttonCarousel" class="owl-carousel sliderButtons"  aria-label = "...">
@@ -74,6 +74,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="#" data-toggle="modal" data-target="#tutorialModal">View Tutorial</a></li>
+				  <li><a href="#" data-toggle="modal" data-target="#filterModal">Filter Questions</a></li>
                 </ul>
             </div>
 							<button id = "diningRoomButton" type = "button" class = "btn btn-default button graphicsButton">Dining Room</button>
@@ -424,10 +425,14 @@
 						}
 						else {
 							map.setVisited(currentX, currentY);
-							search(currentX + 1, currentY, endX, endY);
-							search(currentX, currentY + 1, endX, endY);
-							search(currentX - 1, currentY, endX, endY);
-							search(currentX, currentY - 1, endX, endY);
+							if(currentX > endX)
+								search(currentX + 1, currentY, endX, endY);
+							if(currentY > endY)
+								search(currentX, currentY + 1, endX, endY);
+							if(currentX < endX)
+								search(currentX - 1, currentY, endX, endY);
+							if(currentY < endY)
+								search(currentX, currentY - 1, endX, endY);
 						}
 					}
 

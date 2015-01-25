@@ -13,6 +13,7 @@ var routes = require('./routes/index');
 var standards = require('./routes/api/standards');
 var clients = require('./routes/client/index');
 var Client = require("./models/client").Client;
+var Standard = require("./models/standard").Standard;
 
 var app = express();
 
@@ -101,6 +102,9 @@ db.once("open", function () {
                     }
                 }
 
+            });
+            Standard.remove({category: "Food"}, function (err) {
+                console.log('collection removed')
             });
      //     }
      // });

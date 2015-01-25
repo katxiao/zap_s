@@ -55,7 +55,7 @@
         <div class="text-center" style="z-index: 4;">Total</div>
         </div>
     </div>
-    <!--Login Modal -->
+    
     <div class="modal fade {{modalInit}}" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -63,6 +63,19 @@
                     <span>Would you like to take the AROUND THE WORLD Tour?</span><button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()"><span aria-hidden="true">&times;</span></button>
                     <span ng-show="showLogInErrorMessage" class="error">{{message}}</span><br />
                     <button class="btn btn-default" style="background-color:#00b1ff; margin-right: 0;" ng-click="modalPageIncrement()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade hide" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <ul id="filters">
+                        <li><input type="checkbox" ng-model="obj.easy" />Easy</li>
+                        <li><input type="checkbox" ng-model="obj.lowcost" />Low Cost</li>
+                        <li><input type="checkbox" ng-model="obj.visible" />Visible</li>
+                    </ul>
                 </div>
             </div>
         </div>

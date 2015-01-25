@@ -76,7 +76,7 @@ router.post('/upload', function (req, res, next) {
                                         }
                                         //options.push({ text: optionsList[index], points: Number(gpsList[index]) });
                                         var standard = new Standard({ category: standardData[0], item: standardData[7] || "Don't have yet.", question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[13], legislation: { message: standardData[9], zipCodes: legislationZips }, rebateincentives: { message: standardData[11], zipCodes: rebateZips }, solutions: standardData[14], filters: filters });
-                                        standard.save(function (err) { console.log("Success", err); });
+                                        standard.save(function (err) { });
                                     }
                                 }
                             } else {
