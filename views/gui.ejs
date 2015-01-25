@@ -14,7 +14,7 @@
 	<link rel = "stylesheet" href = "../owl-carousel/owl.carousel.css">
 	<link rel = "stylesheet" href = "../owl-carousel/owl.theme.css">
 	<script src = "../owl-carousel/owl.carousel.js"></script>
-  <!-- <script src="/DemoRestaurant.js"></script> -->
+  <script src="/DemoRestaurant.js"></script>
 
     <script src = "../babylon.js"></script>
 
@@ -178,26 +178,15 @@
         if (BABYLON.Engine.isSupported()) {
             var canvas = document.getElementById("renderCanvas");
             var engine = new BABYLON.Engine(canvas, true);
-            myScene = new BABYLON.Scene(engine);
             BABYLON.SceneLoader.Load("", "../babylon/TestRestaurant.babylon", engine, function (newScene) {
                 // Wait for textures and shaders to be ready
                 // console.log(newScene);
                 newScene.executeWhenReady(function () {
                     // Attach camera to canvas inputs
                   // newScene.activeCamera = new BABYLON.TouchCamera("touchCamera", new BABYLON.Vector3(-7, 8, -42), newScene);
+                  var camera = newScene.activeCamera;
 
                   newScene.activeCamera.attachControl(canvas);
-                  myScene = newScene;
-
-                  var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, newScene);
-                  var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", newScene);
-                  skyboxMaterial.backFaceCulling = false;
-                  skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../babylon/cubemap/cubemap", newScene);
-                  skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-                  skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-                  skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-                  skybox.material = skyboxMaterial;
-              var camera = newScene.activeCamera;
                     // camera.position.z = 5;
 
                     canvas.addEventListener("click", function(){
@@ -225,14 +214,6 @@
                         // console.log('initialCameraInfo: '+ initialCameraRotation.z);
                       });
                     
-                      var arrow_keys_handler = function(e) {
-                        switch(e.keyCode){
-                            case 37: case 39: case 38:  case 40: // Arrow keys
-                            e.preventDefault(); break; // Space
-                            default: break; // do not block other keys
-                          }
-                      };
-                      canvas.addEventListener("keydown", arrow_keys_handler, false);
 
                     var updatePosition = function(x,y,z){
                       camera.position.x = x;
@@ -271,10 +252,10 @@
                       updatePosition(0, 8, -4);
                       updateRotation(0, 3*Math.PI/5, 0)
                     });
-                    $('#officeButton').click(function(){
-                      updatePosition(5, 8, 1);
-                      updateRotation(0.16, .56, 0);
-                    });
+                    // $('#officeButton').click(function(){
+                    //   updatePosition(5, 8, 1);
+                    //   updateRotation(0.16, .56, 0);
+                    // });
                     $('#utilityButton').click(function(){
                       updatePosition(4, 8, 28);
                       updateRotation(.25, .38, 0)
@@ -283,98 +264,6 @@
                       updatePosition(27, 8, 28);
                       updateRotation(0, -Math.PI/8, 0);
                     });
-
-                    var distance;
-                    var direction;
-                    var degree;
-                    var rotationDirection;  
-                    var navigate = function(path){
-                      for(var i = 0; i < path.length; i++){
-                        var start = path[i][0];
-                        var destination = path[i][1];
-                        var driveSpeed = path[i][2];
-                        var rotationSpeed = path[i][3];
-                        var initialRotation = path[i][4];
-                        var camera = path[i][5];
-                        if (start.x === destination.x){
-                          distance = Math.abs(destination.y - start.y);
-                          if (destination.y > start.y){
-                            direction = {x:0, y:1};
-                          }
-                          else{
-                            direction = {x:0, y:-1};
-                          }
-                        }
-
-
-                        else if (start.y === destination.y){
-                          distance = Math.abs(destination.x - start.x);
-                          if (destination.x > start.x){
-                            direction = {x:1, y:0};
-                          }
-                          else{
-                            direction = {x:-1, y:0};
-                          }
-                        }
-                        else{
-                          console.log("Points for navigation are not orthogonal");
-                        }
-
-                        degree = Math.atan2((destination.y-start.y), (destination.x - start.x)) - initialRotation;
-                        console.log(degree);
-                        if (degree >= 0){
-                          rotationDirection = 1;
-                        }
-                        else{
-                          rotationDirection = -1;
-                        }
-                        console.log(rotationDirection);
-                        if (driveSpeed === 0 && rotationSpeed != 0){
-                          rotateToGoal(degree, rotationSpeed, camera)
-                        }
-
-                        if (rotationSpeed === 0 && driveSpeed != 0){
-                          moveToGoal(distance, driveSpeed, direction, camera)
-                        }
-                      }
-                    }
-                    var currentRotation = 0;
-                    var currentDistance = 0;
-                    var moveInterval = -1;
-                    var moveToGoal = function(distance, speed, direction, camera){
-                      moveInterval = setInterval(function(){move(distance, camera, direction);}, 1000/speed);
-                    }
-
-                    var move = function(distance, camera, direction){
-                      camera.position.x += 0.1*direction.x;
-                      camera.position.z += 0.1*direction.y;
-                      currentDistance += (direction.y + direction.x)*0.1;
-                      console.log("currentDistance: ", currentDistance);
-                      console.log("distance: ", distance);
-                      if (Math.abs(currentDistance) >= distance){
-                        console.log("here!");
-                        clearInterval(moveInterval);
-                        // currentDistance = 0;
-                        moveInterval = -1;
-                      }
-
-                    }
-
-                    var rotateToGoal = function(degree, speed, camera){
-                      rotateInterval = setInterval(function(){rotate(degree, camera);}, 1000/speed);
-                    }
-
-                    var rotate = function(degree, camera){
-                      camera.rotation.y += 0.01*rotationDirection;
-                      currentRotation += 0.01*rotationDirection;
-                      console.log(currentRotation);
-                      if (Math.abs(currentRotation) >= degree){
-                        clearInterval(rotateInterval);
-                        rotateInterval =-1;
-                        currentRotation = 0;
-                        
-                      }
-                    }
 
 					var entrance = {x: -7, y: 7, z: 42};
 
@@ -435,27 +324,19 @@
 								search(currentX, currentY - 1, endX, endY);
 						}
 					}
-
-                    $('#testMovementButton').click(function(){
-                      navigate([[{x:-7, y:-42}, {x:-7, y:-30}, 50, 0, Math.PI/2, camera],
-                              [{x:-7, y:-30}, {x:-5, y:-30}, 50, 0, Math.PI/2, camera]
-                        ]);
-                      // navigate({x:-7, y:-30}, {x:-5, y:-30}, 50, 0, Math.PI/2, camera);
-                      // navigateHere([[-7, -42, -5, -42, 50, 0, Math.PI/2, camera],
-                      //             [-7, -30, -5, -30, 50, 0, Math.PI/2, camera]
-                      // ]);
-          
+          var count1 = 0;
+                    $('#officeButton').click(function(){
+                      count1+=1;
+                      if (count1 % 2){
+                      navigate([[{x:-7, y:-42}, {x:-7, y:-30}, 50, 0], [{x:-7, y:-30}, {x:-5, y:-30}, 0, 10],
+                               [{x:-7, y:-30}, {x:-5, y:-30}, 50, 0],[{x:-5, y:-30},{x:-5, y:-37}, 0, 10],
+                               [{x:-5, y:-30},{x:-5, y:-37}, 50, 0], [{x:-5, y:-37}, {x:-8, y:-37}, 0, 10],
+                               [{x:-5, y:-37}, {x:-8, y:-37}, 50, 0]], Math.PI/2, camera);
+                    }
+                    else{
+                      clearInterval(moveInterval);
+                    }
                     });
-
-
-                    var navigateHere = function(c){
-                      for(var i = 0; i < c.length; i++){
-                        navigate({x:c[i][0], y:c[i][1]}, {x:c[i][2], y:c[i][3]}, c[i][4], c[i][5], c[i][6], c[i][7]);
-                      }
-                    } 
-
-                    // bfs(testStart, testEnd, DemoRestaurant);
-                    
                     // Once the scene is loaded, just register a render loop to render it
                     engine.runRenderLoop(function() {
                         newScene.render();
