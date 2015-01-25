@@ -10,7 +10,8 @@
 
     function guiController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams, userService) {
         $scope.modalInit = 'hide';
-        
+        $scope.interactive = true;
+
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
 
