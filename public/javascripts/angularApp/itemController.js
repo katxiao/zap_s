@@ -71,7 +71,8 @@
                 // Initalize ALL category bars on load
                 // For each answered question, add points to the appropriate category in userService
                 var category = $scope.standards.length > 0 ? $scope.standards[1].category : "Energy";
-                initializeBar(category);
+                //initializeBar(category);
+                initializeAllBars();
                 userService.saveTemp(shorten(category), $scope.standards);
                 if (userService.isEmpty(category)) {
                     userService.saveTemp(category, $scope.standards);
@@ -123,6 +124,15 @@
             } else {
                 barjQ.html("");
                 $('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
+            }
+        }
+
+         var initializeAllBars = function() {
+            var userData = userService.user();
+            console.log('user data', userData);
+            for (var key in userData) {
+                console.log('initializing', key);
+                initializeBar(key);
             }
         }
 
