@@ -40,7 +40,6 @@
                         if (!found) {
                             $scope.standards[i].option = undefined;
                             $scope.standards[i].percentage = undefined;
-                            ++countNotFound;
                         }
                     }
                 }
