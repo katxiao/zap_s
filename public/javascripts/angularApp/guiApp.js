@@ -34,6 +34,17 @@
     }
 
     app.service('userService', function () {
+        
+        var idToIndexMap = {
+            Dispos: {},
+            Energy: {},
+            Food: {},
+            Sustai: {},
+            Pollut: {},
+            Water: {},
+            Waste: {}
+        };
+
         var userData = {
             Dispos: [],
             Energy: [],
@@ -41,7 +52,8 @@
             Sustai: [],
             Pollut: [],
             Water: [],
-            Waste: [],};
+            Waste: []
+        };
 
         var catNames = ['Disposables', 'Energy', 'Food', 'Sustainable Furnishings & Building Materials', 'Pollution & Chemical Reduction', 'Waste', 'Water'];
         
