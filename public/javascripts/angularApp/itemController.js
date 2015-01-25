@@ -44,6 +44,7 @@
             if ($scope.user) {
                 $scope.admin = $scope.user.admin;
                 $scope.greenPoints = $scope.user.GPs;
+                initializeAllBars();
             }
             $http.get('/api/standards/' + $routeParams.room + '/' + $routeParams.item).success(function (data) {
                 console.log('DATA', data);
@@ -71,19 +72,19 @@
                 // TODO: do not do this
                 // Initalize ALL category bars on load
                 // For each answered question, add points to the appropriate category in userService
-                var category = $scope.standards.length > 0 ? $scope.standards[1].category : "Energy";
-                //initializeBar(category);
-                initializeAllBars();
-                userService.saveTemp(shorten(category), $scope.standards);
-                if (userService.isEmpty(category)) {
-                    userService.saveTemp(category, $scope.standards);
-                }    
-                else {
-                    loadStandards(category);
-                }
-                if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
-                    //delete old questions from green points
-                }
+
+                // var category = $scope.standards.length > 0 ? $scope.standards[1].category : "Energy";
+                // initializeBar();
+                // userService.saveTemp(shorten(category), $scope.standards);
+                // if (userService.isEmpty(category)) {
+                //     userService.saveTemp(category, $scope.standards);
+                // }    
+                // else {
+                //     loadStandards(category);
+                // }
+                // if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
+                //     //delete old questions from green points
+                // }
                 $('#DisposBar').parent().addClass('progress-category');
                 $('#EnergyBar').parent().addClass('progress-category');
                 $('#FoodBar').parent().addClass('progress-category');
@@ -91,49 +92,68 @@
                 $('#PollutBar').parent().addClass('progress-category');
                 $('#WaterBar').parent().addClass('progress-category');
                 $('#WasteBar').parent().addClass('progress-category');
-                $('#' + shorten(category) + 'Bar').parent().removeClass('progress-category');
-                $('#' + shorten(category) + 'Bar').parent().addClass('progress-category-active');
+                //$('#' + shorten(category) + 'Bar').parent().removeClass('progress-category');
+                //$('#' + shorten(category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
             });
         });
-        var loadStandards = function (category) {
-            var userTempData = userService.getTemp(category);
-            for (var index in userTempData) {
-                //console.log(userTempData[index].option);
-                if (userTempData[index].answered) {
-                    //console.log(userTempData[index].option);
-                    $scope.standards[index].option = $scope.standards[index].optionList[userTempData[index].option].points;
-                    $scope.standards[index].percentage = userTempData[index].percentage || 100;
-                }
+    
+        var initializeAllBars = function() {
+            var catNames = userService.getCatNames();
+            for (var i = 0; i < catNames.length; i++) {
+                var tempCategory = catNames[i];
+                console.log('initializing', catNames[i], tempCategory);
+                $http.get('/api/standards/' + tempCategory).success(function (data) {
+                    var catStandards = data;
+                    var catPointsEarned = 0;
+                    for (var i = 0; i < catStandards.length; i++) {
+                        if ($scope.user) {
+                            for (var j = 0; j < $scope.greenPoints.length; j++) {
+                                if (catStandards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
+                                    catPointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (catStandards.length > 0) {
+                        console.log('category', catStandards[0].category);
+                        initializeBar(catStandards[0].category, catPointsEarned);
+                    }
+                });
             }
         }
 
-        var initializeBar = function (category) {
-            console.log(category)
+
+        // var loadStandards = function (category) {
+        //     var userTempData = userService.getTemp(category);
+        //     for (var index in userTempData) {
+        //         //console.log(userTempData[index].option);
+        //         if (userTempData[index].answered) {
+        //             //console.log(userTempData[index].option);
+        //             $scope.standards[index].option = $scope.standards[index].optionList[userTempData[index].option].points;
+        //             $scope.standards[index].percentage = userTempData[index].percentage || 100;
+        //         }
+        //     }
+        // }
+
+        var initializeBar = function (category, pointsEarned) {
+            console.log('initalizing bar',category)
             var bar = document.getElementById(shorten(category) + 'Bar');
             $scope.minRequired = bar.getAttribute("aria-valuemax");
-            if ($scope.pointsEarned >= $scope.minRequired)
+            if (pointsEarned >= $scope.minRequired)
                 $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
                 $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
-            bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+            bar.setAttribute("aria-valuenow", pointsEarned);
             var barjQ = $('#' + shorten(category) + 'Bar');
-            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
-            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
-                barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+            barjQ.width(Math.min(pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            if (pointsEarned * 100.0 / $scope.minRequired > 50) {
+                barjQ.html('<a href="/gui/#/' + category + '">' + category + ' (' + pointsEarned + '/' + $scope.minRequired + ')</a>');
                 $('#' + shorten(category) + 'BarAfter').html("");
             } else {
                 barjQ.html("");
                 $('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
-            }
-        }
-
-         var initializeAllBars = function() {
-            var userData = userService.user();
-            console.log('user data', userData);
-            for (var key in userData) {
-                console.log('initializing', key);
-                initializeBar(key);
             }
         }
 

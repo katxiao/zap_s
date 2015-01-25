@@ -114,7 +114,7 @@
                 $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
             }
         }
-        
+     
         $scope.loginModal = function () {
             $('#loginModal').modal()
         }
