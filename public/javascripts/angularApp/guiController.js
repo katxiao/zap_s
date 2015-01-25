@@ -22,27 +22,27 @@
             $scope.user = data.content.user;
             $scope.admin = $scope.user ? $scope.user.admin : undefined;
             if ($scope.user) $scope.greenPoints = $scope.user.GPs;
-            $http.get('/api/standards/').success(function (data) {
-                $scope.standards = data;
-                for (var i = 0; i < $scope.standards.length; i++) {
-                    var found = false;
-                    if ($scope.user) {
-                        for (var j = 0; j < $scope.greenPoints.length; j++) {
-                            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
-                                found = true;
-                                $scope.standards[i].option = $scope.greenPoints[j].option;
-                                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
-                                $scope.greenPoints[j].matched = true;
-                                $scope.computeScore($scope.standards[i].option, $scope.standards[i].category);
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            $scope.standards[i].option = undefined;
-                            $scope.standards[i].percentage = undefined;
-                        }
-                    }
-                }
+            //$http.get('/api/standards/').success(function (data) {
+            //    $scope.standards = data;
+            //    for (var i = 0; i < $scope.standards.length; i++) {
+            //        var found = false;
+            //        if ($scope.user) {
+            //            for (var j = 0; j < $scope.greenPoints.length; j++) {
+            //                if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
+            //                    found = true;
+            //                    $scope.standards[i].option = $scope.greenPoints[j].option;
+            //                    $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
+            //                    $scope.greenPoints[j].matched = true;
+            //                    $scope.computeScore($scope.standards[i].option, $scope.standards[i].category);
+            //                    break;
+            //                }
+            //            }
+            //            if (!found) {
+            //                $scope.standards[i].option = undefined;
+            //                $scope.standards[i].percentage = undefined;
+            //            }
+            //        }
+            //    }
             });
         });
         

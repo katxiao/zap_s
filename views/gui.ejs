@@ -415,10 +415,14 @@
 						}
 						else {
 							map.setVisited(currentX, currentY);
-							search(currentX + 1, currentY, endX, endY);
-							search(currentX, currentY + 1, endX, endY);
-							search(currentX - 1, currentY, endX, endY);
-							search(currentX, currentY - 1, endX, endY);
+							if(currentX > endX)
+								search(currentX + 1, currentY, endX, endY);
+							if(currentY > endY)
+								search(currentX, currentY + 1, endX, endY);
+							if(currentX < endX)
+								search(currentX - 1, currentY, endX, endY);
+							if(currentY < endY)
+								search(currentX, currentY - 1, endX, endY);
 						}
 					}
 

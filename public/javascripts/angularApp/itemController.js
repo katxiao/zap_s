@@ -125,17 +125,12 @@
         }
 
 
-        // var loadStandards = function (category) {
-        //     var userTempData = userService.getTemp(category);
-        //     for (var index in userTempData) {
-        //         //console.log(userTempData[index].option);
-        //         if (userTempData[index].answered) {
-        //             //console.log(userTempData[index].option);
-        //             $scope.standards[index].option = $scope.standards[index].optionList[userTempData[index].option].points;
-        //             $scope.standards[index].percentage = userTempData[index].percentage || 100;
-        //         }
-        //     }
-        // }
+        $scope.carefulMultiply = function (score, percent) {
+            console.log(score, percent);
+            if (!score)
+                return 0;
+            return Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+        }
 
         var initializeBar = function (category, pointsEarned) {
             console.log('initalizing bar',category)
@@ -220,9 +215,20 @@
         $scope.log = function () { console.log('time');}
 
         $scope.etcs = {
-            Legislation: {
+            legislation: {
                 header: 'Legislation',
-                content: 'Laws and stuff',
+                open: true
+            },
+            ecofacts: {
+                header: 'EcoFacts',
+                open: true
+            },
+            rebateincentives: {
+                header: 'Rebates/Incentives', 
+                open: true
+            },
+            solutions: {
+                header: 'Product Solutions',
                 open: true
             }
         }
