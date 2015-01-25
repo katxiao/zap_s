@@ -12,7 +12,7 @@ var standardSchema = mongoose.Schema({
     legislation: { message: { type: String, default: "None currently available" }, zipCodes: [{ type: Number }] },
     rebateincentives: { message: { type: String, default: "None currently available" }, zipCodes: [{ type: Number }] },
     solutions: { message: { type: String, default: "None currently available" } },
-    filters: [{ text: { type: String } }]
+    filters: [{ type: String }]
 });
 
 // statics

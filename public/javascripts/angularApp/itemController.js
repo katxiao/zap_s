@@ -9,6 +9,7 @@
 
     function itemController($scope, $http, $cookies, $window, $location, $routeParams, userService) {
         //$scope.modalInit = 'hide';
+        $scope.interactive = true;
 
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
