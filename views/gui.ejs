@@ -65,6 +65,7 @@
       <div id="centerColumn">
 				<div class="row">
 					<div id="graphicsDiv" class = "btn-group" role = "group" aria-label = "...">
+            <!-- <button id = "mode" type = "button" class = "btn btn-default button graphicsButton">Static Mode</button> -->
             <div id = "buttons" class = "btn-group-vertical" role = "group" aria-label="...">
               <div id = "settings" class="btn-group" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle button graphicsButton" data-toggle="dropdown" aria-expanded="false">
@@ -324,18 +325,21 @@
 								search(currentX, currentY - 1, endX, endY);
 						}
 					}
-          var count1 = 0;
+
+          bfs(testStart, testEnd, DemoRestaurant);
                     $('#officeButton').click(function(){
-                      count1+=1;
-                      if (count1 % 2){
-                      navigate([[{x:-7, y:-42}, {x:-7, y:-30}, 50, 0], [{x:-7, y:-30}, {x:-5, y:-30}, 0, 10],
-                               [{x:-7, y:-30}, {x:-5, y:-30}, 50, 0],[{x:-5, y:-30},{x:-5, y:-37}, 0, 10],
-                               [{x:-5, y:-30},{x:-5, y:-37}, 50, 0], [{x:-5, y:-37}, {x:-8, y:-37}, 0, 10],
-                               [{x:-5, y:-37}, {x:-8, y:-37}, 50, 0]], Math.PI/2, camera);
-                    }
-                    else{
-                      clearInterval(moveInterval);
-                    }
+                      //         Go for forward                             Rotate
+                      navigate([
+                                [{x:-7, y:-42}, {x:-7, y:-30}, 100, 0], [{x:-7, y:-30}, {x:-5, y:-30}, 0, 10],
+                                [{x:-7, y:-30}, {x:-5, y:-30}, 100, 0], [{x:-5, y:-30}, {x:-5, y:-37}, 0, 10],
+                                [{x:-5, y:-30}, {x:-5, y:-37}, 100, 0], [{x:-5, y:-37}, {x:-8, y:-37}, 0, 10],
+                                [{x:-5, y:-37}, {x:-8, y:-37}, 100, 0], [{x:-8, y:-37}, {x:-8, y:-42}, 0, 10],
+
+                                [{x:-8, y:-42}, {x:-8, y:-30}, 100, 0], [{x:-8, y:-30}, {x:-15,y:-30}, 0, 10],
+                                [{x:-8, y:-30}, {x:-15,y:-30}, 100, 0], [{x:-15,y:-30}, {x:-15,y:-42}, 0, 10],
+                                [{x:-15,y:-30}, {x:-15,y:-42}, 100, 0], [{x:-15,y:-42}, {x:-8, y:-42}, 0, 10],
+                                [{x:-15,y:-42}, {x:-8, y:-42}, 100, 0], [{x:-8, y:-42}, {x:-8, y:-30}, 0, 10]
+                                ], Math.PI/2, camera);
                     });
                     // Once the scene is loaded, just register a render loop to render it
                     engine.runRenderLoop(function() {
