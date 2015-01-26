@@ -56,6 +56,20 @@ router.get('/:room/:item', function (req, res) {
     });
 });
 
+router.get('/filters/all', function (req, res) {
+    var filters = [];
+    if (req.query.easy === true)
+        filters.push("Easy");
+    if (req.query.lowcost === true)
+        filters.push("Low Cost");
+    if (req.query.visible === true)
+        filters.push("Visible");
+    Standard.find({}).where('filters').in(filters).exec(function (err, standards) {
+        if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
+        utils.sendSuccessResponse(res, { standards: standards });
+    });
+});
+
 router.put('/', utils.restrict, function (req, res) {
 	var standardId = req.body.standardId;
 	var selectedOption = req.body.selectedOption;

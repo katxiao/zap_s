@@ -60,7 +60,7 @@
                 $scope.user.GPs.forEach(function (selection, index) {
                     $http.get('/api/standards/individual/' + selection.question).success(function (standard) {
                         var selection = $scope.user.GPs[index];
-                        console.log(index, selection);
+                        //console.log(index, selection);
                         if ($scope.pointsByCategory[standard.category].value != 0) {
                             //$scope.pointsByCategory[standard.category].value += selection.option * selection.percentage / 100.0;
                             $scope.pointsByCategory[standard.category].questions.push({
@@ -86,7 +86,7 @@
                                 $scope.totalPoints += $scope.pointsByCategory[key].questions[index].value;
                             }
                         }
-                        if (eachMeetMinRequirement()) {
+                        if (allMeetMinRequirement()) {
                             if ($scope.totalPoints >= $scope.fourStar) {
                                 $scope.statusImage = "/images/cgr4starsmall.jpg";
                             }
@@ -105,7 +105,7 @@
         });
         
         
-        var eachMeetMinRequirement = function(){
+        var allMeetMinRequirement = function(){
             for (var key in $scope.pointsByCategory) {
                 if ($scope.pointsByCategory[key].value < 10)
                     return false;

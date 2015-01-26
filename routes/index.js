@@ -11,12 +11,16 @@ var utils = require("../utils/utils");
 var Client = require("../models/client").Client;
 
 /* GET home page. */
-router.get('/', function (req, res) {
+router.get('/list', function (req, res) {
     res.render('index', { title: "Green My Restaurant"});
 });
 
 router.get('/gui', function (req, res) {
     res.render('gui', {});
+})
+
+router.get('/', function (req, res) {
+    res.render('home', {});
 })
 
 /* POST login user. */

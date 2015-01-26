@@ -90,7 +90,7 @@
                 $('#PollutBar').parent().addClass('progress-category');
                 $('#WaterBar').parent().addClass('progress-category');
                 $('#WasteBar').parent().addClass('progress-category');
-                console.log($('#' + shorten($routeParams.category) + 'Bar').parent());
+                //console.log($('#' + shorten($routeParams.category) + 'Bar').parent());
                 $('#' + shorten($routeParams.category) + 'Bar').parent().removeClass('progress-category');
                 $('#' + shorten($routeParams.category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
