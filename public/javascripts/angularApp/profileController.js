@@ -14,6 +14,7 @@
         $scope.showErrorMessage = false;
         $scope.user = undefined;
         $scope.showChangePasswordError = false;
+        $scope.profile = true;
         
         $scope.twoStar = 100;
         $scope.threeStar = 175;
