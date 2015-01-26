@@ -79,7 +79,8 @@
                 }    
                 else
                     loadStandards();
-                initializeBar();
+                //initializeBar();
+                initializeAllBars();
                 if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
                     //delete old questions from green points
                 }
@@ -97,22 +98,66 @@
             });
         });
         
-        var initializeBar = function () {
-            var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
+        // var initializeBar = function () {
+        //     var bar = document.getElementById(shorten($routeParams.category) + 'Bar');
+        //     $scope.minRequired = bar.getAttribute("aria-valuemax");
+        //     if ($scope.pointsEarned >= $scope.minRequired)
+        //         $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+        //     else
+        //         $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+        //     bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+        //     var barjQ = $('#' + shorten($routeParams.category) + 'Bar');
+        //     barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+        //     if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
+        //         barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
+        //         $('#' + shorten($routeParams.category) + 'BarAfter').html("");
+        //     } else {
+        //         barjQ.html("");
+        //         $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
+        //     }
+        // }
+
+        var initializeBar = function (category, pointsEarned) {
+            console.log('initalizing bar',category)
+            var bar = document.getElementById(shorten(category) + 'Bar');
             $scope.minRequired = bar.getAttribute("aria-valuemax");
-            if ($scope.pointsEarned >= $scope.minRequired)
-                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+            if (pointsEarned >= $scope.minRequired)
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
-                $('#' + shorten($routeParams.category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
-            bar.setAttribute("aria-valuenow", $scope.pointsEarned);
-            var barjQ = $('#' + shorten($routeParams.category) + 'Bar');
-            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
-            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
-                barjQ.html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
-                $('#' + shorten($routeParams.category) + 'BarAfter').html("");
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+            bar.setAttribute("aria-valuenow", pointsEarned);
+            var barjQ = $('#' + shorten(category) + 'Bar');
+            barjQ.width(Math.min(pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            if (pointsEarned * 100.0 / $scope.minRequired > 50) {
+                barjQ.html('<a href="/gui/#/' + category + '">' + category + ' (' + pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + shorten(category) + 'BarAfter').html("");
             } else {
                 barjQ.html("");
-                $('#' + shorten($routeParams.category) + 'BarAfter').html('<a href="/gui/#/' + $routeParams.category + '">' + $routeParams.category + '</a>');
+                $('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
+            }
+        }
+        
+        var initializeAllBars = function() {
+            var catNames = userService.getCatNames();
+            for (var i = 0; i < catNames.length; i++) {
+                var tempCategory = catNames[i];
+                $http.get('/api/standards/' + tempCategory).success(function (data) {
+                    var catStandards = data;
+                    var catPointsEarned = 0;
+                    for (var i = 0; i < catStandards.length; i++) {
+                        if ($scope.user) {
+                            for (var j = 0; j < $scope.greenPoints.length; j++) {
+                                if (catStandards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
+                                    catPointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (catStandards.length > 0) {
+                        initializeBar(catStandards[0].category, catPointsEarned);
+                    }
+                });
             }
         }
      

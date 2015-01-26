@@ -21,7 +21,10 @@
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
             $scope.admin = $scope.user ? $scope.user.admin : undefined;
-            if ($scope.user) $scope.greenPoints = $scope.user.GPs;
+            if ($scope.user) {
+                $scope.greenPoints = $scope.user.GPs;
+                initializeAllBars();
+            }
             $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {
@@ -45,6 +48,50 @@
                 }
             });
         });
+
+        var initializeBar = function (category, pointsEarned) {
+            console.log('initalizing bar',category)
+            var bar = document.getElementById(shorten(category) + 'Bar');
+            $scope.minRequired = bar.getAttribute("aria-valuemax");
+            if (pointsEarned >= $scope.minRequired)
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+            else
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+            bar.setAttribute("aria-valuenow", pointsEarned);
+            var barjQ = $('#' + shorten(category) + 'Bar');
+            barjQ.width(Math.min(pointsEarned * 100.0 / $scope.minRequired, 100) + "%");
+            if (pointsEarned * 100.0 / $scope.minRequired > 50) {
+                barjQ.html('<a href="/gui/#/' + category + '">' + category + ' (' + pointsEarned + '/' + $scope.minRequired + ')</a>');
+                $('#' + shorten(category) + 'BarAfter').html("");
+            } else {
+                barjQ.html("");
+                $('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
+            }
+        }
+        
+        var initializeAllBars = function() {
+            var catNames = userService.getCatNames();
+            for (var i = 0; i < catNames.length; i++) {
+                var tempCategory = catNames[i];
+                $http.get('/api/standards/' + tempCategory).success(function (data) {
+                    var catStandards = data;
+                    var catPointsEarned = 0;
+                    for (var i = 0; i < catStandards.length; i++) {
+                        if ($scope.user) {
+                            for (var j = 0; j < $scope.greenPoints.length; j++) {
+                                if (catStandards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
+                                    catPointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (catStandards.length > 0) {
+                        initializeBar(catStandards[0].category, catPointsEarned);
+                    }
+                });
+            }
+        }
         
         
         $scope.computeMaxPossible = function (standards) {

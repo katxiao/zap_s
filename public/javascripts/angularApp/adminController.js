@@ -13,6 +13,7 @@
         $scope.showErrorMessage = false;
         $scope.user = undefined;
         $scope.admin = undefined;
+        $scope.profile = true;
         $scope.allUsers = [];
 
         $http.get("/current_auth").then(function(response) {
