@@ -32,7 +32,7 @@
                 return valid;
             });
         }
-    });;
+    });
 
     angular.module('numbers', []).filter('maxHundred', function () {
         return function (input) {
@@ -42,6 +42,8 @@
 
     angular.module('stringFormat', []).filter('reinsertCommas', function () {
         return function (input) {
+            if (!input)
+                return "";
             return input.replace(/;;/g, ',').replace(/;/g, ',');
         }
     });
@@ -52,10 +54,6 @@
                 when('/profile', {
                     templateUrl: '/angularviews/profile.html',
                     controller: 'profileController'
-                })
-                .when('/gui', {
-                    templateUrl: '/angularviews/gui.html',
-                    controller: 'guiController'
                 })
                 .when('/admin', {
                     templateUrl: '/angularViews/admin.html',

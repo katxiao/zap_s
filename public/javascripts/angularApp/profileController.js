@@ -14,7 +14,12 @@
         $scope.showErrorMessage = false;
         $scope.user = undefined;
         $scope.showChangePasswordError = false;
+        $scope.profile = true;
         
+        $scope.twoStar = 100;
+        $scope.threeStar = 175;
+        $scope.fourStar = 240;
+
         $scope.pointsByCategory = {
             Energy: {
                 value: 0,
@@ -47,7 +52,7 @@
         };
         $scope.totalPoints = 0;
 
-        $http.get("/current_auth/").then(function(response) {
+        $http.get("/current_auth/").then(function (response) {
             var data = response.data;
             if (data.success && data.content.user) {
                 $scope.user = data.content.user;
@@ -56,7 +61,7 @@
                 $scope.user.GPs.forEach(function (selection, index) {
                     $http.get('/api/standards/individual/' + selection.question).success(function (standard) {
                         var selection = $scope.user.GPs[index];
-                        console.log(index, selection);
+                        //console.log(index, selection);
                         if ($scope.pointsByCategory[standard.category].value != 0) {
                             //$scope.pointsByCategory[standard.category].value += selection.option * selection.percentage / 100.0;
                             $scope.pointsByCategory[standard.category].questions.push({
@@ -82,13 +87,32 @@
                                 $scope.totalPoints += $scope.pointsByCategory[key].questions[index].value;
                             }
                         }
+                        if (allMeetMinRequirement()) {
+                            if ($scope.totalPoints >= $scope.fourStar) {
+                                $scope.statusImage = "/images/cgr4starsmall.jpg";
+                            }
+                            else if ($scope.totalPoints >= $scope.threeStar) {
+                                $scope.statusImage = "/images/cgr3starsmall.jpg";
+                            }
+                            else if ($scope.totalPoints >= $scope.twoStar) {
+                                $scope.statusImage = "/images/cgr2starsmall.jpg";
+                            }
+                        }
                     });
                 });
             } else {
                 $window.location.href = "/#/";
             }
         });
-
+        
+        
+        var allMeetMinRequirement = function(){
+            for (var key in $scope.pointsByCategory) {
+                if (key !== 'Sustainable Furnishings & Building Materials' && $scope.pointsByCategory[key].value < 10)
+                    return false;
+            }
+            return true;
+        }
         $scope.forgotPasswordModal = function() {
             $('#loginModal').modal('hide');
             $('#forgotPasswordModal').modal();
@@ -131,7 +155,7 @@
             } else {
                 $http.post('/login', { username: username, password: password }).success(function (data) {
                     $('#modal').modal('hide');
-                    $window.location.href = "/#/profile";
+                    $window.location.href = "/list/#/profile";
                 }).error(function (err) {
                     $scope.logInErrorMessage = "Login unsuccessful. Try again.";
                     $scope.showLogInErrorMessage = true;

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link href="/bootstrap-3.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/base.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 1em;
+        background-image: url("/images/green_restaurant.jpg");
+        background-size: 100%;
+      }
+      #title {
+        color: white;
+        font-size: 64px;
+        font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+      }
+      .fullcenter {
+         position: absolute;               /* 2 */
+         top: 45%;                         /* 3 */
+         left: 50%;
+         transform: translate(-50%, -50%)
+      }
+      a {
+        font-family: ‘Times New Roman’, Times, serif;
+      }
+      
+      .modalDialog {
+	      position: fixed;
+	      font-family: Arial, Helvetica, sans-serif;
+	      top: 0;
+	      right: 0;
+	      bottom: 0;
+	      left: 0;
+	      background: rgba(0,0,0,0.8);
+	      z-index: 99999;
+	      opacity:0;
+	      -webkit-transition: opacity 400ms ease-in;
+	      -moz-transition: opacity 400ms ease-in;
+	      transition: opacity 400ms ease-in;
+	      pointer-events: none;
+      }
+      
+      .modalDialog:target {
+	      opacity:1;
+	      pointer-events: auto;
+      }
+
+      div.modalDialog {
+	      width: 400px;
+	      position: relative;
+	      margin: 10% auto;
+	      padding: 5px 20px 13px 20px;
+	      border-radius: 10px;
+	      background: #fff;
+	      background: -moz-linear-gradient(#fff, #999);
+	      background: -webkit-linear-gradient(#fff, #999);
+	      background: -o-linear-gradient(#fff, #999);
+      }
+      
+      .close {
+	      background: #606061;
+	      color: #FFFFFF;
+	      line-height: 25px;
+	      position: absolute;
+	      right: -12px;
+	      text-align: center;
+	      top: -10px;
+	      width: 24px;
+	      text-decoration: none;
+	      font-weight: bold;
+	      -webkit-border-radius: 12px;
+	      -moz-border-radius: 12px;
+	      border-radius: 12px;
+	      -moz-box-shadow: 1px 1px 3px #000;
+	      -webkit-box-shadow: 1px 1px 3px #000;
+	      box-shadow: 1px 1px 3px #000;
+      }
+
+      .close:hover { background: #00d9ff; }
+    </style>
+  </head>
+  <body ng-app="homeApp">
+    <div ng-view></div>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js"></script>
+	  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js"></script>
+	  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="/javascripts/angularApp/homeApp.js"></script>
+    <script src="/javascripts/angularApp/orientationController.js"></script>
+  </body>
+</html>

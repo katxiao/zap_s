@@ -103,9 +103,9 @@ db.once("open", function () {
                 }
 
             });
-            Standard.remove({category: "Food"}, function (err) {
-                console.log('collection removed')
-            });
+            //Standard.remove({category: "Food"}, function (err) {
+            //    console.log('collection removed')
+            //});
      //     }
      // });
 
