@@ -242,6 +242,36 @@ a{
     transform: translate(-10%, 0%);
 }
 
+.navbar {
+    background-color: #5cb85c;
+}
+
+.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+}
+
+ul.navbar-right li a {
+    color: white
+}
+
+ul.navbar-right li a:hover {
+    color: #0066FF
+}
+
+a.navbar-brand {
+    color: white
+}
+
+a.navbar-brand:hover {
+    color: #0066FF
+}
+
 #filters li{
     display: inline-block;
 }

@@ -74,8 +74,9 @@
                     }
                     if ($scope.standardsByCategory[$scope.standards[i].category]) {
                         $scope.standardsByCategory[$scope.standards[i].category].questions.push($scope.standards[i]);
+                        $scope.standardsByCategory[$scope.standards[i].category].value += $scope.standards[i].previousPoints;
                     } else {
-                        $scope.standardsByCategory[$scope.standards[i].category] = { value: 0, questions: [ $scope.standards[i]] };
+                        $scope.standardsByCategory[$scope.standards[i].category] = { value: $scope.standards[i].previousPoints, questions: [ $scope.standards[i]] };
                         $scope.categoryKeys.push($scope.standards[i].category);
                     }
                 }
@@ -98,9 +99,11 @@
         });
         
         var allMeetMinRequirement = function () {
-            for (var key in $scope.pointsByCategory) {
-                if (key !== 'Sustainable Furnishings & Building Materials' && $scope.pointsByCategory[key].value < 10)
+            for (var key in $scope.standardsByCategory) {
+                if (key !== 'Sustainable Furnishings & Building Materials' && $scope.standardsByCategory[key].value < 10) {
+                    console.log(key, $scope.standardsByCategory[key].value);
                     return false;
+                }
             }
             return true;
         }
@@ -118,6 +121,7 @@
                 $('#TotalBar').addClass('progress-bar-danger');
             bar.setAttribute("aria-valuenow", $scope.pointsEarned);
             var barjQ = $('#TotalBar');
+            console.log(allMeetMinRequirement());
             if ($scope.pointsEarned >= $scope.fourStar) {
                 barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
                 if (allMeetMinRequirement()) {
@@ -173,6 +177,28 @@
             else
                 $('#TotalBar').removeClass('progress-bar-success').addClass('progress-bar-danger');
             bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+
+            var catbar = document.getElementById(category + 'Bar');
+            var catPE = catbar.getAttribute("aria-valuenow");
+            var minRequired = catbar.getAttribute("aria-valuemax");
+            catPE = Number(catPE) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
+            $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+            if (catPE >= minRequired)
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+            else
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+            catbar.setAttribute("aria-valuenow", catPE);
+            $scope.standardsByCategory[category].value = catPE;
+            var catbarjQ = $('#' + shorten(category) + 'Bar');
+            catbarjQ.width(Math.min(catPE * 100.0 / minRequired, 100) + "%");
+            //if (catPE * 100.0 / minRequired > 50) {
+            catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');
+            /*    //$('#' + shorten(category) + 'BarAfter').html("");
+            } else {
+                catbarjQ.html("");
+                //$('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
+            }*/
+            
             var barjQ = $('#TotalBar');
             if ($scope.pointsEarned >= $scope.fourStar) {
                 barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
@@ -196,6 +222,7 @@
             }
             else if ($scope.pointsEarned >= $scope.twoStar) {
                 barjQ.width(($scope.pointsEarned * 100.0 / $scope.threeStar) + "%");
+                console.log(allMeetMinRequirement());
                 if (allMeetMinRequirement()) {
                     barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star eligible**');
                     $scope.statusImage = "/images/cgr2starsmall.jpg";
@@ -209,26 +236,6 @@
                 barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
                 $scope.statusImage = "";
             }
-
-            var catbar = document.getElementById(category + 'Bar');
-            var catPE = catbar.getAttribute("aria-valuenow");
-            var minRequired = catbar.getAttribute("aria-valuemax");
-            catPE = Number(catPE) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
-            $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
-            if (catPE >= minRequired)
-                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
-            else
-                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
-            catbar.setAttribute("aria-valuenow", catPE);
-            var catbarjQ = $('#' + shorten(category) + 'Bar');
-            catbarjQ.width(Math.min(catPE * 100.0 / minRequired, 100) + "%");
-            //if (catPE * 100.0 / minRequired > 50) {
-            catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');
-            /*    //$('#' + shorten(category) + 'BarAfter').html("");
-            } else {
-                catbarjQ.html("");
-                //$('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
-            }*/
         }
         
         $scope.computePercentScore = function (category, score, answerIndex, percent, previousPoints) {
@@ -464,7 +471,7 @@
                             });
                             $scope.save();
                             $('#modal').modal('hide');
-                            $window.location.href = "/#/profile";
+                            $window.location.href = "/list/#/profile";
                         }).error(function(err) {
                             $scope.message = "Registration unsuccessful. Try again.";
                             $scope.showLogInErrorMessage = true;

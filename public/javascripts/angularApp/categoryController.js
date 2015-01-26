@@ -353,7 +353,7 @@
                         $scope.passwordsignup = "";
                         $scope.confirmpassword = "";
                         $('#signUpModal').modal('hide');
-                        $window.location.href = "/#/";
+                        $window.location.href = "/list/#/profile";
                     }).error(function (err) {
                         $scope.message = "Registration unsuccessful. Try again.";
                         $scope.showSignUpErrorMessage = true;
