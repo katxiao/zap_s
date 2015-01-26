@@ -27,11 +27,11 @@
         <ul class="sidebar-nav">
             <center style="margin: 5px 0 0 5px">
                 <li class="sidebar-brand"><button class="btn btn-default"  style="margin: 10px 0 0 10px"> 
-                    <div>Total <br><sup class="large-numerator">3</sup>&frasl;<sub>3</sub>
+                    <div>Total <br><sup class="large-numerator">{{pointsEarned}}</sup>&frasl;<sub>100</sub>
                     </div>
                 </button></li>
                 <li ng-repeat="category in categoryKeys" class="sidebar-brand"><button class="btn btn-default" scroll-to="{{category}}" style="margin: 10px 0 0 10px"> 
-                    <div>{{category}} <br><sup class="large-numerator">3</sup>&frasl;<sub>3</sub>
+                    <div>{{category}} <br><sup class="large-numerator">3</sup>&frasl;<sub>10</sub>
                     </div>
                 </button></li>
             </center>

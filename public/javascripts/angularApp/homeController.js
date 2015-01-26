@@ -55,7 +55,7 @@
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
-                    //$scope.standards[i].previousPoints = 0;
+                    $scope.standards[i].previousPoints = 0;
                     if ($scope.user) {
                         for (var j = 0; j < $scope.greenPoints.length; j++) {
                             if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
@@ -405,29 +405,6 @@
             }
 
         };
-
-        $scope.gotoBottom = function() {
-              // set the location.hash to the id of
-              // the element you wish to scroll to.
-              $location.hash('Waste');
-
-              // call $anchorScroll()
-              $anchorScroll();
-        };
-
-        $scope.goTo = function(category) {
-            // set the location.hash to the id of
-           // the element you wish to scroll to.
-            $location.hash(category);
-
-            // call $anchorScroll()
-            $anchorScroll();
-        }
-
-        $scope.scrollTo = function(str, event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
 
         var validateForm = function(username) {
             var x = username;
