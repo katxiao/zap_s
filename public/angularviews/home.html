@@ -22,34 +22,90 @@
         </ul>
     </center>-->
 
-    <div style="width:92.5%" ng-repeat="category in categoryKeys">
-        <div id="{{category}}" class="categoryhead" data-spy="affix" data-offset-top="125">
-            {{category}}
-        </div>
-        <div class="progress">
-            <div class="progress-bar {{widths[category].class || 'progress-bar-danger'}}" id="{{category}}Bar" role="progressbar" aria-valuenow="{{widths[category].valuenow}}" aria-valuemin="0" aria-valuemax="10" style="width:{{widths[category].width}}">{{widths[category].message}}</div>
-        </div>
-        <table class="table table-striped">
-            <tr ng-repeat="standard in standardsByCategory[category].questions | tags:obj" style="border: 1px black solid;">
-                <td style="width:40%; font-size: 1.4em;">
-                    {{$index + 1}}. {{standard.question | reinsertCommas}} <span class="glyphicon glyphicon-info-sign" ng-click="extraInfoModal(category, $index)"></span>
-                </td>
-                <td style="width: 10%">
-                    <center>{{carefulMultiply(standard.option, standard.percentage)}} points</center>
-                </td>
-                <td>
-                    <div class="col-md-4" style="font-size: 1.4em;" ng-repeat="option in standard.optionList">
-                        <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, $parent.$index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <center style="margin: 5px 0 0 5px">
+                <li class="sidebar-brand"><button class="btn btn-default"  style="margin: 10px 0 0 10px"> 
+                    <div>Total <br><sup class="large-numerator">3</sup>&frasl;<sub>3</sub>
                     </div>
-                    <div class="pull-right col-md-4">
-                        <input ng-model="standard.percentage" size="3" ng-change="computePercentScore(standard.category, standard.option, $index, standard.percentage, standard.previousPoints)" />%
+                </button></li>
+                <li ng-repeat="category in categoryKeys" class="sidebar-brand"><button class="btn btn-default" scroll-to="{{category}}" style="margin: 10px 0 0 10px"> 
+                    <div>{{category}} <br><sup class="large-numerator">3</sup>&frasl;<sub>3</sub>
                     </div>
-                </td>
-            </tr>
-        </table>
+                </button></li>
+            </center>
+        </ul>
     </div>
-            <div id="testing"></div>
-    <center <button class='btn btn-primary' ng-click="progressModal()" style="width: 92.5%; position: fixed; bottom: 0px;">View Progress / Save</button> </center>
+    <div id="page-content-wrapper">
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="width:92.5%" ng-repeat="category in categoryKeys">
+                                    <div id="{{category}}" class="categoryhead" data-spy="affix" data-offset-top="125">
+                                        {{category}}
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar {{widths[category].class || 'progress-bar-danger'}}" id="{{category}}Bar" role="progressbar" aria-valuenow="{{widths[category].valuenow}}" aria-valuemin="0" aria-valuemax="10" style="width:{{widths[category].width}}">{{widths[category].message}}</div>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <tr ng-repeat="standard in standardsByCategory[category].questions | tags:obj" style="border: 1px black solid;">
+                                            <td style="width:40%; font-size: 1.4em;">
+                                                {{$index + 1}}. {{standard.question | reinsertCommas}} <span class="glyphicon glyphicon-info-sign" ng-click="extraInfoModal(category, $index)"></span>
+                                            </td>
+                                            <td style="width: 10%">
+                                                <center>{{carefulMultiply(standard.option, standard.percentage)}} points</center>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-4" style="font-size: 1.4em;" ng-repeat="option in standard.optionList">
+                                                    <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, $parent.$index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
+                                                </div>
+                                                <div class="pull-right col-md-4">
+                                                    <input ng-model="standard.percentage" size="3" ng-change="computePercentScore(standard.category, standard.option, $index, standard.percentage, standard.previousPoints)" />%
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <center> <button class='btn btn-primary' ng-click="progressModal()" style="width: 75%; position: fixed; bottom: 0px; right: 250px;">View Progress / Save</button> </center>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- 
+    <div id='page-content-wrapper'>
+        <div style="width:92.5%" ng-repeat="category in categoryKeys">
+            <div id="{{category}}" class="categoryhead" data-spy="affix" data-offset-top="125">
+                {{category}}
+            </div>
+            <div class="progress">
+                <div class="progress-bar {{widths[category].class || 'progress-bar-danger'}}" id="{{category}}Bar" role="progressbar" aria-valuenow="{{widths[category].valuenow}}" aria-valuemin="0" aria-valuemax="10" style="width:{{widths[category].width}}">{{widths[category].message}}</div>
+            </div>
+            <table class="table table-striped">
+                <tr ng-repeat="standard in standardsByCategory[category].questions | tags:obj" style="border: 1px black solid;">
+                    <td style="width:40%; font-size: 1.4em;">
+                        {{$index + 1}}. {{standard.question | reinsertCommas}} <span class="glyphicon glyphicon-info-sign" ng-click="extraInfoModal(category, $index)"></span>
+                    </td>
+                    <td style="width: 10%">
+                        <center>{{carefulMultiply(standard.option, standard.percentage)}} points</center>
+                    </td>
+                    <td>
+                        <div class="col-md-4" style="font-size: 1.4em;" ng-repeat="option in standard.optionList">
+                            <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, $parent.$index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
+                        </div>
+                        <div class="pull-right col-md-4">
+                            <input ng-model="standard.percentage" size="3" ng-change="computePercentScore(standard.category, standard.option, $index, standard.percentage, standard.previousPoints)" />%
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div> -->
+
 
     <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
       <div class="modal-dialog">

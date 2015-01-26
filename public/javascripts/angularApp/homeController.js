@@ -406,6 +406,29 @@
 
         };
 
+        $scope.gotoBottom = function() {
+              // set the location.hash to the id of
+              // the element you wish to scroll to.
+              $location.hash('Waste');
+
+              // call $anchorScroll()
+              $anchorScroll();
+        };
+
+        $scope.goTo = function(category) {
+            // set the location.hash to the id of
+           // the element you wish to scroll to.
+            $location.hash(category);
+
+            // call $anchorScroll()
+            $anchorScroll();
+        }
+
+        $scope.scrollTo = function(str, event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
         var validateForm = function(username) {
             var x = username;
             var atpos = x.indexOf("@");
