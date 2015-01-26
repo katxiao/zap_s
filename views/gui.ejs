@@ -74,7 +74,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="#" data-toggle="modal" data-target="#tutorialModal">View Tutorial</a></li>
-				  <li><a href="#" data-toggle="modal" data-target="#filterModal">Filter Questions</a></li>
+				  <!--<li><a href="#" data-toggle="modal" data-target="#filterModal">Filter Questions</a></li>-->
                 </ul>
             </div>
 							<button id = "diningRoomButton" type = "button" class = "btn btn-default button graphicsButton">Dining Room</button>
@@ -408,6 +408,9 @@
 							reset: function() {
 								grid = [['_'], ['*']];
 							},
+							setVisited: function(x, y) {
+								grid[x][y] = "#";
+							},
 							//greater than 0 since you never want to actually be in the walls
 							validLocation: function(x, y){
 								return x > 0 && y > 0 && x < grid.length - 1 && y < grid[x].length - 1;
@@ -415,7 +418,7 @@
 						}
 					})();
 
-					var search = function(currentX, currentY, endX, endY) {
+					var search = function(currentX, currentY, endX, endY, path) {
 						if(currentX === endX && currentY === endY) {
 							searchCallback.tryToSetPath();
 							return;
@@ -425,14 +428,11 @@
 						}
 						else {
 							map.setVisited(currentX, currentY);
-							if(currentX > endX)
-								search(currentX + 1, currentY, endX, endY);
-							if(currentY > endY)
-								search(currentX, currentY + 1, endX, endY);
-							if(currentX < endX)
-								search(currentX - 1, currentY, endX, endY);
-							if(currentY < endY)
-								search(currentX, currentY - 1, endX, endY);
+							path.push({x: currentX, y: currentY});
+							search(currentX + 1, currentY, endX, endY, path);
+							search(currentX, currentY + 1, endX, endY, path);
+							search(currentX - 1, currentY, endX, endY, path);
+							search(currentX, currentY - 1, endX, endY, path);
 						}
 					}
 

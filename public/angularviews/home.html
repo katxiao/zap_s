@@ -2,9 +2,15 @@
     <div data-ng-include data-src="'/angularviews/navbar.html'"></div>
     <div data-ng-include data-src="'/angularviews/login.html'"></div>
     <div style="z-index: 4;">
-        <div style="position: fixed; top: 3.5em;width:92.5%;background-color: aliceblue;left:50%;margin-right:-46.25%; transform: translate(-50%, 0%);z-index: 4;"><h4>Total Progress</h4></div>
-        <div class="progress" style="position: fixed; top: 6em; width: 92.5%; z-index: 4">
-            <div class="progress-bar progress-bar-success" id="TotalBar" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="240" style="width: 0%; position: fixed;height: 20px;overflow:hidden;z-index: 4">
+        <!--<div style="position: fixed; top: 3.5em;width:92.5%;background-color: aliceblue;left:50%;margin-right:-46.25%; transform: translate(-50%, 0%);z-index: 4;"><h4>Total Progress</h4></div>-->
+        <div class="progress" style="position: fixed; top: 19.5em; right: 0; height: 40px;width: 35%; z-index: 4;transform:rotate(-90deg) translate(0em, 9.5em);">
+            <div class="progress-bar progress-bar-success" id="TotalBar" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="240" style="width: 0%; position: fixed;height: 40px;overflow:hidden;z-index: 4">
+            </div>
+        </div>
+        <div style="position: fixed; top: 19em; right: 0; height: 40px;width: 35%; z-index: 4;transform:rotate(-90deg) translate(-20.5em, 23em);">
+            <div style="transform: rotate(90deg)">
+                <p>Total: {{pointsEarned}}</p>
+                <img src="{{statusImage}}" width="50" height="50" />
             </div>
         </div>
     </div>
@@ -15,7 +21,7 @@
             <li><input type="checkbox" ng-model="obj.visible" />Visible</li>
         </ul>
     </center>
-    <div ng-repeat="category in categoryKeys">
+    <div style="width:92.5%" ng-repeat="category in categoryKeys">
         <div id="{{category}}" class="categoryhead" data-spy="affix" data-offset-top="125">
             {{category}}
         </div>
@@ -30,7 +36,7 @@
                 <td style="width: 10%">
                     <center>{{carefulMultiply(standard.option, standard.percentage)}} points</center>
                 </td>
-                <td>   
+                <td>
                     <div class="col-md-4" style="font-size: 1.4em;" ng-repeat="option in standard.optionList">
                         <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, $parent.$index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
                     </div>

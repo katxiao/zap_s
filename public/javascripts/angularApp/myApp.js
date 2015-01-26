@@ -32,7 +32,7 @@
                 return valid;
             });
         }
-    });;
+    });
 
     angular.module('numbers', []).filter('maxHundred', function () {
         return function (input) {

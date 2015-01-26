@@ -15,6 +15,10 @@
         $scope.user = undefined;
         $scope.showChangePasswordError = false;
         
+        $scope.twoStar = 100;
+        $scope.threeStar = 175;
+        $scope.fourStar = 240;
+
         $scope.pointsByCategory = {
             Energy: {
                 value: 0,
@@ -47,7 +51,7 @@
         };
         $scope.totalPoints = 0;
 
-        $http.get("/current_auth/").then(function(response) {
+        $http.get("/current_auth/").then(function (response) {
             var data = response.data;
             if (data.success && data.content.user) {
                 $scope.user = data.content.user;
@@ -82,13 +86,32 @@
                                 $scope.totalPoints += $scope.pointsByCategory[key].questions[index].value;
                             }
                         }
+                        if (eachMeetMinRequirement()) {
+                            if ($scope.totalPoints >= $scope.fourStar) {
+                                $scope.statusImage = "/images/cgr4starsmall.jpg";
+                            }
+                            else if ($scope.totalPoints >= $scope.threeStar) {
+                                $scope.statusImage = "/images/cgr3starsmall.jpg";
+                            }
+                            else if ($scope.totalPoints >= $scope.twoStar) {
+                                $scope.statusImage = "/images/cgr2starsmall.jpg";
+                            }
+                        }
                     });
                 });
             } else {
                 $window.location.href = "/#/";
             }
         });
-
+        
+        
+        var eachMeetMinRequirement = function(){
+            for (var key in $scope.pointsByCategory) {
+                if ($scope.pointsByCategory[key].value < 10)
+                    return false;
+            }
+            return true;
+        }
         $scope.forgotPasswordModal = function() {
             $('#loginModal').modal('hide');
             $('#forgotPasswordModal').modal();

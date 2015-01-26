@@ -10,6 +10,7 @@
 
     function categoryController($scope, $http, $cookies, $window, $location, $routeParams, userService) {
         $scope.modalInit = 'hide';
+        $scope.filtering = 'hide';
         $scope.interactive = true;
 
         $scope.pointsEarned = 0;
@@ -219,22 +220,65 @@
         }
 
         $scope.moveLeft = function () {
-            if($scope.index > 0)
-            {
-                $scope.index -= 1;
-                $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;
+            var index = $scope.index;
+            if(index > 0) {
+                index -= 1;
+                while (!$scope.matchesFilter(index) && index >= 0) {
+                    index -= 1;
+                }
+                if (index >= 0) {
+                    $scope.index = index;
+                    $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;
+                }
             }
         }
 
         $scope.moveRight = function () {
-            console.log($scope.standards[$scope.index]);
-            if ($scope.index < ($scope.standards.length - 1)) {
-                $scope.index += 1;
-                console.log($scope.standards[$scope.index].option, $scope.standards[$scope.index].option || 0);
-                $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;;
+            var index = $scope.index;
+            if (index < ($scope.standards.length - 1)) {
+                index += 1;
+                while (!$scope.matchesFilter(index) && index <= ($scope.standards.length - 1)) {
+                    index += 1;
+                }
+                if (index <= ($scope.standards.length - 1)) {
+                    $scope.index = index;
+                    $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;;
+                }
             }
         }
+    
+        $scope.matchesFilter = function(index) {
+            var valid = false;
+            if ($scope.obj && $scope.standards[index].filters) {
+                if ($scope.obj.easy) {
+                    valid = $scope.standards[index].filters.indexOf("Easy") >= 0;
+                }
+                if ($scope.obj.lowcost && !valid) {
+                    valid = $scope.standards[index].filters.indexOf("Low Cost") >= 0;
+                }
+                if ($scope.obj.visible && !valid) {
+                    valid = $scope.standards[index].filters.indexOf("Visible") >= 0;
+                }
+            } else {
+                return true;
+            }
+            return valid;
+        }
         
+        $scope.filterModal = function (close) {
+            if (close)
+                $('#filterModal').modal('hide');
+            else
+                $('#filterModal').modal();
+        }
+        
+        $scope.tutorialModal = function (close) {
+            if (close)
+                $('#tutorialModal').modal('hide');
+            else
+                $('#tutorialModal').modal();
+        }
+
         $scope.save = function () {
             if ($scope.user) {
                 for (var i = 0; i < $scope.standards.length; i++) {
