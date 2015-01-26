@@ -21,6 +21,7 @@
             <li><input type="checkbox" ng-model="obj.visible" />Visible</li>
         </ul>
     </center>-->
+
     <div style="width:92.5%" ng-repeat="category in categoryKeys">
         <div id="{{category}}" class="categoryhead" data-spy="affix" data-offset-top="125">
             {{category}}
@@ -47,6 +48,7 @@
             </tr>
         </table>
     </div>
+            <div id="testing"></div>
     <center <button class='btn btn-primary' ng-click="progressModal()" style="width: 92.5%; position: fixed; bottom: 0px;">View Progress / Save</button> </center>
 
     <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
