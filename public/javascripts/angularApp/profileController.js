@@ -107,7 +107,7 @@
         
         var allMeetMinRequirement = function(){
             for (var key in $scope.pointsByCategory) {
-                if ($scope.pointsByCategory[key].value < 10)
+                if (key !== 'Sustainable Furnishings & Building Materials' && $scope.pointsByCategory[key].value < 10)
                     return false;
             }
             return true;
@@ -154,7 +154,7 @@
             } else {
                 $http.post('/login', { username: username, password: password }).success(function (data) {
                     $('#modal').modal('hide');
-                    $window.location.href = "/#/profile";
+                    $window.location.href = "/list/#/profile";
                 }).error(function (err) {
                     $scope.logInErrorMessage = "Login unsuccessful. Try again.";
                     $scope.showLogInErrorMessage = true;

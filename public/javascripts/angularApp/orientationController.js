@@ -53,7 +53,7 @@
             } else {
                 $http.post('/login', { username: username, password: password }).success(function (data) {
                     $('#modal').modal('hide');
-                    $window.location.href = "/#/profile";
+                    $window.location.href = "/list/#/profile";
                 }).error(function(err) {
                     $scope.logInErrorMessage = "Login unsuccessful. Try again.";
                     $scope.showLogInErrorMessage = true;
