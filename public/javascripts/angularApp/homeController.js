@@ -55,7 +55,7 @@
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
-                    //$scope.standards[i].previousPoints = 0;
+                    $scope.standards[i].previousPoints = 0;
                     if ($scope.user) {
                         for (var j = 0; j < $scope.greenPoints.length; j++) {
                             if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
@@ -97,6 +97,14 @@
             });
         });
         
+        var allMeetMinRequirement = function () {
+            for (var key in $scope.pointsByCategory) {
+                if (key !== 'Sustainable Furnishings & Building Materials' && $scope.pointsByCategory[key].value < 10)
+                    return false;
+            }
+            return true;
+        }
+
         var initializeBar = function () {
             var bar = document.getElementById('TotalBar');
             $scope.minRequired = bar.getAttribute("aria-valuemax");
@@ -110,21 +118,40 @@
                 $('#TotalBar').addClass('progress-bar-danger');
             bar.setAttribute("aria-valuenow", $scope.pointsEarned);
             var barjQ = $('#TotalBar');
-            barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
             if ($scope.pointsEarned >= $scope.fourStar) {
-                barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **4-Star eligible**');
-                $scope.statusImage = "/images/cgr4starsmall.jpg";
+                barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
+                if (allMeetMinRequirement()) {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **4-Star**');
+                    $scope.statusImage = "/images/cgr4starsmall.jpg";
+                } else {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **4-Star eligible**');
+                    $scope.statusImage = "";
+                }
             }    
             else if ($scope.pointsEarned >= $scope.threeStar) {
-                barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **3-Star eligible**');
-                $scope.statusImage = "/images/cgr3starsmall.jpg";
+                barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
+                if (allMeetMinRequirement()) {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **3-Star**');
+                    $scope.statusImage = "/images/cgr3starsmall.jpg";
+                } else {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **3-Star eligible**');
+                    $scope.statusImage = "";
+                }
             }    
             else if ($scope.pointsEarned >= $scope.twoStar) {
-                barjQ.html($scope.pointsEarned + '/' + $scope.threeStar + ' points **2-Star eligible**');
-                $scope.statusImage = "/images/cgr2starsmall.jpg";
+                barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.threeStar, 100) + "%");
+                if (allMeetMinRequirement()) {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.threeStar + ' points **2-Star**');
+                    $scope.statusImage = "/images/cgr2starsmall.jpg";
+                } else {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
+                    $scope.statusImage = "";
+                }
             }    
             else {
+                barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.twoStar, 100) + "%");
                 barjQ.html($scope.pointsEarned + '/' + $scope.twoStar + ' points');
+                $scope.statusImage = "";
             }
         }
 
@@ -135,7 +162,7 @@
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
             $scope.standardsByCategory[category].questions[answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
-            //console.log(Number(score), (Number(percent || 100) / 100.0), Number(score) * (Number(percent || 100) / 100.0));
+            console.log(Number(score), (Number(percent || 100) / 100.0), Number(score) * (Number(percent || 100) / 100.0));
             $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
             if ($scope.pointsEarned >= $scope.fourStar)
                 $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-success').addClass('progress-bar-info');
@@ -149,29 +176,45 @@
             var barjQ = $('#TotalBar');
             if ($scope.pointsEarned >= $scope.fourStar) {
                 barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star eligible**');
-                $scope.statusImage = "/images/cgr4starsmall.jpg";
+                if (allMeetMinRequirement()) {
+                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star eligible**');
+                    $scope.statusImage = "/images/cgr4starsmall.jpg";
+                } else {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
+                    $scope.statusImage = "";
+                }
             }
             else if ($scope.pointsEarned >= $scope.threeStar) {
                 barjQ.width(($scope.pointsEarned * 100.0 / $scope.fourStar) + "%");
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star eligible**');
-                $scope.statusImage = "/images/cgr3starsmall.jpg";
+                if (allMeetMinRequirement()) {
+                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star eligible**');
+                    $scope.statusImage = "/images/cgr3starsmall.jpg";
+                } else {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
+                    $scope.statusImage = "";
+                }
             }
             else if ($scope.pointsEarned >= $scope.twoStar) {
                 barjQ.width(($scope.pointsEarned * 100.0 / $scope.threeStar) + "%");
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star eligible**');
-                $scope.statusImage = "/images/cgr2starsmall.jpg";
+                if (allMeetMinRequirement()) {
+                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star eligible**');
+                    $scope.statusImage = "/images/cgr2starsmall.jpg";
+                } else {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.threeStar + ' points **2-Star eligible**');
+                    $scope.statusImage = "";
+                }
             }    
             else {
                 barjQ.width(($scope.pointsEarned * 100.0 / $scope.twoStar) + "%");
                 barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
+                $scope.statusImage = "";
             }
 
             var catbar = document.getElementById(category + 'Bar');
             var catPE = catbar.getAttribute("aria-valuenow");
             var minRequired = catbar.getAttribute("aria-valuemax");
-            catPE = Number(catPE) + Number(score) - Number(previousPoints);
-            $scope.previousPoints = Number(score);
+            catPE = Number(catPE) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
+            $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
             if (catPE >= minRequired)
                 $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
@@ -208,21 +251,53 @@
             var barjQ = $('#TotalBar');
             if ($scope.pointsEarned >= $scope.fourStar) {
                 barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star**');
+                if (allMeetMinRequirement()) {
+                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star eligible**');
+                    $scope.statusImage = "/images/cgr4starsmall.jpg";
+                } else {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
+                    $scope.statusImage = "";
+                }
             }
             else if ($scope.pointsEarned >= $scope.threeStar) {
                 barjQ.width(($scope.pointsEarned * 100.0 / $scope.fourStar) + "%");
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star**');
+                if (allMeetMinRequirement()) {
+                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star eligible**');
+                    $scope.statusImage = "/images/cgr3starsmall.jpg";
+                } else {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
+                    $scope.statusImage = "";
+                }
             }
             else if ($scope.pointsEarned >= $scope.twoStar) {
                 barjQ.width(($scope.pointsEarned * 100.0 / $scope.threeStar) + "%");
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star**');
+                if (allMeetMinRequirement()) {
+                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star eligible**');
+                    $scope.statusImage = "/images/cgr2starsmall.jpg";
+                } else {
+                    barjQ.html($scope.pointsEarned + '/' + $scope.threeStar + ' points **2-Star eligible**');
+                    $scope.statusImage = "";
+                }
             }    
             else {
-                console.log(($scope.pointsEarned * 100.0 / $scope.twoStar) + "%");
                 barjQ.width(($scope.pointsEarned * 100.0 / $scope.twoStar) + "%");
                 barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
+                $scope.statusImage = "";
             }
+
+            var catbar = document.getElementById(category + 'Bar');
+            var catPE = catbar.getAttribute("aria-valuenow");
+            var minRequired = catbar.getAttribute("aria-valuemax");
+            catPE = Number(catPE) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
+            $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+            if (catPE >= minRequired)
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+            else
+                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+            catbar.setAttribute("aria-valuenow", catPE);
+            var catbarjQ = $('#' + shorten(category) + 'Bar');
+            catbarjQ.width(Math.min(catPE * 100.0 / minRequired, 100) + "%");
+            catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');
         }
         
         var shorten = function (s) {

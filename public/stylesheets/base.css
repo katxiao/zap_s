@@ -1,5 +1,5 @@
 body {
-  padding-top: 4.5em;
+  padding-top: 3.5em;
 }
 
 table {
@@ -221,10 +221,31 @@ a{
     overflow: auto;
 }
 
-#filters li{
-    display: inline-block
+#filters {
+    background-color: white;
+    border: 1px solid black;
+    position: fixed;
+    left: 50%;
+    transform: translate(-70%, 0%);
+    z-index: 4;
+    /*padding-top: 1em*/
 }
 
+#filters span{
+    display: inline-block;
+    transform: translate(110%, 0%);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#filters ul {
+    transform: translate(-10%, 0%);
+}
+
+#filters li{
+    display: inline-block;
+}
+    
 /* Modal */
 .modal-form {
 	padding: 0 10px 0 10px;

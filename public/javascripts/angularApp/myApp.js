@@ -17,6 +17,8 @@
             return $.grep(input, function (item) {
                 var valid = false;
                 if (filterObj && item.filters) {
+                    if (!filterObj.easy && !filterObj.lowcost && !filterObj.visible)
+                        return true; 
                     if (filterObj.easy) {
                         valid = item.filters.indexOf("Easy") >= 0;
                     }
