@@ -1,60 +1,94 @@
 var DemoRestaurant = [
-"##############################",
-"#..............#......#......#",
-"#..............#......#......#",
-"#.........#....#......#......#",
-"#.........#....#......#......#",
-"#.........#....#......#......#",
-"###########....#..#########..#",
-"#............................#",
-"#............................#",
-"#............................#",
-"#............................#",
-"#############..###############",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#..############",
-"#............................#",
-"#............................#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"#..............#.............#",
-"##############################"
+"###############################",
+"#..............#......#.......#",
+"#..............#......#.......#",
+"#.........##...#......#.......#",
+"#.........##...#......#.......#",
+"#.........##...#......#.......#",
+"############...##..########..##",
+"#.............................#",
+"#.............................#",
+"#.............................#",
+"#.............................#",
+"###########..##################",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..#############",
+"#..............#..............#",
+"#.............................#",
+"#..........#####..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"############..#################",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"...............................",
+"..............................."
 ];
 
 
 var bfs = function(start, goal, map){
+	console.log("start: ", start, "end: ", goal);
 	var visitedNodes = [];
 	var queue = [];
-	queue.push([start]);
-	// console.log(queue);
+	queue = queue.concat([[start]]);
+	console.log(queue);
 	if (equals(goal,start)){
 		return [start];
 	}
 	else{
-		// while(queue[0][queue[0].length - 1] != goal){
-		for(var i = 0; i < 20; i++){
-			currentNode = queue[0][queue[0].length-1];
+		while(!equals(queue[0][queue[0].length - 1], goal)){
+			var currentNode = queue[0][queue[0].length-1];
 			if (!(isIn(currentNode, visitedNodes))){
-				console.log(currentNode, isIn(currentNode, visitedNodes));
-				visitedNodes.push(currentNode);
+				visitedNodes = visitedNodes.concat(currentNode);
 				var neighbors = getNeighbors(currentNode, map);
-				// console.log("neighbors: ", neighbors);
 				var firstItem = queue[0].splice(0);
 				for (index in neighbors){
 					var path = firstItem.concat(neighbors[index])
@@ -62,9 +96,7 @@ var bfs = function(start, goal, map){
 				}
 			}
 			queue.splice(0, 1);
-			console.log(visitedNodes);
 		}
-		console.log(queue[0]);
 		return queue[0];
 	}
 }
@@ -73,13 +105,13 @@ var getNeighbors = function(node, map){
 	var neighbors = [];
 	xMax = map[0].length;
 	yMax = map.length;
-	for(var i = -1; i <=1; i++){
-		for (var j = -1; j <=1; j++){
-			var neighbor = {x:node.x + i, y:node.y + j};
-			if(!(neighbor.x === node.x && neighbor.y === node.y) && (neighbor.x > 0 && neighbor.x < xMax)
-			 && (neighbor.y > 0 && neighbor.y < yMax) && isPassable(neighbor, map)){
-				neighbors.push(neighbor);
-			}
+	var tempNeighbors = [];
+	tempNeighbors = tempNeighbors.concat([{x:node.x - 1, y:node.y}, {x:node.x, y:node.y+1}, {x:node.x + 1, y:node.y}, {x:node.x, y:node.y-1}]);
+	for (l in tempNeighbors){
+		var neighbor = tempNeighbors[l];
+		if(!(neighbor.x === node.x && neighbor.y === node.y) && (neighbor.x > 0 && neighbor.x < xMax)
+		 && (neighbor.y > 0 && neighbor.y < yMax) && isPassable(neighbor, map)){
+			neighbors.push(neighbor);
 		}
 	}
 	return neighbors;
@@ -92,8 +124,17 @@ var isPassable = function(node, map){
 }
 
 var isIn = function(item, container){
-	for(var k = 0; k < container.length; k++){
-		return (container[k].x === item.x && container[k].y === item.y);
+	// console.log("item: ", item);
+	if (container.length === 0){
+		return false;
+	}
+	for(k in container){
+		// console.log("Item: ", item);
+		// console.log(container.length);
+		// console.log(item, container[k]);
+		if(equals(container[k], item)){
+			return true;
+		}
 	}
 	return false;
 }
@@ -103,6 +144,8 @@ var equals = function(item1, item2){
 }
 var count = 0;
 var navigate = function(path, initialRotation,camera){
+	// console.log("start: ", path[0], path[1]);
+
 	count+=1;
 	// console.log(count);
 	var distance;
@@ -112,6 +155,7 @@ var navigate = function(path, initialRotation,camera){
 	var destination = path[0][1];
 	var driveSpeed = path[0][2];
 	var rotationSpeed = path[0][3];
+	// initialRotation = camera.position.y;
 	initialRotation = (initialRotation + 2*Math.PI) %  (2* Math.PI);
 	if (start.x === destination.x){
 		distance = Math.abs(destination.y - start.y);
@@ -138,17 +182,14 @@ var navigate = function(path, initialRotation,camera){
 
 
     degree = Math.atan2((destination.y-start.y), (destination.x - start.x));
-    degree = (degree + 2*Math.PI) % 2*Math.PI;
-    console.log(degree);
-    // console.log("initialRotation: ", initialRotation - degree);
-	if (initialRotation - degree === Math.PI/2){
-		rotationDirection = 1;
-	}
-	else{
-		rotationDirection = -1;
-	}
-	degree = Math.PI/2;
+ 	// console.log("here: ", degree);
+    degree = (degree + 2*Math.PI) % (2*Math.PI);
 
+	rotationDataList = handleRotation(initialRotation, degree);
+	rotationDirection = rotationDataList[0];
+	// console.log("rotationDataList: ", rotationDataList);
+	degree = rotationDataList[1];
+	// console.log("degree here!!!!!", degree);
 	var navigateVars = [path, initialRotation, degree, camera];
 
 	if (driveSpeed === 0 && rotationSpeed != 0){
@@ -159,6 +200,38 @@ var navigate = function(path, initialRotation,camera){
 		moveToGoal(destination, distance, driveSpeed, direction, navigateVars, camera)
 	}
 	path.splice(0, 1);
+}
+
+
+var handleRotation = function(start, destination){
+	var direction;
+	var degree;
+	// console.log("initialRotation: ", start, " degree: ", destination);
+	if ((destination - start) >= Math.PI){
+		// console.log(1);
+		direction = 1;
+		degree = (2*Math.PI) - (destination	- start);
+	}
+	else if((destination - start) >= 0 && (destination - start) <= Math.PI){
+		// console.log(2);
+		direction = -1;
+		degree = destination - start;
+	}
+	else if((destination - start) <= -Math.PI){
+		// console.log(3);
+		direction = -1;
+		degree = (2*Math.PI) + (destination - start);
+	}
+	else if((destination - start) <= 0 && (destination - start) >= -Math.PI){
+		// console.log(4);
+		direction = 1;
+		degree = Math.abs(destination - start);
+	}
+	else{
+		console.log("something very strange is happening in handleRotation");
+	}
+	// console.log("Degree here!", degree * direction);
+	return [direction, degree];
 }
 currentRotation = 0;
 currentDistance = 0;
@@ -177,6 +250,7 @@ var moveToGoal = function(destination, distance, speed, direction, navigateVars,
 	moveInterval = setInterval(function(){move(destination, distance, camera, direction, navigateVars);}, 1000/speed);
 }
 var move = function(destination, distance, camera, direction, navigateVars){
+	// console.log("move");
 	camera.position.x += 0.1*direction.x;
 	camera.position.z += 0.1*direction.y;
 	currentDistance += (direction.x + direction.y)*0.1;
@@ -188,14 +262,18 @@ var move = function(destination, distance, camera, direction, navigateVars){
 }
 
 var rotateToGoal = function(degree, speed, rotationDirection, navigateVars, camera){
-	navigateVars[1] = -navigateVars[1] + degree;
+	// console.log("rotate ", navigateVars[1], degree, rotationDirection);
+	navigateVars[1] =  navigateVars[1] + degree * -rotationDirection;
+	// console.log("rotate ", navigateVars[1]);
 	moveInterval = setInterval(function(){rotate(degree, rotationDirection, navigateVars, camera);}, 100/speed);
 }
 
 var rotate = function(degree, rotationDirection, navigateVars, camera){
+	// console.log("rotate");
 	camera.rotation.y += 0.01*rotationDirection;
 	currentRotation += 0.01*rotationDirection;
 	if (Math.abs(currentRotation) >= Math.abs(degree)){
+		// camera.rotation.y = degree;
 		clearInterval(moveInterval);
 		currentRotation = 0;
 		navigateCallBack(navigateVars);
@@ -203,13 +281,36 @@ var rotate = function(degree, rotationDirection, navigateVars, camera){
 	}
 }
 
-var manageNavigation = function(pointsList, speed, camera){
-	var navigateInputList = []
-	for (var i = 0; i < pointsList - 2; i++){
-		navigateInputList.push([pointsList[i], pointsList[i+1], speed, 0]);
+var manageNavigation = function(pointsList, speed, rotationSpeed, roomCenter, camera){
+	var navigateInputList = [];
+	camera.position.x = 2*(pointsList[0].x - 15);
+	camera.position.z = -2*(pointsList[0].y - 21);
+	camera.position.y = 7;
+	camera.rotation.x = 0;
+	camera.rotation.y = Math.PI/2;
+	console.log(camera.rotation.y);
+	camera.rotation.z = 0;
+	// console.log(pointsList);
+	for (var i = 0; i < pointsList.length - 2; i++){
+		var point1 = {x:2*(pointsList[i].x - 15), y:-2*(pointsList[i].y - 21)};
+		var point2 = {x:2*(pointsList[i + 1].x - 15), y:-2*(pointsList[i+1].y - 21)};
+		navigateInputList.push([point1, point2, 0, rotationSpeed]);
+		navigateInputList.push([point1, point2, speed, 0]);
 	}
-	navigate(navigateInputList, Math.atan2((pointsList[1].y - pointsList[0].y), pointsList[1].x - pointsList[0].x), camera);
+	// var rotationData = handleRotation(camera.rotation.y, Math.atan2(point1.y, point1.x));
+
+	navigateInputList.push([point2, roomCenter, 0, rotationSpeed]);
+	// console.log("navigateList: ", navigateInputList[0]);
+	// camera.rotation.y - rotationData[0] * rotationData[1]
+	navigate(navigateInputList,0, camera);
 }
 var testStart = {x:1, y:1};
 var testEnd = {x:20, y:16};
 
+var babylonPoint2MapPoint = function(point){
+	return {x:Math.round((point.x)/2 + 15), y:Math.round((point.y)/(-2) + 21)};
+}
+
+var MapPoint2BabylonPoint = function(point){
+	return {x:2*(point.x - 15), y:-2*(point.y - 21)};
+}
