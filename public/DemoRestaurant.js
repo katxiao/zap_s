@@ -243,6 +243,7 @@ var navigateCallBack = function(navigateVars){
 		if (tourBool){
 		tourCallBack(camera);
 		}
+		navigating = false;
 	}
 
 }
@@ -322,6 +323,7 @@ var tourCallBack = function(camera){
 	}
 	else{
 		tourBool = false;
+		navigating = false;
 	}
 }
 

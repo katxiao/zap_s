@@ -467,6 +467,7 @@
         };
         
         $scope.runTour = function (){
+            $('#itemTutorialModal').modal('hide');
             runTour();
         }
 
