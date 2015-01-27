@@ -15,7 +15,7 @@
         });
         
         $scope.initiateTutorial = function () {
-            //$cookieStore.put('tutorial', 'true');
+            $cookieStore.put('tutorial', 'ongoing');
             $window.location.href = '/list/#/';
         }
 

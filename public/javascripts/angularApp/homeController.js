@@ -51,10 +51,8 @@
         }
         
         $scope.endTutorial = function () {
-            $cookies['tutorial'] = undefined;
-            delete $cookies['tutorial'];
-            $cookieStore.remove('tutorial');
-            //$('#tutorialModal').modal('hide');
+            $cookieStore.put('tutorial', 'nogo');
+            $('#tutorialModal').modal('hide');
         }
 
         $http.get('/current_auth').success(function(data) {
@@ -113,7 +111,7 @@
                     }
                 }
                 console.log($cookieStore.get('tutorial'));
-                if ($cookieStore.get('tutorial') === 'true') {
+                if ($cookieStore.get('tutorial') === 'ongoing') {
                     console.log("tutorial ongoing");
                     $('#tutorialModal').modal();
                 }

@@ -47,8 +47,8 @@
         }
         
         $scope.endTutorial = function () {
-            $cookieStore.remove('tutorial');
-            //$('#tutorialModal').modal('hide');
+            $cookieStore.put('tutorial', 'done');
+            $('#tutorialModal').modal('hide');
         }
 
         $http.get('/current_auth').success(function (data) {
@@ -105,7 +105,7 @@
                 $('#' + shorten($routeParams.category) + 'Bar').parent().removeClass('progress-category');
                 $('#' + shorten($routeParams.category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
-                if ($cookieStore.get('tutorial') !== undefined) {
+                if ($cookieStore.get('tutorial') === 'ongoing') {
                     console.log("tutorial ongoing", $cookieStore.get('tutorial'));
                     $('#tutorialModal').modal();
                 }

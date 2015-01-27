@@ -40,12 +40,12 @@
         }
         
         $scope.endTutorial = function () {
-            $cookieStore.remove('tutorial');
+            $cookieStore.put('tutorial', 'done');
             $('#itemTutorialModal').modal('hide');
         }
         
         $scope.tour = function () {
-            $cookieStore.remove('tutorial');
+            $cookieStore.put('tutorial', 'done');
             $('#itemTutorialModal').modal('hide');
         }
 
@@ -105,7 +105,7 @@
                 //$('#' + shorten(category) + 'Bar').parent().removeClass('progress-category');
                 //$('#' + shorten(category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
-                if ($cookieStore.get('tutorial') !== undefined) {
+                if ($cookieStore.get('tutorial') === 'ongoing') {
                     $('#itemTutorialModal').modal();
                 }
             });
@@ -211,21 +211,57 @@
         }
 
         $scope.moveLeft = function () {
-            if($scope.index > 0)
-            {
-                $scope.index -= 1;
-                $scope.previousPoints = $scope.standards[$scope.index].choice || 0;
+            var index = $scope.index;
+            if (index > 0) {
+                index -= 1;
+                while (!$scope.matchesFilter(index) && index >= 0) {
+                    index -= 1;
+                }
+                if (index >= 0) {
+                    $scope.index = index;
+                    $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;
+                }
             }
         }
-
+        
         $scope.moveRight = function () {
-            if ($scope.index < ($scope.standards.length - 1)) {
-                $scope.index += 1;
-                $scope.previousPoints = $scope.standards[$scope.index].choice || 0;
+            var index = $scope.index;
+            if (index < ($scope.standards.length - 1)) {
+                index += 1;
+                while (!$scope.matchesFilter(index) && index <= ($scope.standards.length - 1)) {
+                    index += 1;
+                }
+                if (index <= ($scope.standards.length - 1)) {
+                    $scope.index = index;
+                    $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;;
+                }
             }
         }
-
-        $scope.log = function () { console.log('time');}
+        
+        $scope.matchesFilter = function (index) {
+            var valid = false;
+            if ($scope.obj && $scope.standards[index].filters) {
+                if (!$scope.obj.easy && !$scope.obj.lowcost && !$scope.obj.visible)
+                    return true;
+                if ($scope.obj.easy) {
+                    valid = $scope.standards[index].filters.indexOf("Easy") >= 0;
+                }
+                if ($scope.obj.lowcost && !valid) {
+                    valid = $scope.standards[index].filters.indexOf("Low Cost") >= 0;
+                }
+                if ($scope.obj.visible && !valid) {
+                    valid = $scope.standards[index].filters.indexOf("Visible") >= 0;
+                }
+            } else {
+                return true;
+            }
+            return valid;
+        }
+        
+        $scope.filterModal = function () {
+            console.log("filter modal");
+            $('#filterInfoModal').modal();
+        }
 
         $scope.etcs = {
             legislation: {
