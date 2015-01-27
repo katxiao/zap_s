@@ -49,8 +49,9 @@
         }
     });
 
+
     angular.module('app', [])
-    .directive('scrollTo', function ($location, $anchorScroll) {
+    .directive('scrollTo', function ($location, $anchorScroll, $window) {
       return function(scope, element, attrs) {
 
         element.bind('click', function(event) {
@@ -62,6 +63,8 @@
             var location = attrs.scrollTo;
             $location.hash(location);
             $anchorScroll();
+            //$location.path('list/#'+location).replace();
+            $window.location.href = '/list/#/#'+location;
         });
         }
     });

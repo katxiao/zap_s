@@ -1,9 +1,9 @@
 ﻿<section>
     <div data-ng-include data-src="'/angularviews/navbar.html'"></div>
     <div data-ng-include data-src="'/angularviews/login.html'"></div>
-    <div style="z-index: 4;">
+<!--     <div style="z-index: 4;"> -->
         <!--<div style="position: fixed; top: 3.5em;width:92.5%;background-color: aliceblue;left:50%;margin-right:-46.25%; transform: translate(-50%, 0%);z-index: 4;"><h4>Total Progress</h4></div>-->
-        <div class="progress" style="position: fixed; top: 19.5em; right: 0; height: 40px;width: 35%; z-index: 4;transform:rotate(-90deg) translate(0em, 9.5em);">
+<!--         <div class="progress" style="position: fixed; top: 19.5em; right: 0; height: 40px;width: 35%; z-index: 4;transform:rotate(-90deg) translate(0em, 9.5em);">
             <div class="progress-bar" id="TotalBar" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="240" style="width: 0%; position: fixed;height: 40px;overflow:hidden;z-index: 4">
             </div>
         </div>
@@ -13,7 +13,7 @@
                 <img src="{{statusImage}}" width="50" height="50" />
             </div>
         </div>
-    </div>
+    </div> -->
     <!--<center>
         <ul id="filters">
             <li><input type="checkbox" ng-model="obj.easy" />Easy</li>
@@ -25,15 +25,19 @@
 <div id="wrapper">
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-            <center style="margin: 5px 0 0 5px">
-                <li class="sidebar-brand"><button class="btn btn-default"  style="margin: 10px 0 0 10px"> 
+            <center>
+                <li class="sidebar-brand"><button class="btn btn-default cat-button" id="cat-total"> 
                     <div>Total <br><sup class="large-numerator">{{pointsEarned}}</sup>&frasl;<sub>100</sub>
                     </div>
                 </button></li>
-                <li ng-repeat="category in categoryKeys" class="sidebar-brand"><button class="btn btn-default" scroll-to="{{category}}" style="margin: 10px 0 0 10px"> 
-                    <div>{{category}} <br><sup class="large-numerator">3</sup>&frasl;<sub>10</sub>
-                    </div>
-                </button></li>
+                <li ng-repeat="category in categoryKeys" class="sidebar-brand">
+                    <button ng-if="standardsByCategory[category].value >= 10" class="btn btn-default cat-button cat-button-success" scroll-to="{{category}}" id="{{category}}Button"> 
+                    <div>{{category}} </div><sup class="large-numerator">{{standardsByCategory[category].value}}</sup>&frasl;<sub>10</sub>
+                    </button>
+                    <button ng-if="standardsByCategory[category].value < 10" class="btn btn-default cat-button cat-button-danger" scroll-to="{{category}}" id="{{category}}Button"> 
+                    <div>{{category}} </div><sup class="large-numerator">{{standardsByCategory[category].value}}</sup>&frasl;<sub>10</sub>
+                    </button>
+                </li>
             </center>
         </ul>
     </div>

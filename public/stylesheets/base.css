@@ -238,10 +238,10 @@ a{
 }
 
 #sidebar-wrapper {
-  margin-right: -250px;
+  margin-right: -255px;
   right: 250px;
   width: 250px;
-  background: #E8E8E8 ;
+/*  background: #E8E8E8 ;*/
   position: fixed;
   height: 100%;
   overflow-y: auto;
@@ -269,22 +269,43 @@ a{
     }
 
     #sidebar-wrapper {
-      left: 0;
+      right: 0;
     }
 
     #wrapper.active {
       position: relative;
-      left: 250px;
+      right: 250px;
     }
 
     #wrapper.active #sidebar-wrapper {
-      left: 250px;
+      right: 250px;
       width: 250px;
       transition: all 0.4s ease 0s;
     }
 }
 
+#cat-total {
+	border: 2px solid black;
+	width: 180px;
+	margin: 0 0 0 0 ;
+}
+
 .large-numerator {
 	font-size: 24px;
 	line-height: 40px;
+}
+
+.cat-button {
+	width: 170px;
+	white-space: normal;
+	margin: 5px 0 0 5px
+}
+
+.cat-button-danger {
+	color: #d9534f;
+}
+
+.cat-button-success {
+	color:#5cb85c;
+
 }
