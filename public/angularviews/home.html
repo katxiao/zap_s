@@ -95,19 +95,30 @@
                                     </div>
                                     <table class="table table-striped">
                                         <tr ng-repeat="standard in standardsByCategory[category].questions | tags:obj" style="border: 1px black solid;">
-                                            <td style="width:40%; font-size: 1.2em;">
-                                                {{$index + 1}}. {{standard.question | reinsertCommas}} <span class="glyphicon glyphicon-info-sign" ng-click="extraInfoModal(category, $index)"></span>
+                                            <td style="width:50%; font-size: 1.2em;" align = "right">
+                                                <div id = "iQ">{{$index + 1}}. {{standard.question | reinsertCommas}} </div>
+                                                <!-- <span class="glyphicon glyphicon-info-sign" ng-click="extraInfoModal(category, $index)"></span> -->
+                                                <div id = "iconRow" class "pull-right">
+                                                    <div id = "topIcon">
+                                                    <div class = "icon"><img src = "../infoImages/legislation.jpg"></div>
+                                                    <div class = "icon"><img src = "../infoImages/roi.jpg"></div>
+                                                    </div>
+                                                    <div id = "buttonIcon">
+                                                    <div class = "icon"><img src = "../infoImages/environmental.jpg"></div>
+                                                    <div class = "icon"><img src = "../infoImages/greenSolutions.jpg"></div>
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <td style="width: 10%">
-                                                <center>{{carefulMultiply(standard.option, standard.percentage)}} points</center>
-                                            </td>
-                                            <td>
+                                            <td style = "width:40%">
                                                 <div class="col-md-4" style="font-size: 1.0em;" ng-repeat="option in standard.optionList">
                                                     <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, standard.index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
                                                 </div>
-                                                <div class="pull-right col-md-4">
+<!--                                                 <div class="pull-right col-md-4">
                                                     <input ng-model="standard.percentage" size="3" ng-change="computePercentScore(standard.category, standard.option, standard.index, standard.percentage, standard.previousPoints)" />%
-                                                </div>
+                                                </div> -->
+                                            </td>
+                                            <td style="width: 10%">
+                                                <center>{{carefulMultiply(standard.option, standard.percentage)}} points</center>
                                             </td>
                                         </tr>
                                     </table>

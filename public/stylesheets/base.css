@@ -344,3 +344,21 @@ a{
 .cat-star-gold {
 	color:gold;
 }
+#iQ{
+  float:left;
+  text-align: left;
+}
+
+#iconRow{
+  float:right;
+ display:inline-block;
+
+}
+.icon {
+  display:inline-block;
+}
+.icon img{
+  display:inline-block;
+  width:30px;
+  height:30px;
+}
