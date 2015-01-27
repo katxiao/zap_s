@@ -21,9 +21,9 @@ var DemoRestaurant = [
 "#..............#..............#",
 "#..............#..#############",
 "#..............#..............#",
-"#.............................#",
+"#..........#..................#",
 "#..........#####..............#",
-"#..............#..............#",
+"#..........#...#..............#",
 "#..............#..............#",
 "#..............#..............#",
 "#..............#..............#",
@@ -76,15 +76,19 @@ var DemoRestaurant = [
 
 
 var bfs = function(start, goal, map){
-	console.log("start: ", start, "end: ", goal);
+	// console.log("start: ", start, "end: ", goal);
+	console.log("gets here!");
 	var visitedNodes = [];
 	var queue = [];
 	queue = queue.concat([[start]]);
-	console.log(queue);
+	// console.log(queue);
 	if (equals(goal,start)){
+
 		return [start];
 	}
+
 	else{
+		// console.log(queue);
 		while(!equals(queue[0][queue[0].length - 1], goal)){
 			var currentNode = queue[0][queue[0].length-1];
 			if (!(isIn(currentNode, visitedNodes))){
@@ -125,14 +129,10 @@ var isPassable = function(node, map){
 }
 
 var isIn = function(item, container){
-	// console.log("item: ", item);
 	if (container.length === 0){
 		return false;
 	}
 	for(k in container){
-		// console.log("Item: ", item);
-		// console.log(container.length);
-		// console.log(item, container[k]);
 		if(equals(container[k], item)){
 			return true;
 		}
@@ -145,10 +145,7 @@ var equals = function(item1, item2){
 }
 var count = 0;
 var navigate = function(path, initialRotation,camera){
-	// console.log("start: ", path[0], path[1]);
-
 	count+=1;
-	// console.log(count);
 	var distance;
 	var direction;
 	var degree;
@@ -156,7 +153,7 @@ var navigate = function(path, initialRotation,camera){
 	var destination = path[0][1];
 	var driveSpeed = path[0][2];
 	var rotationSpeed = path[0][3];
-	// initialRotation = camera.position.y;
+
 	initialRotation = (initialRotation + 2*Math.PI) %  (2* Math.PI);
 	if (start.x === destination.x){
 		distance = Math.abs(destination.y - start.y);
@@ -183,14 +180,11 @@ var navigate = function(path, initialRotation,camera){
 
 
     degree = Math.atan2((destination.y-start.y), (destination.x - start.x));
- 	// console.log("here: ", degree);
     degree = (degree + 2*Math.PI) % (2*Math.PI);
 
 	rotationDataList = handleRotation(initialRotation, degree);
 	rotationDirection = rotationDataList[0];
-	// console.log("rotationDataList: ", rotationDataList);
 	degree = rotationDataList[1];
-	// console.log("degree here!!!!!", degree);
 	var navigateVars = [path, initialRotation, degree, camera];
 
 	if (driveSpeed === 0 && rotationSpeed != 0){
@@ -207,8 +201,7 @@ var navigate = function(path, initialRotation,camera){
 var handleRotation = function(start, destination){
 	var direction;
 	var degree;
-	// console.log("initialRotation: ", start, " degree: ", destination);
-	if ((destination - start) >= Math.PI){
+	if ((destination - start) > Math.PI){
 		// console.log(1);
 		direction = 1;
 		degree = (2*Math.PI) - (destination	- start);
@@ -223,7 +216,7 @@ var handleRotation = function(start, destination){
 		direction = -1;
 		degree = (2*Math.PI) + (destination - start);
 	}
-	else if((destination - start) <= 0 && (destination - start) >= -Math.PI){
+	else if((destination - start) < 0 && (destination - start) > -Math.PI){
 		// console.log(4);
 		direction = 1;
 		degree = Math.abs(destination - start);
@@ -231,7 +224,6 @@ var handleRotation = function(start, destination){
 	else{
 		console.log("something very strange is happening in handleRotation");
 	}
-	// console.log("Degree here!", degree * direction);
 	return [direction, degree];
 }
 currentRotation = 0;
@@ -251,7 +243,6 @@ var moveToGoal = function(destination, distance, speed, direction, navigateVars,
 	moveInterval = setInterval(function(){move(destination, distance, camera, direction, navigateVars);}, 1000/speed);
 }
 var move = function(destination, distance, camera, direction, navigateVars){
-	// console.log("move");
 	camera.position.x += 0.1*direction.x;
 	camera.position.z += 0.1*direction.y;
 	currentDistance += (direction.x + direction.y)*0.1;
@@ -263,18 +254,16 @@ var move = function(destination, distance, camera, direction, navigateVars){
 }
 
 var rotateToGoal = function(degree, speed, rotationDirection, navigateVars, camera){
-	// console.log("rotate ", navigateVars[1], degree, rotationDirection);
 	navigateVars[1] =  navigateVars[1] + degree * -rotationDirection;
-	// console.log("rotate ", navigateVars[1]);
-	moveInterval = setInterval(function(){rotate(degree, rotationDirection, navigateVars, camera);}, 100/speed);
+	var totalDegree = camera.rotation.y + degree;
+	moveInterval = setInterval(function(){rotate(degree, rotationDirection, navigateVars, totalDegree, camera);}, 50/speed);
 }
 
-var rotate = function(degree, rotationDirection, navigateVars, camera){
-	// console.log("rotate");
-	camera.rotation.y += 0.01*rotationDirection;
-	currentRotation += 0.01*rotationDirection;
+var rotate = function(degree, rotationDirection, navigateVars, totalDegree, camera){
+	camera.rotation.y += 0.005*rotationDirection;
+	currentRotation += 0.005*rotationDirection;
 	if (Math.abs(currentRotation) >= Math.abs(degree)){
-		// camera.rotation.y = degree;
+		// camera.rotation.y = totalDegree;
 		clearInterval(moveInterval);
 		currentRotation = 0;
 		navigateCallBack(navigateVars);
@@ -289,22 +278,20 @@ var manageNavigation = function(pointsList, speed, rotationSpeed, roomCenter, ca
 	camera.position.y = 7;
 	camera.rotation.x = 0;
 	camera.rotation.y = Math.PI/2;
-	console.log(camera.rotation.y);
+	// console.log(camera.rotation.y);
 	camera.rotation.z = 0;
-	// console.log(pointsList);
 	for (var i = 0; i < pointsList.length - 2; i++){
 		var point1 = {x:2*(pointsList[i].x - 15), y:-2*(pointsList[i].y - 21)};
 		var point2 = {x:2*(pointsList[i + 1].x - 15), y:-2*(pointsList[i+1].y - 21)};
 		navigateInputList.push([point1, point2, 0, rotationSpeed]);
 		navigateInputList.push([point1, point2, speed, 0]);
 	}
-	// var rotationData = handleRotation(camera.rotation.y, Math.atan2(point1.y, point1.x));
 
 	navigateInputList.push([point2, roomCenter, 0, rotationSpeed]);
-	// console.log("navigateList: ", navigateInputList[0]);
-	// camera.rotation.y - rotationData[0] * rotationData[1]
 	navigate(navigateInputList,0, camera);
-}
+}	
+
+
 var testStart = {x:1, y:1};
 var testEnd = {x:20, y:16};
 
