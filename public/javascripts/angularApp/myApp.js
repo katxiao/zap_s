@@ -12,7 +12,8 @@
         'stringFormat',
         'tutorial',
         // 3rd Party Modules
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'app'
     ]).filter('tags', function () {
         return function (input, filterObj) {
             return $.grep(input, function (item) {
@@ -48,6 +49,26 @@
             if (!input)
                 return "";
             return input.replace(/;;/g, ',').replace(/;/g, ',');
+        }
+    });
+
+
+    angular.module('app', [])
+    .directive('scrollTo', function ($location, $anchorScroll, $window) {
+      return function(scope, element, attrs) {
+
+        element.bind('click', function(event) {
+            event.stopPropagation();
+            var off = scope.$on('$locationChangeStart', function(ev) {
+                off();
+                ev.preventDefault();
+            });
+            var location = attrs.scrollTo;
+            $location.hash(location);
+            $anchorScroll();
+            //$location.path('list/#'+location).replace();
+            $window.location.href = '/list/#/#'+location;
+        });
         }
     });
 

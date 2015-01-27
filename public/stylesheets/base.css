@@ -260,3 +260,87 @@ a{
 .modal-form {
 	padding: 0 10px 0 10px;
 }
+
+/* Playing around with sidebar */
+
+#wrapper {
+  padding-right: 250px;
+  transition: all 0.4s ease 0s;
+}
+
+#sidebar-wrapper {
+  margin-right: -255px;
+  right: 250px;
+  width: 250px;
+/*  background: #E8E8E8 ;*/
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: all 0.4s ease 0s;
+}
+
+#page-content-wrapper {
+  width: 100%;
+}
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width:767px) {
+
+    #wrapper {
+      padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+      right: 0;
+    }
+
+    #wrapper.active {
+      position: relative;
+      right: 250px;
+    }
+
+    #wrapper.active #sidebar-wrapper {
+      right: 250px;
+      width: 250px;
+      transition: all 0.4s ease 0s;
+    }
+}
+
+#cat-total {
+	border: 2px solid black;
+	width: 180px;
+	margin: 0 0 0 0 ;
+	padding: 0 5 0 0;
+}
+
+.large-numerator {
+	font-size: 24px;
+	line-height: 40px;
+}
+
+.cat-button {
+	width: 170px;
+	white-space: normal;
+	margin: 5px 0 0 5px
+}
+
+.cat-button-danger {
+	color: #d9534f;
+}
+
+.cat-button-success {
+	color:#5cb85c;
+}
+
+.cat-star-gold {
+	color:gold;
+}

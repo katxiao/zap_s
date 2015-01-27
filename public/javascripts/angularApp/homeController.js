@@ -21,6 +21,7 @@
         $scope.twoStar = 100;
         $scope.threeStar = 175;
         $scope.fourStar = 240;
+        $scope.stars = 0;
 
         $scope.standardsByCategory = {};
         $scope.categoryKeys = [];
@@ -84,14 +85,17 @@
                     if ($scope.standardsByCategory[$scope.standards[i].category]) {
                         $scope.standards[i].index = $scope.standardsByCategory[$scope.standards[i].category].questions.length;
                         $scope.standardsByCategory[$scope.standards[i].category].questions.push($scope.standards[i]);
-                        $scope.standardsByCategory[$scope.standards[i].category].value += $scope.standards[i].previousPoints;
+                        //$scope.standardsByCategory[$scope.standards[i].category].value += $scope.standards[i].previousPoints;
+                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value + $scope.standards[i].previousPoints;
                     } else {
                         $scope.standards[i].index = 0;
                         $scope.standardsByCategory[$scope.standards[i].category] = { value: $scope.standards[i].previousPoints, questions: [ $scope.standards[i]] };
                         $scope.categoryKeys.push($scope.standards[i].category);
+                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value + $scope.standards[i].previousPoints;
                     }
                 }
-                initializeBar();
+                //initializeBar();
+                initalizeTotalButton();
                 $scope.etcKeys = Object.keys($scope.etcs);
             }).then(function () {
                 for (var index in $scope.standardsByCategory) {
@@ -175,15 +179,53 @@
             }
         }
 
+        var initalizeTotalButton = function() {
+            var meetsMinReq = true;
+            for (var i = 0; i < $scope.categoryKeys.length; i++) {
+                meetsMinReq = meetsMinReq && ($scope.standardsByCategory[$scope.categoryKeys[i]].value >= 10);
+            }
+            console.log('meetsMinReq', meetsMinReq);
+            if (meetsMinReq) {
+                if ($scope.pointsEarned >= $scope.twoStar && $scope.pointsEarned < $scope.threeStar) {
+                    $scope.stars = 2;
+                }
+                else if ($scope.pointsEarned >= $scope.threeStar && $scope.pointsEarned < $scope.fourStar) {
+                    $scope.stars = 3;
+                }
+                else if ($scope.pointsEarned >= $scope.fourStar) {
+                    $scope.stars = 4;
+                }
+            } else {
+                $scope.stars = 0;
+            }
+            console.log('stars',$scope.stars);
+        }
+
+        var initalizeButton = function(category) {
+            var catButton = $("button[id='"+ category + "Button']");
+            console.log(catButton);
+            console.log('initializing category', category);
+            if ($scope.standardsByCategory[category].value >= 10) {
+                console.log("adding success class")
+                catButton.removeClass('cat-button-danger').addClass('cat-button-success');
+            } else {
+                console.log("adding danger class")
+                catButton.removeClass('cat-button-success').addClass('cat-button-danger');
+            }
+        }
+
         
         $scope.computeScore = function (category, score, answerIndex, percent, previousPoints) {
             console.log(category, score, answerIndex, percent, previousPoints);
-            var bar = document.getElementById('TotalBar');
-            $scope.pointsEarned = bar.getAttribute("aria-valuenow");
-            $scope.minRequired = bar.getAttribute("aria-valuemax");
+            //var bar = document.getElementById('TotalBar');
+            //$scope.pointsEarned = bar.getAttribute("aria-valuenow");
+            //$scope.minRequired = bar.getAttribute("aria-valuemax");
             $scope.standardsByCategory[category].questions[answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
             console.log(Number(score), (Number(percent || 100) / 100.0), Number(score) * (Number(percent || 100) / 100.0));
             $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
+            console.log($scope.standardsByCategory[category].value)
+            console.log($scope.standardsByCategory[category].questions[answerIndex].previousPoints);
+            $scope.standardsByCategory[category].value = Number($scope.standardsByCategory[category].value) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
             if ($scope.pointsEarned >= $scope.fourStar)
                 $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-success').addClass('progress-bar-info');
             else if ($scope.pointsEarned >= $scope.threeStar)
@@ -192,7 +234,28 @@
                 $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-info').addClass('progress-bar-success');
             else
                 $('#TotalBar').removeClass('progress-bar-success').addClass('progress-bar-danger');
-            bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+            //bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+            //bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+            // var barjQ = $('#TotalBar');
+            // if ($scope.pointsEarned >= $scope.fourStar) {
+            //     barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
+            //     barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star eligible**');
+            //     $scope.statusImage = "/images/cgr4starsmall.jpg";
+            // }
+            // else if ($scope.pointsEarned >= $scope.threeStar) {
+            //     barjQ.width(($scope.pointsEarned * 100.0 / $scope.fourStar) + "%");
+            //     barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star eligible**');
+            //     $scope.statusImage = "/images/cgr3starsmall.jpg";
+            // }
+            // else if ($scope.pointsEarned >= $scope.twoStar) {
+            //     barjQ.width(($scope.pointsEarned * 100.0 / $scope.threeStar) + "%");
+            //     barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star eligible**');
+            //     $scope.statusImage = "/images/cgr2starsmall.jpg";
+            // }    
+            // else {
+            //     barjQ.width(($scope.pointsEarned * 100.0 / $scope.twoStar) + "%");
+            //     barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
+            // }
 
             var catbar = document.getElementById(category + 'Bar');
             var catPE = catbar.getAttribute("aria-valuenow");
@@ -214,49 +277,53 @@
                 catbarjQ.html("");
                 //$('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
             }*/
+//<<<<<<< HEAD
             
-            var barjQ = $('#TotalBar');
-            if ($scope.pointsEarned >= $scope.fourStar) {
-                barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
-                if (allMeetMinRequirement()) {
-                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star eligible**');
-                    $scope.statusImage = "/images/cgr4starsmall.jpg";
-                } else {
-                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
-                    $scope.statusImage = "";
-                }
-            }
-            else if ($scope.pointsEarned >= $scope.threeStar) {
-                barjQ.width(($scope.pointsEarned * 100.0 / $scope.fourStar) + "%");
-                if (allMeetMinRequirement()) {
-                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star eligible**');
-                    $scope.statusImage = "/images/cgr3starsmall.jpg";
-                } else {
-                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
-                    $scope.statusImage = "";
-                }
-            }
-            else if ($scope.pointsEarned >= $scope.twoStar) {
-                barjQ.width(($scope.pointsEarned * 100.0 / $scope.threeStar) + "%");
-                console.log(allMeetMinRequirement());
-                if (allMeetMinRequirement()) {
-                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star eligible**');
-                    $scope.statusImage = "/images/cgr2starsmall.jpg";
-                } else {
-                    barjQ.html($scope.pointsEarned + '/' + $scope.threeStar + ' points **2-Star eligible**');
-                    $scope.statusImage = "";
-                }
-            }    
-            else {
-                barjQ.width(($scope.pointsEarned * 100.0 / $scope.twoStar) + "%");
-                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
-                $scope.statusImage = "";
-            }
+//            var barjQ = $('#TotalBar');
+//            if ($scope.pointsEarned >= $scope.fourStar) {
+//                barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
+//                if (allMeetMinRequirement()) {
+//                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star eligible**');
+//                    $scope.statusImage = "/images/cgr4starsmall.jpg";
+//                } else {
+//                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
+//                    $scope.statusImage = "";
+//                }
+//            }
+//            else if ($scope.pointsEarned >= $scope.threeStar) {
+//                barjQ.width(($scope.pointsEarned * 100.0 / $scope.fourStar) + "%");
+//                if (allMeetMinRequirement()) {
+//                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star eligible**');
+//                    $scope.statusImage = "/images/cgr3starsmall.jpg";
+//                } else {
+//                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
+//                    $scope.statusImage = "";
+//                }
+//            }
+//            else if ($scope.pointsEarned >= $scope.twoStar) {
+//                barjQ.width(($scope.pointsEarned * 100.0 / $scope.threeStar) + "%");
+//                console.log(allMeetMinRequirement());
+//                if (allMeetMinRequirement()) {
+//                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star eligible**');
+//                    $scope.statusImage = "/images/cgr2starsmall.jpg";
+//                } else {
+//                    barjQ.html($scope.pointsEarned + '/' + $scope.threeStar + ' points **2-Star eligible**');
+//                    $scope.statusImage = "";
+//                }
+//            }    
+//            else {
+//                barjQ.width(($scope.pointsEarned * 100.0 / $scope.twoStar) + "%");
+//                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
+//                $scope.statusImage = "";
+//            }
+
+            initalizeButton(category);
+            initalizeTotalButton();
         }
         
         $scope.computePercentScore = function (category, score, answerIndex, percent, previousPoints) {
             console.log(category, score, answerIndex, percent, previousPoints);
-            var bar = document.getElementById('TotalBar');
+            /*var bar = document.getElementById('TotalBar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
             $scope.standardsByCategory[category].questions[answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
@@ -320,7 +387,43 @@
             catbar.setAttribute("aria-valuenow", catPE);
             var catbarjQ = $('#' + shorten(category) + 'Bar');
             catbarjQ.width(Math.min(catPE * 100.0 / minRequired, 100) + "%");
-            catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');
+            catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');*/
+            //var bar = document.getElementById('TotalBar');
+            //$scope.pointsEarned = bar.getAttribute("aria-valuenow");
+            //$scope.minRequired = bar.getAttribute("aria-valuemax");
+            if (answerIndex) {
+                $scope.standardsByCategory[category].questions[answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+                $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+                $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
+                $scope.standardsByCategory[category].value = Number($scope.standardsByCategory[category].value) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
+            }
+            // if ($scope.pointsEarned >= $scope.fourStar)
+            //     $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-success').addClass('progress-bar-info');
+            // else if ($scope.pointsEarned >= $scope.threeStar)
+            //     $('#TotalBar').removeClass('progress-bar-info').removeClass('progress-bar-danger').removeClass('progress-bar-success').addClass('progress-bar-primary');
+            // else if ($scope.pointsEarned >= $scope.twoStar)
+            //     $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-info').addClass('progress-bar-success');
+            // else
+            //     $('#TotalBar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+            // bar.setAttribute("aria-valuenow", $scope.pointsEarned);
+            // var barjQ = $('#TotalBar');
+            // if ($scope.pointsEarned >= $scope.fourStar) {
+            //     barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
+            //     barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star**');
+            // }
+            // else if ($scope.pointsEarned >= $scope.threeStar) {
+            //     barjQ.width(($scope.pointsEarned * 100.0 / $scope.fourStar) + "%");
+            //     barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star**');
+            // }
+            // else if ($scope.pointsEarned >= $scope.twoStar) {
+            //     barjQ.width(($scope.pointsEarned * 100.0 / $scope.threeStar) + "%");
+            //     barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star**');
+            // }    
+            // else {
+            //     console.log(($scope.pointsEarned * 100.0 / $scope.twoStar) + "%");
+            //     barjQ.width(($scope.pointsEarned * 100.0 / $scope.twoStar) + "%");
+            //     barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
+            // }
         }
         
         var shorten = function (s) {
