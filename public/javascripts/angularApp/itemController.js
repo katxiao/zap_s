@@ -164,7 +164,7 @@
         }
         
         $scope.computeScore = function (score, answerIndex, percent) {
-            var category = $scope.standards[$scope.index].category
+            var category = $scope.standards[answerIndex].category
             var bar = document.getElementById(shorten(category) + 'Bar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
@@ -191,6 +191,12 @@
         
         var shorten = function (s) {
             return s.substring(0, Math.min(s.length, 6));
+        }
+
+        $scope.saveButton = function() {
+            if (!$scope.user) {
+                $scope.signUpModal();
+            }
         }
 
         $scope.moveLeft = function () {
@@ -224,9 +230,11 @@
         }
 
         var save = function(index) {
-            $scope.standards[index].percentage = $scope.standards[index].percentage ? $scope.standards[index].percentage : 100;
-            $http.put('/api/standards', {standardId : $scope.standards[index]._id, selectedOption : parseFloat($scope.standards[index].option), percentage : $scope.standards[index].percentage})
-            .then(function(response){});
+            if ($scope.user) {
+                $scope.standards[index].percentage = $scope.standards[index].percentage ? $scope.standards[index].percentage : 100;
+                $http.put('/api/standards', {standardId : $scope.standards[index]._id, selectedOption : parseFloat($scope.standards[index].option), percentage : $scope.standards[index].percentage})
+                .then(function(response){});
+            }
         }
         
         $scope.matchesFilter = function (index) {
@@ -323,7 +331,7 @@
             } else {
                 $http.post('/login', { username: username, password: password }).success(function (data) {
                     $('#modal').modal('hide');
-                    $window.location.href = "/#/profile";
+                    $window.location.href = "list/#/profile";
                 }).error(function (err) {
                     $scope.logInErrorMessage = "Login unsuccessful. Try again.";
                     $scope.showLogInErrorMessage = true;
