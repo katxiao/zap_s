@@ -83,11 +83,11 @@ var db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "Mongoose connection error."));
 db.once("open", function () {
-     // mongoose.connection.db.dropDatabase(function(err, result) {
-     //     if (err) {
-     //         console.error.bind(console, "Mongoose database error.");
-     //     } else {
-     //         console.log("Connected to Mongoose");
+      mongoose.connection.db.dropDatabase(function(err, result) {
+          if (err) {
+              console.error.bind(console, "Mongoose database error.");
+          } else {
+              console.log("Connected to Mongoose");
                   // Try inserting admin into db
             Client.findOne({username:'admin'}).exec(function(err, client) {
                 if (err) {
@@ -106,8 +106,8 @@ db.once("open", function () {
             //Standard.remove({category: "Food"}, function (err) {
             //    console.log('collection removed')
             //});
-     //     }
-     // });
+          }
+      });
 
     console.log("Connected to Mongoose.");
 });

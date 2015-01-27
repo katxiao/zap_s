@@ -310,16 +310,16 @@
         $scope.matchesFilter = function(index) {
             var valid = false;
             if ($scope.obj && $scope.standards[index].filters) {
-                if(!$scope.obj.easy && !$scope.obj.lowcost && !$scope.obj.visible)
-                    return true; 
+                if (!$scope.obj.easy && !$scope.obj.lowcost && !$scope.obj.visible)
+                    return true;
                 if ($scope.obj.easy) {
-                    valid = $scope.standards[index].filters.indexOf("Easy") >= 0;
+                    valid = item.filters.indexOf("Easy") >= 0 || item.filters.indexOf("Easy\r") >= 0 || item.filters.indexOf("Easy\n") >= 0;
                 }
                 if ($scope.obj.lowcost && !valid) {
-                    valid = $scope.standards[index].filters.indexOf("Low Cost") >= 0;
+                    valid = item.filters.indexOf("Low Cost") >= 0 || item.filters.indexOf("Low Cost\r") >= 0 || item.filters.indexOf("Low Cost\n") >= 0;;
                 }
                 if ($scope.obj.visible && !valid) {
-                    valid = $scope.standards[index].filters.indexOf("Visible") >= 0;
+                    valid = item.filters.indexOf("Visible") >= 0 || item.filters.indexOf("Visible\r") >= 0 || item.filters.indexOf("Visible\n") >= 0;;
                 }
             } else {
                 return true;

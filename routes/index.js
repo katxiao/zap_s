@@ -71,6 +71,7 @@ router.post('/upload', function (req, res, next) {
                                     var legislationZips = standardData[10].split(";;");
                                     var rebateZips = standardData[12].split(";;");
                                     var filters = standardData[16].split(";;");
+                                    console.log(filters);
                                     //console.log(optionsList.length, gpsList.length);
                                     if (optionsList.length > 0 && optionsList.length === gpsList.length) {
                                         var options = [];
@@ -80,7 +81,7 @@ router.post('/upload', function (req, res, next) {
                                         }
                                         //options.push({ text: optionsList[index], points: Number(gpsList[index]) });
                                         var standard = new Standard({ category: standardData[0], item: standardData[7] || "Don't have yet.", question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[13], legislation: { message: standardData[9], zipCodes: legislationZips }, rebateincentives: { message: standardData[11], zipCodes: rebateZips }, solutions: standardData[14], filters: filters });
-                                        standard.save(function (err) { });
+                                        standard.save(function (err) { console.log(err); });
                                     }
                                 }
                             } else {
