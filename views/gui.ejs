@@ -65,6 +65,7 @@
       <div id="centerColumn">
 				<div class="row">
 					<div id="graphicsDiv" class = "btn-group" role = "group" aria-label = "...">
+            <!-- <button id = "mode" type = "button" class = "btn btn-default button graphicsButton">Static Mode</button> -->
             <div id = "buttons" class = "btn-group-vertical" role = "group" aria-label="...">
               <div id = "settings" class="btn-group" role="group">
                 <button type="button" class="btn btn-default dropdown-toggle button graphicsButton" data-toggle="dropdown" aria-expanded="false">
@@ -170,6 +171,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.4.0.js"></script>
+	<script src="/javascripts/angularApp/tutorial.js"></script>
 	<script src="/javascripts/angularApp/guiApp.js"></script>
 	<script src="/javascripts/angularApp/guiController.js"></script>
 	<script src="/javascripts/angularApp/categoryController.js"></script>
@@ -187,7 +189,6 @@
                   var camera = newScene.activeCamera;
 
                   newScene.activeCamera.attachControl(canvas);
-                    // camera.position.z = 5;
 
                     canvas.addEventListener("click", function(){
                         var pickResult = newScene.pick(newScene.pointerX, newScene.pointerY);
@@ -202,16 +203,13 @@
                         } else {
                           item = meshName.substring(index+1);
                         }
-                        if (room !== undefined && item!== undefined) {
+                        if (room !== undefined && item!== undefined && index != -1) {
                             // $http.get('/api/standards/item?room=' + $routeParams.room + '&item=' + $routeParams.item).success(function(data) {
                             //       console.log("getting item data");
                             //       console.log(data);
                             // });
                             window.location.href = '/gui/#/'+room+'/'+item;
                         }
-                        console.log('cameraRotation: ' + camera.rotation);
-                        console.log('cameraPosition: ' + camera.position);
-                        // console.log('initialCameraInfo: '+ initialCameraRotation.z);
                       });
                     
 
@@ -226,117 +224,56 @@
                       camera.rotation.y = y;
                       camera.rotation.z = z;
                     }
-
-                    var rotate = function(axis, rotate) {
-                      camera.rotation[axis] += rotate;
-                    }
-
+                    var rs = 160;
+                    var ds = 3.5;
                     $('#entranceButton').click(function(){
-                      updatePosition(-7, 10, -60);
-                      updateRotation(0, 0, 0);
+                      var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
+                      var end = babylonPoint2MapPoint({x:-7, y:-60});
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:-2, y:-50}, camera);
                     })
+
                     $('#exteriorButton').click(function(){
-                      updatePosition(-6, 26, -99)
-                      updateRotation (0.4, 0, 0);
+                      var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
+                      var end = babylonPoint2MapPoint({x:-6, y:-99});
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:15, y:50}, camera);
                     })
 
                     $('#diningRoomButton').click(function() {
-                      updatePosition(-4, 8, 21);
-                      updateRotation(0, 6*Math.PI/5, 0);
+                      var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
+                      var end = babylonPoint2MapPoint({x:-6, y:21});
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:-29, y:2}, camera);
                     });
+
                     $('#restroomButton').click(function() {
-                      updatePosition(-8, 8, 39);
-                      updateRotation(0,7*Math.PI/5 , 0);
+                      var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
+                      var end = babylonPoint2MapPoint({x:-8, y:39});
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:-19, y:40}, camera);
                     });
+
                     $('#kitchenButton').click(function(){
-                      updatePosition(0, 8, -4);
-                      updateRotation(0, 3*Math.PI/5, 0)
+                      var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
+                      var end = babylonPoint2MapPoint({x:2, y:-4});
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:4, y:-8}, camera);
                     });
-                    // $('#officeButton').click(function(){
-                    //   updatePosition(5, 8, 1);
-                    //   updateRotation(0.16, .56, 0);
-                    // });
+
                     $('#utilityButton').click(function(){
-                      updatePosition(4, 8, 28);
-                      updateRotation(.25, .38, 0)
+                      var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
+                      var end = babylonPoint2MapPoint({x:4, y:28});
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:7, y:36}, camera);
                     });
+
                     $('#storageButton').click(function(){
-                      updatePosition(27, 8, 28);
-                      updateRotation(0, -Math.PI/8, 0);
+                      var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z})
+                      var end = babylonPoint2MapPoint({x:27, y:28});
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:25, y:36}, camera);
                     });
 
-					var entrance = {x: -7, y: 7, z: 42};
-
-					var searchCallback = (function(){
-						var shortestPathLength = Number.MAX_VALUE;
-						var shortestPath = [];
-						return {
-							reset: function(){
-								var shortestPathLength = Number.MAX_VALUE;
-								var shortestPath = [];
-								return true;
-							},
-							tryToSetPath: function(path){
-								if(path.length && typeof(path) !== "string" && path.length < shortestPathLength)
-								{
-									shortestPathLength = path.length;
-									shortestPath = path;
-									return true;
-								}
-								return false;
-							},
-							getCurrentPath: function(){
-								return shortestPath;
-							}
-						}
-					})();
-
-					var map = (function(){
-						var grid = [['_'], ['*']];
-						return {
-							reset: function() {
-								grid = [['_'], ['*']];
-							},
-							setVisited: function(x, y) {
-								grid[x][y] = "#";
-							},
-							//greater than 0 since you never want to actually be in the walls
-							validLocation: function(x, y){
-								return x > 0 && y > 0 && x < grid.length - 1 && y < grid[x].length - 1;
-							}
-						}
-					})();
-
-					var search = function(currentX, currentY, endX, endY, path) {
-						if(currentX === endX && currentY === endY) {
-							searchCallback.tryToSetPath();
-							return;
-						}
-						else if(!map.validLocation(currentX, currentY)) {
-							return;
-						}
-						else {
-							map.setVisited(currentX, currentY);
-							path.push({x: currentX, y: currentY});
-							search(currentX + 1, currentY, endX, endY, path);
-							search(currentX, currentY + 1, endX, endY, path);
-							search(currentX - 1, currentY, endX, endY, path);
-							search(currentX, currentY - 1, endX, endY, path);
-						}
-					}
-          var count1 = 0;
                     $('#officeButton').click(function(){
-                      count1+=1;
-                      if (count1 % 2){
-                      navigate([[{x:-7, y:-42}, {x:-7, y:-30}, 50, 0], [{x:-7, y:-30}, {x:-5, y:-30}, 0, 10],
-                               [{x:-7, y:-30}, {x:-5, y:-30}, 50, 0],[{x:-5, y:-30},{x:-5, y:-37}, 0, 10],
-                               [{x:-5, y:-30},{x:-5, y:-37}, 50, 0], [{x:-5, y:-37}, {x:-8, y:-37}, 0, 10],
-                               [{x:-5, y:-37}, {x:-8, y:-37}, 50, 0]], Math.PI/2, camera);
-                    }
-                    else{
-                      clearInterval(moveInterval);
-                    }
-                    });
+                      var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
+                      var end = babylonPoint2MapPoint({x:5, y:1});
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:15, y:11}, camera);
+                      });
+
                     // Once the scene is loaded, just register a render loop to render it
                     engine.runRenderLoop(function() {
                         newScene.render();
@@ -348,54 +285,5 @@
             });
           }
     </script>
-<!--         <script>
-      var canvas = document.getElementById("renderCanvas");
-      var engine = new BABYLON.Engine(canvas, true);
-      var scene = new BABYLON.Scene(engine);
-      var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI * 1.2, (Math.PI/2)*.8,20, new BABYLON.Vector3(-5, 10, -5), scene);
-      var light0 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(-10, 10, -10), scene);
-      scene.activeCamera.attachControl(canvas);
-                                  var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, scene);
-                        var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
-                        skyboxMaterial.backFaceCulling = false;
-                        skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("../babylon/sky16/sky16", scene);
-                        skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-                        skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-                        skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-                        skybox.material = skyboxMaterial;
-      var click = 0;
-      var stovePic = new Image();
-      window.addEventListener("click", function(){
-        var stoveDiv = document.getElementById('stovePic');
-        var pickResult = scene.pick(scene.pointerX, scene.pointerY);
-        
-        if (pickResult.pickedMesh.name === "Box"){
-          stovePic.src = pickResult.pickedMesh.id;
-          if(!(click % 2) || (click === 0)){
-            stoveDiv.appendChild(stovePic);
-          }
-          else{
-            
-            stoveDiv.removeChild(stovePic);
-          }
-          click += 1;
-        }
-      });
-
-
-      var box = BABYLON.Mesh.CreateBox("Box", 3, scene);
-      box.position.y = 1.5;
-
-      box.id = "http://www.appliancist.com/ge-range-jb850.jpg";
-      
-      engine.runRenderLoop(function() {
-        scene.render();
-      });
-
-      window.addEventListener("resize", function(){
-        engine.resize();
-      })
-      </script> 
-
   </body>
 </html>

@@ -5,9 +5,9 @@
         .module('guiApp')
         .controller('itemController', itemController);
 
-    itemController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$routeParams', 'userService'];
+    itemController.$inject = ['$scope', '$http', '$cookieStore', '$window', '$location', '$routeParams', 'userService'];
 
-    function itemController($scope, $http, $cookies, $window, $location, $routeParams, userService) {
+    function itemController($scope, $http, $cookieStore, $window, $location, $routeParams, userService) {
         //$scope.modalInit = 'hide';
         $scope.interactive = true;
 
@@ -37,6 +37,16 @@
                 header: 'Product Solutions',
                 open: false
             }
+        }
+        
+        $scope.endTutorial = function () {
+            $cookieStore.put('tutorial', 'done');
+            $('#itemTutorialModal').modal('hide');
+        }
+        
+        $scope.tour = function () {
+            $cookieStore.put('tutorial', 'done');
+            $('#itemTutorialModal').modal('hide');
         }
 
         $http.get('/current_auth').success(function (data) {
@@ -95,6 +105,9 @@
                 //$('#' + shorten(category) + 'Bar').parent().removeClass('progress-category');
                 //$('#' + shorten(category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
+                if ($cookieStore.get('tutorial') === 'ongoing') {
+                    $('#itemTutorialModal').modal();
+                }
             });
         });
     
@@ -166,9 +179,9 @@
             }
             return max;
         }
-
-        $scope.computeScore = function(score, category)
-        {
+        
+        $scope.computeScore = function (score, answerIndex, percent) {
+            var category = $scope.standards[$scope.index].category
             var bar = document.getElementById(shorten(category) + 'Bar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
@@ -210,7 +223,7 @@
                 }
             }
         }
-
+        
         $scope.moveRight = function () {
             var index = $scope.index;
             if (index < ($scope.standards.length - 1)) {
@@ -224,6 +237,7 @@
                 }
             }
         }
+<<<<<<< HEAD
     
         $scope.matchesFilter = function(index) {
             var valid = false;
@@ -236,6 +250,22 @@
                 }
                 if ($scope.obj.visible && !valid) {
                     valid = $scope.standards[index].filters.indexOf("Visible") >= 0;
+=======
+        
+        $scope.matchesFilter = function (index) {
+            var valid = false;
+            if ($scope.obj && $scope.standards[index].filters) {
+                if (!$scope.obj.easy && !$scope.obj.lowcost && !$scope.obj.visible)
+                    return true;
+                if ($scope.obj.easy) {
+                    valid = item.filters.indexOf("Easy") >= 0 || item.filters.indexOf("Easy\r") >= 0 || item.filters.indexOf("Easy\n") >= 0;
+                }
+                if ($scope.obj.lowcost && !valid) {
+                    valid = item.filters.indexOf("Low Cost") >= 0 || item.filters.indexOf("Low Cost\r") >= 0 || item.filters.indexOf("Low Cost\n") >= 0;;
+                }
+                if ($scope.obj.visible && !valid) {
+                    valid = item.filters.indexOf("Visible") >= 0 || item.filters.indexOf("Visible\r") >= 0 || item.filters.indexOf("Visible\n") >= 0;;
+>>>>>>> e1b1216d76b5a025ad0ef3c86ec61e35d88653b6
                 }
             } else {
                 return true;
@@ -243,6 +273,7 @@
             return valid;
         }
         
+<<<<<<< HEAD
         $scope.filterModal = function (close) {
             if (close)
                 $('#filterModal').modal('hide');
@@ -258,6 +289,12 @@
         }
 
         $scope.log = function () { console.log('time');}
+=======
+        $scope.filterModal = function () {
+            console.log("filter modal");
+            $('#filterInfoModal').modal();
+        }
+>>>>>>> e1b1216d76b5a025ad0ef3c86ec61e35d88653b6
 
         $scope.etcs = {
             legislation: {

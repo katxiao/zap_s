@@ -10,6 +10,7 @@
         // Custom modules 
         'numbers',
         'stringFormat',
+        'tutorial',
         // 3rd Party Modules
         'ui.bootstrap',
         'app'
@@ -18,14 +19,16 @@
             return $.grep(input, function (item) {
                 var valid = false;
                 if (filterObj && item.filters) {
+                    if (!filterObj.easy && !filterObj.lowcost && !filterObj.visible)
+                        return true; 
                     if (filterObj.easy) {
-                        valid = item.filters.indexOf("Easy") >= 0;
+                        valid = item.filters.indexOf("Easy") >= 0 || item.filters.indexOf("Easy\r") >= 0 || item.filters.indexOf("Easy\n") >= 0;
                     }
                     if (filterObj.lowcost && !valid) {
-                        valid = item.filters.indexOf("Low Cost") >= 0;
+                        valid = item.filters.indexOf("Low Cost") >= 0 || item.filters.indexOf("Low Cost\r") >= 0 || item.filters.indexOf("Low Cost\n") >= 0;;
                     }
                     if (filterObj.visible && !valid) {
-                        valid = item.filters.indexOf("Visible") >= 0;
+                        valid = item.filters.indexOf("Visible") >= 0 || item.filters.indexOf("Visible\r") >= 0 || item.filters.indexOf("Visible\n") >= 0;;
                     }
                 } else {
                     return true;

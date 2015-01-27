@@ -10,11 +10,26 @@
         background-image: url("/images/green_restaurant.jpg");
         background-size: 100%;
       }
-      #title {
-        color: white;
-        font-size: 64px;
-        font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
-      }
+	  @media (min-width: 801px) {
+			  #title {
+				color: white;
+				font-size: 64px;
+				font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+			  }
+			  #notes{
+				color: white;
+			  }
+	  }
+	  @media (max-width: 800px) {
+			  #title {
+				color: green;
+				font-size: 64px;
+				font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+			  }
+			  #notes{
+				color: white;
+			  }
+	  }
       .fullcenter {
          position: absolute;               /* 2 */
          top: 45%;                         /* 3 */
@@ -23,7 +38,12 @@
       }
       a {
         font-family: ‘Times New Roman’, Times, serif;
+		color: black;
       }
+
+	  .btn:hover {
+		color: white
+	  }
       
       .modalDialog {
 	      position: fixed;
@@ -87,6 +107,7 @@
 	  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js"></script>
 	  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script src="/javascripts/angularApp/tutorial.js"></script>
     <script src="/javascripts/angularApp/homeApp.js"></script>
     <script src="/javascripts/angularApp/orientationController.js"></script>
   </body>

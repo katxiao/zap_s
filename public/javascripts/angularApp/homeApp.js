@@ -5,7 +5,10 @@
         // Angular modules 
         'ngAnimate',
         'ngRoute',
-        'ngCookies'
+        'ngCookies',
+
+        'tutorial'
+
     ]);
 
     app.config(['$routeProvider',
