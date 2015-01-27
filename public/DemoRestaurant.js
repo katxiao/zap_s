@@ -74,6 +74,7 @@ var DemoRestaurant = [
 ];
 
 
+
 var bfs = function(start, goal, map){
 	console.log("start: ", start, "end: ", goal);
 	var visitedNodes = [];

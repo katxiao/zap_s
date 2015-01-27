@@ -105,7 +105,6 @@
             }
         });
         
-        
         var allMeetMinRequirement = function(){
             for (var key in $scope.pointsByCategory) {
                 if (key !== 'Sustainable Furnishings & Building Materials' && $scope.pointsByCategory[key].value < 10)
@@ -113,6 +112,7 @@
             }
             return true;
         }
+
         $scope.forgotPasswordModal = function() {
             $('#loginModal').modal('hide');
             $('#forgotPasswordModal').modal();

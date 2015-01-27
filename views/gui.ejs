@@ -171,6 +171,7 @@
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.4.0.js"></script>
+	<script src="/javascripts/angularApp/tutorial.js"></script>
 	<script src="/javascripts/angularApp/guiApp.js"></script>
 	<script src="/javascripts/angularApp/guiController.js"></script>
 	<script src="/javascripts/angularApp/categoryController.js"></script>
@@ -265,12 +266,13 @@
                       var end = babylonPoint2MapPoint({x:27, y:28});
                       manageNavigation(bfs(start, end, DemoRestaurant), 125, 40, {x:22, y:36}, camera);
                     });
-
+                    
                     $('#officeButton').click(function(){
                       var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
                       var end = babylonPoint2MapPoint({x:5, y:1});
                       manageNavigation(bfs(start, end, DemoRestaurant), 125, 40, {x:15, y:11}, camera);
                       });
+
                     // Once the scene is loaded, just register a render loop to render it
                     engine.runRenderLoop(function() {
                         newScene.render();
