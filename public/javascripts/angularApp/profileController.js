@@ -132,7 +132,7 @@
 
         $scope.logout = function() {
             $http.get("/logout").success(function (data) {
-                $window.location.href = '/#'
+                $window.location.href = '/#/'
             }).error(function(err) {
                 $scope.message = "Logout unsuccessful. Try again.";
                 $scope.showErrorMessage = true;

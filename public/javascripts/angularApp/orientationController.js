@@ -16,7 +16,7 @@
         
         $scope.initiateTutorial = function () {
             $cookieStore.put('tutorial', 'ongoing');
-            $window.location.href = '/list/#/';
+            $window.location.href = '/list/#/tutorial';
         }
 
         $scope.forgotPasswordModal = function() {

@@ -295,6 +295,8 @@
 
         $scope.moveRight = function () {
             var index = $scope.index;
+            $http.put('/api/standards', { standardId : $scope.standards[index]._id, selectedOption : parseFloat($scope.standards[index].option), percentage : $scope.standards[index].percentage })
+                        .then(function (response) { });
             if (index < ($scope.standards.length - 1)) {
                 index += 1;
                 while (!$scope.matchesFilter(index) && index <= ($scope.standards.length - 1)) {
@@ -305,6 +307,7 @@
                     $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;;
                 }
             }
+
         }
     
         $scope.matchesFilter = function(index) {
