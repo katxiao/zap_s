@@ -15,7 +15,6 @@
         $scope.showLogInErrorMessage = false;
         $scope.showForgotPasswordMessage = false;
         $scope.showProgressError = false;
-        console.log($cookieStore.get('tutorial'));
         $scope.pointsEarned = 0;
 
         $scope.twoStar = 100;
@@ -108,11 +107,6 @@
                     } else {
                         $scope.widths[index].class = 'progress-bar-danger';
                     }
-                }
-                console.log($cookieStore.get('tutorial'));
-                if ($cookieStore.get('tutorial') === 'ongoing') {
-                    console.log("tutorial ongoing");
-                    $('#tutorialModal').modal();
                 }
             });
         });
@@ -225,14 +219,14 @@
             console.log($scope.standardsByCategory[category].value)
             console.log($scope.standardsByCategory[category].questions[answerIndex].previousPoints);
             $scope.standardsByCategory[category].value = Number($scope.standardsByCategory[category].value) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
-            if ($scope.pointsEarned >= $scope.fourStar)
-                $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-success').addClass('progress-bar-info');
-            else if ($scope.pointsEarned >= $scope.threeStar)
-                $('#TotalBar').removeClass('progress-bar-info').removeClass('progress-bar-danger').removeClass('progress-bar-success').addClass('progress-bar-primary');
-            else if ($scope.pointsEarned >= $scope.twoStar)
-                $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-info').addClass('progress-bar-success');
-            else
-                $('#TotalBar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+            // if ($scope.pointsEarned >= $scope.fourStar)
+            //     $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-success').addClass('progress-bar-info');
+            // else if ($scope.pointsEarned >= $scope.threeStar)
+            //     $('#TotalBar').removeClass('progress-bar-info').removeClass('progress-bar-danger').removeClass('progress-bar-success').addClass('progress-bar-primary');
+            // else if ($scope.pointsEarned >= $scope.twoStar)
+            //     $('#TotalBar').removeClass('progress-bar-danger').removeClass('progress-bar-primary').removeClass('progress-bar-info').addClass('progress-bar-success');
+            // else
+            //     $('#TotalBar').removeClass('progress-bar-success').addClass('progress-bar-danger');
             //bar.setAttribute("aria-valuenow", $scope.pointsEarned);
             //bar.setAttribute("aria-valuenow", $scope.pointsEarned);
             // var barjQ = $('#TotalBar');

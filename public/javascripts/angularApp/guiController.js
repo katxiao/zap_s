@@ -36,7 +36,6 @@
                                 $scope.standards[i].option = $scope.greenPoints[j].option;
                                 $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
                                 $scope.greenPoints[j].matched = true;
-                                $scope.computeScore($scope.standards[i].option, $scope.standards[i].category);
                                 break;
                             }
                         }
@@ -107,31 +106,6 @@
                 max += Number(optionMax);
             }
             return max;
-        }
-
-        $scope.computeScore = function (score, category) {
-            console.log()
-            var bar = document.getElementById(shorten(category) + 'Bar');
-            $scope.pointsEarned = bar.getAttribute("aria-valuenow");
-            $scope.minRequired = bar.getAttribute("aria-valuemax");
-            $scope.pointsEarned -= $scope.previousPoints;
-            $scope.pointsEarned += Number(score);
-            $scope.previousPoints = Number(score);
-            if ($scope.pointsEarned >= $scope.minRequired)
-                $('#' + shorten(category)).removeClass('progress-bar-danger').addClass('progress-bar-success');
-            else
-                $('#' + shorten(category)).removeClass('progress-bar-success').addClass('progress-bar-danger');
-            console.log($scope.pointsEarned, score);
-            document.getElementById(shorten(category)).setAttribute("aria-valuenow", $scope.pointsEarned);
-            var barjQ = $('#' + shorten(category));
-            barjQ.width(Math.min($scope.pointsEarned * 100.0 / document.getElementById(category).getAttribute("aria-valuemax"), 100) + "%");
-            if ($scope.pointsEarned * 100.0 / $scope.minRequired > 50) {
-                barjQ.html('<a href="/gui/#/' + category + '">' + category + ' (' + $scope.pointsEarned + '/' + $scope.minRequired + ')</a>');
-                $('#' + shorten(category) + 'BarAfter').html("");
-            } else {
-                barjQ.html("");
-                $('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
-            }
         }
         
         var shorten = function (s) {

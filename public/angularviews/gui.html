@@ -37,7 +37,7 @@
             </div>
             </div>-->
         <center>
-            <button class='btn btn-primary' ng-click="save()" style = "width: 100%; border-top-left-radius: 0px; border-top-right-radius: 0px;">Save My Progress!</button>
+            <button class='btn btn-primary' ng-click="saveButton()" style = "width: 100%; border-top-left-radius: 0px; border-top-right-radius: 0px;">Save My Progress!</button>
         </center>
         <!-- Bottom accordion drop down-->
         <div ng-repeat="etc in etcKeys" class="container-fluid etcetera">
@@ -77,7 +77,7 @@
                         <p>You are free to explore all the rooms and click on items to see the standards associated with each. If you would like to get acquainted with restaurant, please take our Around the World tour.</p>
                         <p>As with the category view, your progress will be visible in the meters to the side and your results will be saved when as you move from one question to the next.</p>
                         <p>Thanks for your time. Enjoy!</p>
-                        <button class="btn btn-warning pull-left" ng-click="endTutorial()">Exit</button><button class="btn btn-warning pull-right" ng-click="tour()">Take the Tour!</button>
+                        <button class="btn btn-warning pull-left" ng-click="endTutorial()">Exit</button><button class="btn btn-warning pull-right" ng-click="runTour()">Take the Tour!</button>
                     </div>
                 </div>
             </div>

@@ -19,25 +19,25 @@
 
         $scope.index = 0;
         $scope.previousPoints = 0;
-
-        $scope.etcs = {
-            legislation: {
-                header: 'Legislation',
-                open: false
-            },
-            ecofacts: {
-                header: 'EcoFacts',
-                open: false
-            },
-            rebateincentives: {
-                header: 'Rebates/Incentives', 
-                open: false
-            },
-            solutions: {
-                header: 'Product Solutions',
-                open: false
-            }
-        }
+        $scope.pointsByCategory = {};
+        // $scope.etcs = {
+        //     legislation: {
+        //         header: 'Legislation',
+        //         open: false
+        //     },
+        //     ecofacts: {
+        //         header: 'EcoFacts',
+        //         open: false
+        //     },
+        //     rebateincentives: {
+        //         header: 'Rebates/Incentives', 
+        //         open: false
+        //     },
+        //     solutions: {
+        //         header: 'Product Solutions',
+        //         open: false
+        //     }
+        // }
         
         $scope.endTutorial = function () {
             $cookieStore.put('tutorial', 'done');
@@ -79,22 +79,6 @@
                         }
                     }
                 }
-                // TODO: do not do this
-                // Initalize ALL category bars on load
-                // For each answered question, add points to the appropriate category in userService
-
-                // var category = $scope.standards.length > 0 ? $scope.standards[1].category : "Energy";
-                // initializeBar();
-                // userService.saveTemp(shorten(category), $scope.standards);
-                // if (userService.isEmpty(category)) {
-                //     userService.saveTemp(category, $scope.standards);
-                // }    
-                // else {
-                //     loadStandards(category);
-                // }
-                // if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
-                //     //delete old questions from green points
-                // }
                 $('#DisposBar').parent().addClass('progress-category');
                 $('#EnergyBar').parent().addClass('progress-category');
                 $('#FoodBar').parent().addClass('progress-category');
@@ -102,8 +86,6 @@
                 $('#PollutBar').parent().addClass('progress-category');
                 $('#WaterBar').parent().addClass('progress-category');
                 $('#WasteBar').parent().addClass('progress-category');
-                //$('#' + shorten(category) + 'Bar').parent().removeClass('progress-category');
-                //$('#' + shorten(category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
                 if ($cookieStore.get('tutorial') === 'ongoing') {
                     $('#itemTutorialModal').modal();
@@ -147,6 +129,7 @@
 
         var initializeBar = function (category, pointsEarned) {
             console.log('initalizing bar',category)
+            $scope.pointsByCategory[category] = pointsEarned;
             var bar = document.getElementById(shorten(category) + 'Bar');
             $scope.minRequired = bar.getAttribute("aria-valuemax");
             if (pointsEarned >= $scope.minRequired)
@@ -181,7 +164,7 @@
         }
         
         $scope.computeScore = function (score, answerIndex, percent) {
-            var category = $scope.standards[$scope.index].category
+            var category = $scope.standards[answerIndex].category
             var bar = document.getElementById(shorten(category) + 'Bar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");
@@ -210,9 +193,16 @@
             return s.substring(0, Math.min(s.length, 6));
         }
 
+        $scope.saveButton = function() {
+            if (!$scope.user) {
+                $scope.signUpModal();
+            }
+        }
+
         $scope.moveLeft = function () {
             var index = $scope.index;
-            if (index > 0) {
+            save(index);
+            if(index > 0) {
                 index -= 1;
                 while (!$scope.matchesFilter(index) && index >= 0) {
                     index -= 1;
@@ -226,6 +216,7 @@
         
         $scope.moveRight = function () {
             var index = $scope.index;
+            save(index);
             if (index < ($scope.standards.length - 1)) {
                 index += 1;
                 while (!$scope.matchesFilter(index) && index <= ($scope.standards.length - 1)) {
@@ -235,6 +226,14 @@
                     $scope.index = index;
                     $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;;
                 }
+            }
+        }
+
+        var save = function(index) {
+            if ($scope.user) {
+                $scope.standards[index].percentage = $scope.standards[index].percentage ? $scope.standards[index].percentage : 100;
+                $http.put('/api/standards', {standardId : $scope.standards[index]._id, selectedOption : parseFloat($scope.standards[index].option), percentage : $scope.standards[index].percentage})
+                .then(function(response){});
             }
         }
         
@@ -258,6 +257,15 @@
             return valid;
         }
         
+        
+        $scope.tutorialModal = function (close) {
+            if (close)
+                $('#tutorialModal').modal('hide');
+            else
+                $('#tutorialModal').modal();
+        }
+
+        $scope.log = function () { console.log('time');}
         $scope.filterModal = function () {
             console.log("filter modal");
             $('#filterInfoModal').modal();
@@ -323,7 +331,7 @@
             } else {
                 $http.post('/login', { username: username, password: password }).success(function (data) {
                     $('#modal').modal('hide');
-                    $window.location.href = "/#/profile";
+                    $window.location.href = "list/#/profile";
                 }).error(function (err) {
                     $scope.logInErrorMessage = "Login unsuccessful. Try again.";
                     $scope.showLogInErrorMessage = true;
@@ -376,6 +384,11 @@
             $location.hash(id);
             $anchorScroll();
         };
+        
+        $scope.runTour = function (){
+            $('#itemTutorialModal').modal('hide');
+            runTour();
+        }
 
         activate();
 

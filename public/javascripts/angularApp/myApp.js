@@ -87,6 +87,10 @@
                     templateUrl: '/angularviews/reset.html',
                     controller: 'resetController'
                 })
+                .when('/tutorial', {
+                    templateUrl: '/angularviews/home.html',
+                    controller: 'tutorialController'
+                })
                 .when('/:category',{
                     templateUrl: '/angularviews/home.html',
                     controller: 'homeController'
