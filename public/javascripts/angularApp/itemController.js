@@ -19,25 +19,25 @@
 
         $scope.index = 0;
         $scope.previousPoints = 0;
-
-        $scope.etcs = {
-            legislation: {
-                header: 'Legislation',
-                open: false
-            },
-            ecofacts: {
-                header: 'EcoFacts',
-                open: false
-            },
-            rebateincentives: {
-                header: 'Rebates/Incentives', 
-                open: false
-            },
-            solutions: {
-                header: 'Product Solutions',
-                open: false
-            }
-        }
+        $scope.pointsByCategory = {};
+        // $scope.etcs = {
+        //     legislation: {
+        //         header: 'Legislation',
+        //         open: false
+        //     },
+        //     ecofacts: {
+        //         header: 'EcoFacts',
+        //         open: false
+        //     },
+        //     rebateincentives: {
+        //         header: 'Rebates/Incentives', 
+        //         open: false
+        //     },
+        //     solutions: {
+        //         header: 'Product Solutions',
+        //         open: false
+        //     }
+        // }
         
         $scope.endTutorial = function () {
             $cookieStore.put('tutorial', 'done');
@@ -79,22 +79,6 @@
                         }
                     }
                 }
-                // TODO: do not do this
-                // Initalize ALL category bars on load
-                // For each answered question, add points to the appropriate category in userService
-
-                // var category = $scope.standards.length > 0 ? $scope.standards[1].category : "Energy";
-                // initializeBar();
-                // userService.saveTemp(shorten(category), $scope.standards);
-                // if (userService.isEmpty(category)) {
-                //     userService.saveTemp(category, $scope.standards);
-                // }    
-                // else {
-                //     loadStandards(category);
-                // }
-                // if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
-                //     //delete old questions from green points
-                // }
                 $('#DisposBar').parent().addClass('progress-category');
                 $('#EnergyBar').parent().addClass('progress-category');
                 $('#FoodBar').parent().addClass('progress-category');
@@ -102,8 +86,6 @@
                 $('#PollutBar').parent().addClass('progress-category');
                 $('#WaterBar').parent().addClass('progress-category');
                 $('#WasteBar').parent().addClass('progress-category');
-                //$('#' + shorten(category) + 'Bar').parent().removeClass('progress-category');
-                //$('#' + shorten(category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
                 if ($cookieStore.get('tutorial') === 'ongoing') {
                     $('#itemTutorialModal').modal();
@@ -147,6 +129,7 @@
 
         var initializeBar = function (category, pointsEarned) {
             console.log('initalizing bar',category)
+            $scope.pointsByCategory[category] = pointsEarned;
             var bar = document.getElementById(shorten(category) + 'Bar');
             $scope.minRequired = bar.getAttribute("aria-valuemax");
             if (pointsEarned >= $scope.minRequired)
@@ -212,6 +195,7 @@
 
         $scope.moveLeft = function () {
             var index = $scope.index;
+            save(index);
             if(index > 0) {
                 index -= 1;
                 while (!$scope.matchesFilter(index) && index >= 0) {
@@ -226,6 +210,7 @@
         
         $scope.moveRight = function () {
             var index = $scope.index;
+            save(index);
             if (index < ($scope.standards.length - 1)) {
                 index += 1;
                 while (!$scope.matchesFilter(index) && index <= ($scope.standards.length - 1)) {
@@ -237,20 +222,12 @@
                 }
             }
         }
-<<<<<<< HEAD
-    
-        $scope.matchesFilter = function(index) {
-            var valid = false;
-            if ($scope.obj && $scope.standards[index].filters) {
-                if ($scope.obj.easy) {
-                    valid = $scope.standards[index].filters.indexOf("Easy") >= 0;
-                }
-                if ($scope.obj.lowcost && !valid) {
-                    valid = $scope.standards[index].filters.indexOf("Low Cost") >= 0;
-                }
-                if ($scope.obj.visible && !valid) {
-                    valid = $scope.standards[index].filters.indexOf("Visible") >= 0;
-=======
+
+        var save = function(index) {
+            $scope.standards[index].percentage = $scope.standards[index].percentage ? $scope.standards[index].percentage : 100;
+            $http.put('/api/standards', {standardId : $scope.standards[index]._id, selectedOption : parseFloat($scope.standards[index].option), percentage : $scope.standards[index].percentage})
+            .then(function(response){});
+        }
         
         $scope.matchesFilter = function (index) {
             var valid = false;
@@ -265,7 +242,6 @@
                 }
                 if ($scope.obj.visible && !valid) {
                     valid = item.filters.indexOf("Visible") >= 0 || item.filters.indexOf("Visible\r") >= 0 || item.filters.indexOf("Visible\n") >= 0;;
->>>>>>> e1b1216d76b5a025ad0ef3c86ec61e35d88653b6
                 }
             } else {
                 return true;
@@ -273,13 +249,6 @@
             return valid;
         }
         
-<<<<<<< HEAD
-        $scope.filterModal = function (close) {
-            if (close)
-                $('#filterModal').modal('hide');
-            else
-                $('#filterModal').modal();
-        }
         
         $scope.tutorialModal = function (close) {
             if (close)
@@ -289,12 +258,10 @@
         }
 
         $scope.log = function () { console.log('time');}
-=======
         $scope.filterModal = function () {
             console.log("filter modal");
             $('#filterInfoModal').modal();
         }
->>>>>>> e1b1216d76b5a025ad0ef3c86ec61e35d88653b6
 
         $scope.etcs = {
             legislation: {
