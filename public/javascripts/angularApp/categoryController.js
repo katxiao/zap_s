@@ -295,6 +295,8 @@
         $scope.matchesFilter = function(index) {
             var valid = false;
             if ($scope.obj && $scope.standards[index].filters) {
+                if(!$scope.obj.easy && !$scope.obj.lowcost && !$scope.obj.visible)
+                    return true; 
                 if ($scope.obj.easy) {
                     valid = $scope.standards[index].filters.indexOf("Easy") >= 0;
                 }
@@ -310,11 +312,9 @@
             return valid;
         }
         
-        $scope.filterModal = function (close) {
-            if (close)
-                $('#filterModal').modal('hide');
-            else
-                $('#filterModal').modal();
+        $scope.filterModal = function () {
+            console.log("filter modal");
+            $('#filterInfoModal').modal();
         }
         
         $scope.tutorialModal = function (close) {

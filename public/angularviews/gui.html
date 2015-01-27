@@ -67,15 +67,18 @@
             </div>
         </div>
     </div>
-    <div class="modal fade {{filtering}}" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal fade" id="filterInfoModal" tabindex="-1" role="dialog" aria-labelledby="extraInfoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <ul id="filters">
-                        <li><input type="checkbox" ng-model="obj.easy" />Easy</li>
-                        <li><input type="checkbox" ng-model="obj.lowcost" />Low Cost</li>
-                        <li><input type="checkbox" ng-model="obj.visible" />Visible</li>
-                    </ul>
+                    <div id="filters">
+                        <span>Filters</span>
+                        <ul>
+                            <li><input type="checkbox" ng-model="obj.easy" />Easy</li>
+                            <li><input type="checkbox" ng-model="obj.lowcost" />Low Cost</li>
+                            <li><input type="checkbox" ng-model="obj.visible" />Visible</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

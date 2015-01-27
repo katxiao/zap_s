@@ -277,6 +277,7 @@
 								return true;
 							},
 							tryToSetPath: function(path){
+								console.log(path.length);
 								if(path.length && typeof(path) !== "string" && path.length < shortestPathLength)
 								{
 									shortestPathLength = path.length;
@@ -291,42 +292,111 @@
 						}
 					})();
 
+					var DemoRestaurant = [
+"###############################",
+"#..............#......#.......#",
+"#..............#......#.......#",
+"#.........#....#......#.......#",
+"#.........#....#......#.......#",
+"#.........#....#......#.......#",
+"###########....##..########..##",
+"#.............................#",
+"#.............................#",
+"#.............................#",
+"#.............................#",
+"############..#################",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..#############",
+"#.............................#",
+"#.............................#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"#..............#..............#",
+"###############################"
+];
+
+
 					var map = (function(){
-						var grid = [['_'], ['*']];
+						var grid = [];
 						return {
 							reset: function() {
-								grid = [['_'], ['*']];
+								for(var index in DemoRestaurant)
+									grid[index] = DemoRestaurant[index].split('');
 							},
-							setVisited: function(x, y) {
-								grid[x][y] = "#";
+							setVisited: function(x, y, length) {
+								grid[x][y] = '#';
+							},
+							isVisited: function(x, y, currentLength) {
+								return grid[x][y] == '#';
 							},
 							//greater than 0 since you never want to actually be in the walls
 							validLocation: function(x, y){
-								return x > 0 && y > 0 && x < grid.length - 1 && y < grid[x].length - 1;
+								return x > 0 && y > 0 && x < grid.length - 1 && y < grid[x].length - 1 && grid[x][y] != "#";
 							}
 						}
 					})();
 
 					var search = function(currentX, currentY, endX, endY, path) {
+						//console.log(currentX, currentY);
 						if(currentX === endX && currentY === endY) {
-							searchCallback.tryToSetPath();
+							var newPath = path.splice(0);
+							newPath.push({x: currentX, y: currentY});
+							searchCallback.tryToSetPath(newPath);
 							return;
 						}
-						else if(!map.validLocation(currentX, currentY)) {
+						else if(!map.validLocation(currentX, currentY) || map.isVisited(currentX, currentY, path.length)) {
+							//console.log(currentX, currentY);
 							return;
 						}
 						else {
-							map.setVisited(currentX, currentY);
-							path.push({x: currentX, y: currentY});
-							search(currentX + 1, currentY, endX, endY, path);
-							search(currentX, currentY + 1, endX, endY, path);
-							search(currentX - 1, currentY, endX, endY, path);
-							search(currentX, currentY - 1, endX, endY, path);
+							map.setVisited(currentX, currentY, path.length);	
+							var newPath = path.splice(0);
+							newPath.push({x: currentX, y: currentY});
+							if(currentX < endX)
+								if(currentY < endY){
+									search(currentX + 1, currentY, endX, endY, $.extend(true, [], newPath));
+									search(currentX, currentY + 1, endX, endY, $.extend(true, [], newPath));
+									search(currentX - 1, currentY, endX, endY, $.extend(true, [], newPath));
+									search(currentX, currentY - 1, endX, endY, $.extend(true, [], newPath));
+								} else {
+									search(currentX + 1, currentY, endX, endY, $.extend(true, [], newPath));
+									search(currentX, currentY - 1, endX, endY, $.extend(true, [], newPath));
+									search(currentX - 1, currentY, endX, endY, $.extend(true, [], newPath));
+									search(currentX, currentY + 1, endX, endY, $.extend(true, [], newPath));
+								}
+							else
+								if(currentY < endY){
+									search(currentX - 1, currentY, endX, endY, $.extend(true, [], newPath));
+									search(currentX, currentY + 1, endX, endY, $.extend(true, [], newPath));
+									search(currentX + 1, currentY, endX, endY, $.extend(true, [], newPath));
+									search(currentX, currentY - 1, endX, endY, $.extend(true, [], newPath));
+								} else {
+									search(currentX - 1, currentY, endX, endY, $.extend(true, [], newPath));
+									search(currentX, currentY - 1, endX, endY, $.extend(true, [], newPath));
+									search(currentX + 1, currentY, endX, endY, $.extend(true, [], newPath));
+									search(currentX, currentY + 1, endX, endY, $.extend(true, [], newPath));
+								}
 						}
 					}
           var count1 = 0;
                     $('#officeButton').click(function(){
-                      count1+=1;
+                     /* count1+=1;
                       if (count1 % 2){
                       navigate([[{x:-7, y:-42}, {x:-7, y:-30}, 50, 0], [{x:-7, y:-30}, {x:-5, y:-30}, 0, 10],
                                [{x:-7, y:-30}, {x:-5, y:-30}, 50, 0],[{x:-5, y:-30},{x:-5, y:-37}, 0, 10],
@@ -335,7 +405,10 @@
                     }
                     else{
                       clearInterval(moveInterval);
-                    }
+                    }*/
+					map.reset();
+					search(1, 1, 20, 16, []);
+					console.log(searchCallback.getCurrentPath());
                     });
                     // Once the scene is loaded, just register a render loop to render it
                     engine.runRenderLoop(function() {

@@ -7,23 +7,23 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span> 
           </button>
-            <a style="color: white" class="navbar-brand" href="/list/#/">Green My Restaurant</a>
+            <a class="navbar-brand" href="/list/#/">Green My Restaurant</a>
         </div>
 
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li style="background-color: #5cb85c;"><a style="color: white">Options</a></li>
+            <li style="background-color: #5cb85c;"><a href="" ng-click="filterModal()" style="color: white">Options</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <!-- <li><a href="http://www.dinegreen.org">Resources</a></li> -->
-            <li><a style="color: white" href="/gui/#/" ng-hide="interactive && !profile">Interactive Version</a></li>
-            <li><a style="color: white" href="/list/#/" ng-show="interactive || profile">List View</a></li>
+            <li><a href="/gui/#/" ng-hide="interactive && !profile">Interactive Version</a></li>
+            <li><a href="/list/#/" ng-show="interactive || profile">List View</a></li>
       <!--       <li><a href="/#/login">Login</a></li> -->
-            <li><a style="color: white" href="/list/#/admin" ng-show="admin">Admin</a></li>
-            <li><a style="color: white" href="/list/#/profile" ng-show="user">Profile</a></li>
-            <li><a style="color: white" href="" ng-click="signUpModal()" ng-show="!user">Sign Up</a></li>
-            <li><a style="color: white" href="" ng-click="loginModal()" ng-show="!user">Log In</a></li>
-            <li><a style="color: white" href="" ng-click="logout()" ng-show="user">Logout</a></li>
+            <li><a href="/list/#/admin" ng-show="admin">Admin</a></li>
+            <li><a href="/list/#/profile" ng-show="user">Profile</a></li>
+            <li><a href="" ng-click="signUpModal()" ng-show="!user">Sign Up</a></li>
+            <li><a href="" ng-click="loginModal()" ng-show="!user">Log In</a></li>
+            <li><a href="" ng-click="logout()" ng-show="user">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

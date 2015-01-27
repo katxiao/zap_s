@@ -14,14 +14,14 @@
             </div>
         </div>
     </div>
-    <div id="filters" class="roundBottom">
+    <!--<div id="filters" class="roundBottom">
         <span>Filters</span>
         <ul>
             <li><input type="checkbox" ng-model="obj.easy" />Easy</li>
             <li><input type="checkbox" ng-model="obj.lowcost" />Low Cost</li>
             <li><input type="checkbox" ng-model="obj.visible" />Visible</li>
         </ul>
-    </div>
+    </div>-->
     <div style="width:92.5%;padding-top: 1.5em;" ng-repeat="category in categoryKeys">
         <div id="{{category}}" class="categoryhead" data-spy="affix" data-offset-top="125">
             {{category}}
@@ -39,10 +39,10 @@
                 </td>
                 <td>
                     <div class="col-md-4" style="font-size: 1.4em;" ng-repeat="option in standard.optionList">
-                        <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, $parent.$index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
+                        <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, standard.index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
                     </div>
                     <div class="pull-right col-md-4">
-                        <input ng-model="standard.percentage" size="3" ng-change="computePercentScore(standard.category, standard.option, $index, standard.percentage, standard.previousPoints)" />%
+                        <input ng-model="standard.percentage" size="3" ng-change="computePercentScore(standard.category, standard.option, standard.index, standard.percentage, standard.previousPoints)" />%
                     </div>
                 </td>
             </tr>
@@ -76,6 +76,23 @@
                         <div class="row etcbody roundBottom" ng-show="etcs[etc].open" style="font-size: 1.1em">
                             {{modalStandard[etc].message | reinsertCommas}}
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="filterInfoModal" tabindex="-1" role="dialog" aria-labelledby="extraInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="filters">
+                        <span>Filters</span>
+                        <ul>
+                            <li><input type="checkbox" ng-model="obj.easy" />Easy</li>
+                            <li><input type="checkbox" ng-model="obj.lowcost" />Low Cost</li>
+                            <li><input type="checkbox" ng-model="obj.visible" />Visible</li>
+                        </ul>
                     </div>
                 </div>
             </div>

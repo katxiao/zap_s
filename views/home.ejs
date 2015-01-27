@@ -10,11 +10,26 @@
         background-image: url("/images/green_restaurant.jpg");
         background-size: 100%;
       }
-      #title {
-        color: white;
-        font-size: 64px;
-        font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
-      }
+	  @media (min-width: 801px) {
+			  #title {
+				color: white;
+				font-size: 64px;
+				font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+			  }
+			  #notes{
+				color: white;
+			  }
+	  }
+	  @media (max-width: 800px) {
+			  #title {
+				color: black;
+				font-size: 64px;
+				font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+			  }
+			  #notes{
+				color: white;
+			  }
+	  }
       .fullcenter {
          position: absolute;               /* 2 */
          top: 45%;                         /* 3 */
@@ -23,7 +38,12 @@
       }
       a {
         font-family: ‘Times New Roman’, Times, serif;
+		color: black;
       }
+
+	  .btn:hover {
+		color: white
+	  }
       
       .modalDialog {
 	      position: fixed;

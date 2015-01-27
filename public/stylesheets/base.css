@@ -224,27 +224,23 @@ a{
 #filters {
     background-color: white;
     border: 1px solid black;
-    position: fixed;
-    left: 50%;
-    transform: translate(-70%, 0%);
-    z-index: 4;
     /*padding-top: 1em*/
 }
 
 #filters span{
     display: inline-block;
-    transform: translate(110%, 0%);
+    transform: translate(130%, 0%);
     font-weight: bold;
     font-size: 20px;
 }
 
 #filters ul {
-    transform: translate(-10%, 0%);
+    
 }
 
-.navbar {
+/*.navbar {
     background-color: #085DAD;
-}
+}*/
 
 .navbar .navbar-nav {
   display: inline-block;
@@ -254,22 +250,6 @@ a{
 
 .navbar .navbar-collapse {
   text-align: center;
-}
-
-ul.navbar-right li a {
-    color: white
-}
-
-ul.navbar-right li a:hover {
-    color: #0066FF
-}
-
-a.navbar-brand {
-    color: white
-}
-
-a.navbar-brand:hover {
-    color: #0066FF
 }
 
 #filters li{
