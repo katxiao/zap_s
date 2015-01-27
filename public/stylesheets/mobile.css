@@ -15,6 +15,10 @@ a {
     display: none;
 }
 
+#optionsNav {
+    display: none;
+}
+
 .success {
     color: green;
 }
