@@ -281,6 +281,7 @@
 
         $scope.moveLeft = function () {
             var index = $scope.index;
+            save(index);
             if(index > 0) {
                 index -= 1;
                 while (!$scope.matchesFilter(index) && index >= 0) {
@@ -295,8 +296,7 @@
 
         $scope.moveRight = function () {
             var index = $scope.index;
-            $http.put('/api/standards', { standardId : $scope.standards[index]._id, selectedOption : parseFloat($scope.standards[index].option), percentage : $scope.standards[index].percentage })
-                        .then(function (response) { });
+            save(index);
             if (index < ($scope.standards.length - 1)) {
                 index += 1;
                 while (!$scope.matchesFilter(index) && index <= ($scope.standards.length - 1)) {
@@ -309,7 +309,13 @@
             }
 
         }
-    
+        
+        var save = function (index) {
+            $scope.standards[index].percentage = $scope.standards[index].percentage ? $scope.standards[index].percentage : 100;
+            $http.put('/api/standards', { standardId : $scope.standards[index]._id, selectedOption : parseFloat($scope.standards[index].option), percentage : $scope.standards[index].percentage })
+            .then(function (response) { });
+        }
+
         $scope.matchesFilter = function(index) {
             var valid = false;
             if ($scope.obj && $scope.standards[index].filters) {
