@@ -6,18 +6,13 @@
         .module('guiApp')
         .controller('categoryController', categoryController);
 
-    categoryController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$routeParams', 'userService', 'tutorialService'];
+    categoryController.$inject = ['$scope', '$http', '$cookieStore', '$window', '$location', '$routeParams', 'userService', 'tutorialService'];
 
-    function categoryController($scope, $http, $cookies, $window, $location, $routeParams, userService, tutorialService) {
+    function categoryController($scope, $http, $cookieStore, $window, $location, $routeParams, userService, tutorialService) {
         $scope.modalInit = 'hide';
         $scope.filtering = 'hide';
         $scope.interactive = true;
         
-        if ($cookies.tutorial) {
-            console.log("tutorial ongoing");
-            $('#tutorialModal').modal();
-        }
-
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
         $scope.progressstatus = 'danger';
@@ -47,11 +42,12 @@
         }
         
         $scope.continueTutorial = function () {
-            $window.location.href = '/#/Dining/Table';
+            $('#tutorialModal').modal('hide');
+            $window.location.href = '/gui/#/Dining/Table';
         }
         
         $scope.endTutorial = function () {
-            $cookies.tutorial = 'false';
+            $cookieStore.put('tutorial', 'done');
             $('#tutorialModal').modal('hide');
         }
 
@@ -63,7 +59,7 @@
             }
             $http.get('/api/standards/' + $routeParams.category).success(function (data) {
                 $scope.standards = data;
-                console.log($scope.standards[0]['legislation'], $scope.standards[1]['legislation']);
+                //console.log($scope.standards[0]['legislation'], $scope.standards[1]['legislation']);
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
                     if ($scope.user) {
@@ -86,15 +82,15 @@
                     }
 
                 }
-                console.log(userService.isEmpty(shorten($routeParams.category)));
+                //console.log(userService.isEmpty(shorten($routeParams.category)));
                 if (userService.isEmpty($routeParams.category)) {
                     userService.saveTemp($routeParams.category, $scope.standards);
-                    console.log(userService.getTemp($routeParams.category));
+                    //console.log(userService.getTemp($routeParams.category));
                 }    
                 else
                     loadStandards();
                 //initializeBar();
-                initializeAllBars();
+                //initializeAllBars();
                 if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
                     //delete old questions from green points
                 }
@@ -109,6 +105,11 @@
                 $('#' + shorten($routeParams.category) + 'Bar').parent().removeClass('progress-category');
                 $('#' + shorten($routeParams.category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
+                if ($cookieStore.get('tutorial') === 'ongoing') {
+                    console.log("tutorial ongoing", $cookieStore.get('tutorial'));
+                    $('#tutorialModal').modal();
+                }
+
             });
         });
         
@@ -309,16 +310,16 @@
         $scope.matchesFilter = function(index) {
             var valid = false;
             if ($scope.obj && $scope.standards[index].filters) {
-                if(!$scope.obj.easy && !$scope.obj.lowcost && !$scope.obj.visible)
-                    return true; 
+                if (!$scope.obj.easy && !$scope.obj.lowcost && !$scope.obj.visible)
+                    return true;
                 if ($scope.obj.easy) {
-                    valid = $scope.standards[index].filters.indexOf("Easy") >= 0;
+                    valid = item.filters.indexOf("Easy") >= 0 || item.filters.indexOf("Easy\r") >= 0 || item.filters.indexOf("Easy\n") >= 0;
                 }
                 if ($scope.obj.lowcost && !valid) {
-                    valid = $scope.standards[index].filters.indexOf("Low Cost") >= 0;
+                    valid = item.filters.indexOf("Low Cost") >= 0 || item.filters.indexOf("Low Cost\r") >= 0 || item.filters.indexOf("Low Cost\n") >= 0;;
                 }
                 if ($scope.obj.visible && !valid) {
-                    valid = $scope.standards[index].filters.indexOf("Visible") >= 0;
+                    valid = item.filters.indexOf("Visible") >= 0 || item.filters.indexOf("Visible\r") >= 0 || item.filters.indexOf("Visible\n") >= 0;;
                 }
             } else {
                 return true;

@@ -6,16 +6,16 @@
         .module('myApp')
         .controller('homeController', homeController);
 
-    homeController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams', 'tutorialService'];
+    homeController.$inject = ['$scope', '$http', '$cookies','$cookieStore', '$window', '$location', '$anchorScroll', '$routeParams', 'tutorialService'];
 
-    function homeController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams, tutorialService) {
+    function homeController($scope, $http, $cookies, $cookieStore, $window, $location, $anchorScroll, $routeParams, tutorialService) {
         $scope.title = 'homeController';
         $scope.user = undefined;
         $scope.logInErrorMessage = '';
         $scope.showLogInErrorMessage = false;
         $scope.showForgotPasswordMessage = false;
         $scope.showProgressError = false;
-        console.log($cookies.tutorial);
+        console.log($cookieStore.get('tutorial'));
         $scope.pointsEarned = 0;
 
         $scope.twoStar = 100;
@@ -51,7 +51,7 @@
         }
         
         $scope.endTutorial = function () {
-            $cookies.tutorial = 'false';
+            $cookieStore.put('tutorial', 'nogo');
             $('#tutorialModal').modal('hide');
         }
 
@@ -85,7 +85,6 @@
                     if ($scope.standardsByCategory[$scope.standards[i].category]) {
                         $scope.standards[i].index = $scope.standardsByCategory[$scope.standards[i].category].questions.length;
                         $scope.standardsByCategory[$scope.standards[i].category].questions.push($scope.standards[i]);
-                        //$scope.standardsByCategory[$scope.standards[i].category].value += $scope.standards[i].previousPoints;
                         $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value + $scope.standards[i].previousPoints;
                     } else {
                         $scope.standards[i].index = 0;
@@ -110,8 +109,8 @@
                         $scope.widths[index].class = 'progress-bar-danger';
                     }
                 }
-                console.log($cookies.tutorial);
-                if ($cookies.tutorial==='true') {
+                console.log($cookieStore.get('tutorial'));
+                if ($cookieStore.get('tutorial') === 'ongoing') {
                     console.log("tutorial ongoing");
                     $('#tutorialModal').modal();
                 }
