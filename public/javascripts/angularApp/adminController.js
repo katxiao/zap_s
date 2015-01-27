@@ -88,7 +88,7 @@
             $('#signUpModal').modal();
         }
 
-                $scope.login = function (username, password) {
+        $scope.login = function (username, password) {
             if (username === undefined || password === undefined) {
                 $scope.message = "All fields must be filled out.";
                 $scope.showLogInErrorMessage = true;
@@ -96,7 +96,7 @@
             } else {
                 $http.post('/login', { username: username, password: password }).success(function (data) {
                     $('#modal').modal('hide');
-                    $window.location.href = "/#/profile";
+                    $window.location.href = "list/#/profile";
                 }).error(function (err) {
                     $scope.logInErrorMessage = "Login unsuccessful. Try again.";
                     $scope.showLogInErrorMessage = true;
