@@ -75,6 +75,8 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="#" data-toggle="modal" data-target="#tutorialModal">View Tutorial</a></li>
+                  <li><a data-target = "#" id = "tour">Take Restaurant Tour!</a></li>
+                  <!-- <li><button type = "button" class = "btn btn-primary">Take Restaurant Tour!</button></li> -->
 				  <!--<li><a href="#" data-toggle="modal" data-target="#filterModal">Filter Questions</a></li>-->
                 </ul>
             </div>
@@ -273,6 +275,17 @@
                       var end = babylonPoint2MapPoint({x:5, y:1});
                       manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:15, y:11}, camera);
                       });
+
+
+                    $('#tour').click(function(){
+                      runTour();
+                    });
+
+                    var runTour = function(){
+                      populateTourListTemp();
+                      tour([babylonPoint2MapPoint({x:-7, y:-60}),{x:15, y:50}], camera, {x:16, y:50});
+                      tourBool = true;
+                    }
 
                     // Once the scene is loaded, just register a render loop to render it
                     engine.runRenderLoop(function() {
