@@ -157,11 +157,14 @@
                 $scope.showForgotPasswordMessage = true;
             })
         }
-        $scope.loginModal = function() {
-            $('#loginModal').modal()
+
+        $scope.loginModal = function () {
+            $('#signUpModal').modal('hide');
+            $('#loginModal').modal();
         }
 
         $scope.signUpModal = function() {
+            $('#loginModal').modal('hide');
             $('#signUpModal').modal();
         }
 

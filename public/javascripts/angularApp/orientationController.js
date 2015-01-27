@@ -35,8 +35,15 @@
                 $scope.showForgotPasswordMessage = true;
             })
         }
-        $scope.loginModal = function() {
-            $('#loginModal').modal()
+
+        $scope.loginModal = function () {
+            $('#signUpModal').modal('hide');
+            $('#loginModal').modal();
+        }
+
+        $scope.signUpModal = function() {
+            $('#loginModal').modal('hide');
+            $('#signUpModal').modal();
         }
         
         $scope.introModal = function (close) {
@@ -44,10 +51,6 @@
                 $('#introModal').modal('hide')
             else
                 $('#introModal').modal()
-        }
-
-        $scope.signUpModal = function() {
-            $('#signUpModal').modal();
         }
 
         $scope.login = function (username, password) {

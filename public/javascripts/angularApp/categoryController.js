@@ -175,12 +175,14 @@
                 });
             }
         }
-     
+        
         $scope.loginModal = function () {
-            $('#loginModal').modal()
+            $('#signUpModal').modal('hide');
+            $('#loginModal').modal();
         }
 
         $scope.signUpModal = function() {
+            $('#loginModal').modal('hide');
             $('#signUpModal').modal();
         }
 

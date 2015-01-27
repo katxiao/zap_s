@@ -140,10 +140,12 @@
         }
 
         $scope.loginModal = function () {
+            $('#signUpModal').modal('hide');
             $('#loginModal').modal();
         }
 
         $scope.signUpModal = function() {
+            $('#loginModal').modal('hide');
             $('#signUpModal').modal();
         }
 

@@ -477,15 +477,6 @@
         $scope.progressModal = function() {
             $('#loginModal').modal('hide');
             $('#signUpModal').modal('hide');
-            //$scope.categoryKeys = Object.keys($scope.standardsByCategory);
-            //$scope.totalPoints = 0;
-            //for (var key in $scope.standardsByCategory) {
-            //    $scope.standardsByCategory[key].value = 0;
-            //    for (var index in $scope.standardsByCategory[key].questions) {
-            //        $scope.standardsByCategory[key].value += $scope.pointsByCategory[key].questions[index].value;
-            //        $scope.totalPoints += $scope.standardsByCategory[key].questions[index].value;
-            //    }
-            //}
             $('#progressModal').modal();
         }
 
