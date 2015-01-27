@@ -239,6 +239,11 @@ var navigateCallBack = function(navigateVars){
 	if (path.length != 0){
 		navigate(path, (initialRotation), camera);
 	}
+	else{
+		if (tourBool){
+		tourCallBack(camera);
+		}
+	}
 
 }
 var moveToGoal = function(destination, distance, speed, direction, navigateVars, camera){
@@ -271,8 +276,8 @@ var rotate = function(degree, rotationDirection, navigateVars, totalDegree, came
 		
 	}
 }
-
-var manageNavigation = function(pointsList, speed, rotationSpeed, roomCenter, camera){
+var tourBool = false;
+var manageNavigation = function(pointsList, speed, rotationSpeed, roomCenter, camera, tourEndPoint){
 	var navigateInputList = [];
 	camera.position.x = 2*(pointsList[0].x - 15);
 	camera.position.z = -2*(pointsList[0].y - 21);
@@ -291,6 +296,9 @@ var manageNavigation = function(pointsList, speed, rotationSpeed, roomCenter, ca
 	}
 
 	navigateInputList.push([point2, roomCenter, 0, rotationSpeed]);
+	if(tourBool){
+		navigateInputList.push([roomCenter, tourEndPoint, 0, rotationSpeed]);
+	}
 	navigate(navigateInputList,0, camera);
 }	
 
@@ -304,4 +312,43 @@ var babylonPoint2MapPoint = function(point){
 
 var MapPoint2BabylonPoint = function(point){
 	return {x:2*(point.x - 15), y:-2*(point.y - 21)};
+}
+
+
+var tourCallBack = function(camera){
+	tourListTemp.splice(0, 1);
+	if (tourListTemp.length > 0){
+		tour(tourListTemp[0], camera);
+	}
+	else{
+		tourBool = false;
+	}
+}
+
+var tourList = [
+  [babylonPoint2MapPoint({x:2, y:-4}), {x:4, y:-8}, {x:5, y:-8}],
+  [babylonPoint2MapPoint({x:5, y:1}), {x:15, y:11}, {x:16, y:11}],
+  [babylonPoint2MapPoint({x:-6, y:21}), {x:-29, y:2}, {x:-29, y:2}],
+  [babylonPoint2MapPoint({x:27, y:28}), {x:25, y:36}, {x:26, y:36}],
+  [babylonPoint2MapPoint({x:4, y:28}), {x:7, y:36}, {x:8, y:36}],
+  [babylonPoint2MapPoint({x:-8, y:39}), {x:-19, y:40}, {x:-18, y:40}],
+  [babylonPoint2MapPoint({x:-6, y:-99}), {x:15, y:50}, {x:16, y:50}]
+              ]
+
+
+
+var tourListTemp = []
+
+var populateTourListTemp = function(){
+	tourListTemp = $.extend(true, [], tourList)
+}
+
+var rs = 160;
+var ds = 3.5;
+var tour = function(tourData, camera){
+  var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
+  var end = tourData[0];
+  var roomCenter = tourData[1];
+  tourEndPoint = tourData[2];
+  manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, roomCenter, camera, tourEndPoint);
 }
