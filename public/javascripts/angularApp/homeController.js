@@ -139,13 +139,13 @@
             }
             console.log('meetsMinReq', meetsMinReq);
             if (meetsMinReq) {
-                if ($scope.pointsEarned >= $scope.twoStar) {
+                if ($scope.pointsEarned >= $scope.twoStar && $scope.pointsEarned < $scope.threeStar) {
                     $scope.stars = 2;
                 }
-                if ($scope.pointsEarned >= $scope.threeStar) {
+                else if ($scope.pointsEarned >= $scope.threeStar && $scope.pointsEarned < $scope.fourStar) {
                     $scope.stars = 3;
                 }
-                if ($scope.pointsEarned >= $scope.fourStar) {
+                else if ($scope.pointsEarned >= $scope.fourStar) {
                     $scope.stars = 4;
                 }
             } else {
