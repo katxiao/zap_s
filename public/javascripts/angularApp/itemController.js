@@ -384,6 +384,10 @@
             $location.hash(id);
             $anchorScroll();
         };
+        
+        $scope.runTour = function (){
+            runTour();
+        }
 
         activate();
 

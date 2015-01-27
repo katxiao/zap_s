@@ -311,8 +311,15 @@
                     $scope.previousPoints = Number($scope.standards[$scope.index].option || 0) * Number($scope.standards[$scope.index].percentage || 100) / 100.0;;
                 }
             }
+
         }
-    
+        
+        var save = function (index) {
+            $scope.standards[index].percentage = $scope.standards[index].percentage ? $scope.standards[index].percentage : 100;
+            $http.put('/api/standards', { standardId : $scope.standards[index]._id, selectedOption : parseFloat($scope.standards[index].option), percentage : $scope.standards[index].percentage })
+            .then(function (response) { });
+        }
+
         $scope.matchesFilter = function(index) {
             var valid = false;
             if ($scope.obj && $scope.standards[index].filters) {

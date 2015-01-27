@@ -15,7 +15,6 @@
         $scope.showLogInErrorMessage = false;
         $scope.showForgotPasswordMessage = false;
         $scope.showProgressError = false;
-        console.log($cookieStore.get('tutorial'));
         $scope.pointsEarned = 0;
 
         $scope.twoStar = 100;
@@ -108,11 +107,6 @@
                     } else {
                         $scope.widths[index].class = 'progress-bar-danger';
                     }
-                }
-                console.log($cookieStore.get('tutorial'));
-                if ($cookieStore.get('tutorial') === 'ongoing') {
-                    console.log("tutorial ongoing");
-                    $('#tutorialModal').modal();
                 }
             });
         });
