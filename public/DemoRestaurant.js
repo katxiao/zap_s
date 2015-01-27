@@ -21,7 +21,7 @@ var DemoRestaurant = [
 "#..............#..............#",
 "#..............#..#############",
 "#..............#..............#",
-"#..........#..................#",
+"#.............................#",
 "#..........#####..............#",
 "#..........#...#..............#",
 "#..............#..............#",
@@ -77,7 +77,6 @@ var DemoRestaurant = [
 
 var bfs = function(start, goal, map){
 	// console.log("start: ", start, "end: ", goal);
-	console.log("gets here!");
 	var visitedNodes = [];
 	var queue = [];
 	queue = queue.concat([[start]]);
@@ -90,7 +89,10 @@ var bfs = function(start, goal, map){
 	else{
 		// console.log(queue);
 		while(!equals(queue[0][queue[0].length - 1], goal)){
+			// console.log("queue: ", queue);
 			var currentNode = queue[0][queue[0].length-1];
+			// console.log(currentNode);
+			// console.log("gets here!");
 			if (!(isIn(currentNode, visitedNodes))){
 				visitedNodes = visitedNodes.concat(currentNode);
 				var neighbors = getNeighbors(currentNode, map);
@@ -256,12 +258,12 @@ var move = function(destination, distance, camera, direction, navigateVars){
 var rotateToGoal = function(degree, speed, rotationDirection, navigateVars, camera){
 	navigateVars[1] =  navigateVars[1] + degree * -rotationDirection;
 	var totalDegree = camera.rotation.y + degree;
-	moveInterval = setInterval(function(){rotate(degree, rotationDirection, navigateVars, totalDegree, camera);}, 50/speed);
+	moveInterval = setInterval(function(){rotate(degree, rotationDirection, navigateVars, totalDegree, camera);}, 100/speed);
 }
 
 var rotate = function(degree, rotationDirection, navigateVars, totalDegree, camera){
-	camera.rotation.y += 0.005*rotationDirection;
-	currentRotation += 0.005*rotationDirection;
+	camera.rotation.y += 0.01*rotationDirection;
+	currentRotation += 0.01*rotationDirection;
 	if (Math.abs(currentRotation) >= Math.abs(degree)){
 		// camera.rotation.y = totalDegree;
 		clearInterval(moveInterval);
@@ -278,6 +280,7 @@ var manageNavigation = function(pointsList, speed, rotationSpeed, roomCenter, ca
 	camera.position.y = 7;
 	camera.rotation.x = 0;
 	camera.rotation.y = Math.PI/2;
+	//make speed proportional to distance from goal
 	// console.log(camera.rotation.y);
 	camera.rotation.z = 0;
 	for (var i = 0; i < pointsList.length - 2; i++){
