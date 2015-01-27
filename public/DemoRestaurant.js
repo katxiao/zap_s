@@ -265,7 +265,6 @@ var rotate = function(degree, rotationDirection, navigateVars, totalDegree, came
 	camera.rotation.y += 0.01*rotationDirection;
 	currentRotation += 0.01*rotationDirection;
 	if (Math.abs(currentRotation) >= Math.abs(degree)){
-		// camera.rotation.y = totalDegree;
 		clearInterval(moveInterval);
 		currentRotation = 0;
 		navigateCallBack(navigateVars);
@@ -280,14 +279,15 @@ var manageNavigation = function(pointsList, speed, rotationSpeed, roomCenter, ca
 	camera.position.y = 7;
 	camera.rotation.x = 0;
 	camera.rotation.y = Math.PI/2;
-	//make speed proportional to distance from goal
-	// console.log(camera.rotation.y);
 	camera.rotation.z = 0;
 	for (var i = 0; i < pointsList.length - 2; i++){
 		var point1 = {x:2*(pointsList[i].x - 15), y:-2*(pointsList[i].y - 21)};
 		var point2 = {x:2*(pointsList[i + 1].x - 15), y:-2*(pointsList[i+1].y - 21)};
+		//make speed proportional to distance from goal
+		var c = Math.sqrt((point2.y-pointsList[pointsList.length - 2].y)*(point2.y-pointsList[pointsList.length - 2].y)
+		 + (point2.x - pointsList[pointsList.length - 2].x)*(point2.x - pointsList[pointsList.length - 2].x));
 		navigateInputList.push([point1, point2, 0, rotationSpeed]);
-		navigateInputList.push([point1, point2, speed, 0]);
+		navigateInputList.push([point1, point2, speed*c, 0]);
 	}
 
 	navigateInputList.push([point2, roomCenter, 0, rotationSpeed]);

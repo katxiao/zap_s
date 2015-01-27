@@ -225,52 +225,53 @@
                       camera.rotation.z = z;
                     }
                     var rs = 160;
+                    var ds = 3.5;
                     $('#entranceButton').click(function(){
                       var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
                       var end = babylonPoint2MapPoint({x:-7, y:-60});
-                      manageNavigation(bfs(start, end, DemoRestaurant), 150, rs, {x:-2, y:-50}, camera);
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:-2, y:-50}, camera);
                     })
 
                     $('#exteriorButton').click(function(){
                       var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
                       var end = babylonPoint2MapPoint({x:-6, y:-99});
-                      manageNavigation(bfs(start, end, DemoRestaurant), 150, rs, {x:0, y:50}, camera);
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:15, y:50}, camera);
                     })
 
                     $('#diningRoomButton').click(function() {
                       var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
                       var end = babylonPoint2MapPoint({x:-6, y:21});
-                      manageNavigation(bfs(start, end, DemoRestaurant), 150, rs, {x:-29, y:2}, camera);
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:-29, y:2}, camera);
                     });
 
                     $('#restroomButton').click(function() {
                       var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
                       var end = babylonPoint2MapPoint({x:-8, y:39});
-                      manageNavigation(bfs(start, end, DemoRestaurant), 150, rs, {x:-19, y:40}, camera);
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:-19, y:40}, camera);
                     });
 
                     $('#kitchenButton').click(function(){
                       var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
                       var end = babylonPoint2MapPoint({x:2, y:-4});
-                      manageNavigation(bfs(start, end, DemoRestaurant), 150, rs, {x:4, y:-8}, camera);
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:4, y:-8}, camera);
                     });
 
                     $('#utilityButton').click(function(){
                       var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
                       var end = babylonPoint2MapPoint({x:4, y:28});
-                      manageNavigation(bfs(start, end, DemoRestaurant), 150, rs, {x:7, y:36}, camera);
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:7, y:36}, camera);
                     });
 
                     $('#storageButton').click(function(){
                       var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z})
                       var end = babylonPoint2MapPoint({x:27, y:28});
-                      manageNavigation(bfs(start, end, DemoRestaurant), 150, rs, {x:25, y:36}, camera);
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:25, y:36}, camera);
                     });
 
                     $('#officeButton').click(function(){
                       var start = babylonPoint2MapPoint({x:camera.position.x, y:camera.position.z});
                       var end = babylonPoint2MapPoint({x:5, y:1});
-                      manageNavigation(bfs(start, end, DemoRestaurant), 150, rs, {x:15, y:11}, camera);
+                      manageNavigation(bfs(start, end, DemoRestaurant), ds, rs, {x:15, y:11}, camera);
                       });
 
                     // Once the scene is loaded, just register a render loop to render it
