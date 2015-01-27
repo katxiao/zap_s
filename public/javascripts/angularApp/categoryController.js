@@ -6,18 +6,13 @@
         .module('guiApp')
         .controller('categoryController', categoryController);
 
-    categoryController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$routeParams', 'userService', 'tutorialService'];
+    categoryController.$inject = ['$scope', '$http', '$cookieStore', '$window', '$location', '$routeParams', 'userService', 'tutorialService'];
 
-    function categoryController($scope, $http, $cookies, $window, $location, $routeParams, userService, tutorialService) {
+    function categoryController($scope, $http, $cookieStore, $window, $location, $routeParams, userService, tutorialService) {
         $scope.modalInit = 'hide';
         $scope.filtering = 'hide';
         $scope.interactive = true;
         
-        if ($cookies.tutorial) {
-            console.log("tutorial ongoing");
-            $('#tutorialModal').modal();
-        }
-
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
         $scope.progressstatus = 'danger';
@@ -47,12 +42,13 @@
         }
         
         $scope.continueTutorial = function () {
-            $window.location.href = '/#/Dining/Table';
+            $('#tutorialModal').modal('hide');
+            $window.location.href = '/gui/#/Dining/Table';
         }
         
         $scope.endTutorial = function () {
-            $cookies.tutorial = 'false';
-            $('#tutorialModal').modal('hide');
+            $cookieStore.remove('tutorial');
+            //$('#tutorialModal').modal('hide');
         }
 
         $http.get('/current_auth').success(function (data) {
@@ -63,7 +59,7 @@
             }
             $http.get('/api/standards/' + $routeParams.category).success(function (data) {
                 $scope.standards = data;
-                console.log($scope.standards[0]['legislation'], $scope.standards[1]['legislation']);
+                //console.log($scope.standards[0]['legislation'], $scope.standards[1]['legislation']);
                 for (var i = 0; i < $scope.standards.length; i++) {
                     var found = false;
                     if ($scope.user) {
@@ -86,15 +82,15 @@
                     }
 
                 }
-                console.log(userService.isEmpty(shorten($routeParams.category)));
+                //console.log(userService.isEmpty(shorten($routeParams.category)));
                 if (userService.isEmpty($routeParams.category)) {
                     userService.saveTemp($routeParams.category, $scope.standards);
-                    console.log(userService.getTemp($routeParams.category));
+                    //console.log(userService.getTemp($routeParams.category));
                 }    
                 else
                     loadStandards();
                 //initializeBar();
-                initializeAllBars();
+                //initializeAllBars();
                 if ($scope.user && $scope.standards.length - countNotFound < $scope.greenPoints.length) {
                     //delete old questions from green points
                 }
@@ -109,6 +105,11 @@
                 $('#' + shorten($routeParams.category) + 'Bar').parent().removeClass('progress-category');
                 $('#' + shorten($routeParams.category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
+                if ($cookieStore.get('tutorial') !== undefined) {
+                    console.log("tutorial ongoing", $cookieStore.get('tutorial'));
+                    $('#tutorialModal').modal();
+                }
+
             });
         });
         

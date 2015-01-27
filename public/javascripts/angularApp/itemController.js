@@ -5,9 +5,9 @@
         .module('guiApp')
         .controller('itemController', itemController);
 
-    itemController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$routeParams', 'userService'];
+    itemController.$inject = ['$scope', '$http', '$cookieStore', '$window', '$location', '$routeParams', 'userService'];
 
-    function itemController($scope, $http, $cookies, $window, $location, $routeParams, userService) {
+    function itemController($scope, $http, $cookieStore, $window, $location, $routeParams, userService) {
         //$scope.modalInit = 'hide';
         $scope.interactive = true;
 
@@ -40,12 +40,12 @@
         }
         
         $scope.endTutorial = function () {
-            $cookies.tutorial = 'false';
+            $cookieStore.remove('tutorial');
             $('#itemTutorialModal').modal('hide');
         }
         
         $scope.tour = function () {
-            $cookies.tutorial = 'false';
+            $cookieStore.remove('tutorial');
             $('#itemTutorialModal').modal('hide');
         }
 
@@ -105,6 +105,9 @@
                 //$('#' + shorten(category) + 'Bar').parent().removeClass('progress-category');
                 //$('#' + shorten(category) + 'Bar').parent().addClass('progress-category-active');
                 $scope.etcKeys = Object.keys($scope.etcs);
+                if ($cookieStore.get('tutorial') !== undefined) {
+                    $('#itemTutorialModal').modal();
+                }
             });
         });
     
@@ -176,9 +179,9 @@
             }
             return max;
         }
-
-        $scope.computeScore = function(score, category)
-        {
+        
+        $scope.computeScore = function (score, answerIndex, percent) {
+            var category = $scope.standards[$scope.index].category
             var bar = document.getElementById(shorten(category) + 'Bar');
             $scope.pointsEarned = bar.getAttribute("aria-valuenow");
             $scope.minRequired = bar.getAttribute("aria-valuemax");

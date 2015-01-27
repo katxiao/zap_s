@@ -6,16 +6,16 @@
         .module('myApp')
         .controller('homeController', homeController);
 
-    homeController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams', 'tutorialService'];
+    homeController.$inject = ['$scope', '$http', '$cookies','$cookieStore', '$window', '$location', '$anchorScroll', '$routeParams', 'tutorialService'];
 
-    function homeController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams, tutorialService) {
+    function homeController($scope, $http, $cookies, $cookieStore, $window, $location, $anchorScroll, $routeParams, tutorialService) {
         $scope.title = 'homeController';
         $scope.user = undefined;
         $scope.logInErrorMessage = '';
         $scope.showLogInErrorMessage = false;
         $scope.showForgotPasswordMessage = false;
         $scope.showProgressError = false;
-        console.log($cookies.tutorial);
+        console.log($cookieStore.get('tutorial'));
         $scope.pointsEarned = 0;
 
         $scope.twoStar = 100;
@@ -51,8 +51,10 @@
         }
         
         $scope.endTutorial = function () {
-            $cookies.tutorial = 'false';
-            $('#tutorialModal').modal('hide');
+            $cookies['tutorial'] = undefined;
+            delete $cookies['tutorial'];
+            $cookieStore.remove('tutorial');
+            //$('#tutorialModal').modal('hide');
         }
 
         $http.get('/current_auth').success(function(data) {
@@ -110,8 +112,8 @@
                         $scope.widths[index].class = 'progress-bar-danger';
                     }
                 }
-                console.log($cookies.tutorial);
-                if ($cookies.tutorial==='true') {
+                console.log($cookieStore.get('tutorial'));
+                if ($cookieStore.get('tutorial') === 'true') {
                     console.log("tutorial ongoing");
                     $('#tutorialModal').modal();
                 }

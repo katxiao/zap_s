@@ -6,17 +6,16 @@
         .module('homeApp')
         .controller('orientationController', orientationController);
 
-    orientationController.$inject = ['$scope', '$http', '$window', '$cookies', 'tutorialService'];
+    orientationController.$inject = ['$scope', '$http', '$window', '$cookieStore', 'tutorialService'];
 
-    function orientationController($scope, $http, $window, $cookies, tutorialService) {
+    function orientationController($scope, $http, $window, $cookieStore, tutorialService) {
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
         });
         
         $scope.initiateTutorial = function () {
-            $cookies.tutorial = 'true';
-            console.log($cookies.tutorial);
+            //$cookieStore.put('tutorial', 'true');
             $window.location.href = '/list/#/';
         }
 
