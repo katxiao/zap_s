@@ -6,12 +6,17 @@
         .module('guiApp')
         .controller('categoryController', categoryController);
 
-    categoryController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$routeParams', 'userService'];
+    categoryController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$routeParams', 'userService', 'tutorialService'];
 
-    function categoryController($scope, $http, $cookies, $window, $location, $routeParams, userService) {
+    function categoryController($scope, $http, $cookies, $window, $location, $routeParams, userService, tutorialService) {
         $scope.modalInit = 'hide';
         $scope.filtering = 'hide';
         $scope.interactive = true;
+        
+        if ($cookies.tutorial) {
+            console.log("tutorial ongoing");
+            $('#tutorialModal').modal();
+        }
 
         $scope.pointsEarned = 0;
         $scope.minRequired = 10;
@@ -39,6 +44,15 @@
                 header: 'Product Solutions',
                 open: true
             }
+        }
+        
+        $scope.continueTutorial = function () {
+            $window.location.href = '/#/Dining/Table';
+        }
+        
+        $scope.endTutorial = function () {
+            $cookies.tutorial = 'false';
+            $('#tutorialModal').modal('hide');
         }
 
         $http.get('/current_auth').success(function (data) {

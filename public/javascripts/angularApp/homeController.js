@@ -6,18 +6,18 @@
         .module('myApp')
         .controller('homeController', homeController);
 
-    homeController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams'];
+    homeController.$inject = ['$scope', '$http', '$cookies', '$window', '$location', '$anchorScroll', '$routeParams', 'tutorialService'];
 
-    function homeController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams) {
+    function homeController($scope, $http, $cookies, $window, $location, $anchorScroll, $routeParams, tutorialService) {
         $scope.title = 'homeController';
         $scope.user = undefined;
         $scope.logInErrorMessage = '';
         $scope.showLogInErrorMessage = false;
         $scope.showForgotPasswordMessage = false;
         $scope.showProgressError = false;
-        
+        console.log($cookies.tutorial);
         $scope.pointsEarned = 0;
-        
+
         $scope.twoStar = 100;
         $scope.threeStar = 175;
         $scope.fourStar = 240;
@@ -43,6 +43,15 @@
                 header: 'Product Solutions',
                 open: true
             }
+        }
+        
+        $scope.continueTutorial = function (){
+            $window.location.href = '/gui/#/Disposables';
+        }
+        
+        $scope.endTutorial = function () {
+            $cookies.tutorial = 'false';
+            $('#tutorialModal').modal('hide');
         }
 
         $http.get('/current_auth').success(function(data) {
@@ -96,6 +105,11 @@
                     } else {
                         $scope.widths[index].class = 'progress-bar-danger';
                     }
+                }
+                console.log($cookies.tutorial);
+                if ($cookies.tutorial==='true') {
+                    console.log("tutorial ongoing");
+                    $('#tutorialModal').modal();
                 }
             });
         });

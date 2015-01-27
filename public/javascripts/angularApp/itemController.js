@@ -38,6 +38,16 @@
                 open: false
             }
         }
+        
+        $scope.endTutorial = function () {
+            $cookies.tutorial = 'false';
+            $('#itemTutorialModal').modal('hide');
+        }
+        
+        $scope.tour = function () {
+            $cookies.tutorial = 'false';
+            $('#itemTutorialModal').modal('hide');
+        }
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;

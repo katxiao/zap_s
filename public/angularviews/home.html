@@ -63,6 +63,22 @@
       </div>
     </div>
 
+    <div class="modal fade" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="tutorialModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <!--<span>Would you like to take the AROUND THE WORLD Tour?</span><button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()"><span aria-hidden="true">&times;</span></button>
+                    <span ng-show="showLogInErrorMessage" class="error">{{message}}</span><br />
+                    <button class="btn btn-default" style="background-color:#00b1ff; margin-right: 0;" ng-click="modalPageIncrement()">Yes</button>-->
+                    <p>Here, we have a beatifully simple list view where you may quickly and easily answer questions about the GREEN-ness of your restaurant.</p>
+                    <p>As you answer questions, you will see your progress filling up in the meter on the side and in the bars beneath the category titles.</p>
+                    <p>After, you've finished answering questions or if you would like to take a break, please use the Save button at the bottom and come back later where last left off.</p>
+                    <button class="btn btn-warning pull-left" ng-click="endTutorial()">Exit Tutorial</button><button class="btn btn-info pull-right" ng-click="continueTutorial()">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="extraInfoModal" tabindex="-1" role="dialog" aria-labelledby="extraInfoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

@@ -56,17 +56,33 @@
         </div>
     </div>
     
-    <div class="modal fade {{modalInit}}" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal fade" id="tutorialModal" tabindex="-1" role="dialog" aria-labelledby="tutorialModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <span>Would you like to take the AROUND THE WORLD Tour?</span><button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()"><span aria-hidden="true">&times;</span></button>
-                    <span ng-show="showLogInErrorMessage" class="error">{{message}}</span><br />
-                    <button class="btn btn-default" style="background-color:#00b1ff; margin-right: 0;" ng-click="modalPageIncrement()">Yes</button>
+                    <p>Next, we have a more category focused view.</p>
+                    <p>If you look all the way on the right side, you can see 7 progress meters, one for each Green My Restaurant category. Click on a meter in order to get a subset of the standards filtered by that category./p>
+                    <p>No need to worry about click save in this view. Once you are logged in, your responses will automatically be saved every time you click next.</p>
+                    <button class="btn btn-warning pull-left" ng-click="endTutorial()">Exit Tutorial</button><button class="btn btn-info pull-right" ng-click="continueTutorial()">Proceed</button>
                 </div>
             </div>
         </div>
     </div>
+
+        <div class="modal fade" id="itemTutorialModal" tabindex="-1" role="dialog" aria-labelledby="itemTutorialModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>Finally, not only do we have a list view and view filtered by category, but we also have the capability to navigate our 3D model restaurant.</p>
+                        <p>You are free to explore all the rooms and click on items to see the standards associated with each. If you would like to get acquainted with restaurant, please take our Around the World tour.</p>
+                        <p>As with the category view, your progress will be visible in the meters to the side and your results will be saved when as you move from one question to the next.</p>
+                        <p>Thanks for your time. Enjoy!</p>
+                        <button class="btn btn-warning pull-left" ng-click="endTutorial()">Exit</button><button class="btn btn-warning pull-right" ng-click="tour()">Take the Tour!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <div class="modal fade" id="filterInfoModal" tabindex="-1" role="dialog" aria-labelledby="extraInfoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

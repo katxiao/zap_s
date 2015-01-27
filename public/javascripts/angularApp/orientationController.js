@@ -6,14 +6,20 @@
         .module('homeApp')
         .controller('orientationController', orientationController);
 
-    orientationController.$inject = ['$scope', '$http', '$window'];
+    orientationController.$inject = ['$scope', '$http', '$window', '$cookies', 'tutorialService'];
 
-    function orientationController($scope, $http, $window) {
+    function orientationController($scope, $http, $window, $cookies, tutorialService) {
 
         $http.get('/current_auth').success(function (data) {
             $scope.user = data.content.user;
         });
         
+        $scope.initiateTutorial = function () {
+            $cookies.tutorial = 'true';
+            console.log($cookies.tutorial);
+            $window.location.href = '/list/#/';
+        }
+
         $scope.forgotPasswordModal = function() {
             $('#loginModal').modal('hide');
             $('#forgotPasswordModal').modal();

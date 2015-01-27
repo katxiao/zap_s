@@ -10,6 +10,7 @@
         // Custom modules 
         'numbers',
         'stringFormat',
+        'tutorial',
         // 3rd Party Modules
         'ui.bootstrap'
     ]).filter('tags', function () {
