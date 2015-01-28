@@ -314,17 +314,16 @@
         
         $scope.computePercentScore = function (category, score, answerIndex, percent, previousPoints) {
             console.log(category, score, answerIndex, percent, previousPoints);
-            //var bar = document.getElementById('TotalBar');
-            //$scope.pointsEarned = bar.getAttribute("aria-valuenow");
-            //$scope.minRequired = bar.getAttribute("aria-valuemax");
             if (answerIndex) {
                 $scope.standardsByCategory[category].questions[answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
                 $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
                 $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
                 $scope.standardsByCategory[category].value = Number($scope.standardsByCategory[category].value) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
             }
+            $scope.computeScore(category, score, answerIndex, percent, previousPoints);
             initializeButton(category);
             initializeTotalButton();
+            $('#percentModal').modal('hide');
         }
         
         $scope.shorten = function (s) {
