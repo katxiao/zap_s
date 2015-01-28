@@ -8,6 +8,7 @@ var standardSchema = mongoose.Schema({
     question: { type: String, required: true },
     optionList: [{ text: { type: String }, points: { type: Number } }],
     room: { type: String },
+    percentagePossible: { type: Boolean },
     ecofacts: { message: { type: String, default: "None currently available" } },
     legislation: { message: { type: String, default: "None currently available" }, zipCodes: [{ type: Number }] },
     rebateincentives: { message: { type: String, default: "None currently available" }, zipCodes: [{ type: Number }] },
