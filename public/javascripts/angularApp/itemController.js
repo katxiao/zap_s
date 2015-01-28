@@ -20,24 +20,6 @@
         $scope.index = 0;
         $scope.previousPoints = 0;
         $scope.pointsByCategory = {};
-        // $scope.etcs = {
-        //     legislation: {
-        //         header: 'Legislation',
-        //         open: false
-        //     },
-        //     ecofacts: {
-        //         header: 'EcoFacts',
-        //         open: false
-        //     },
-        //     rebateincentives: {
-        //         header: 'Rebates/Incentives', 
-        //         open: false
-        //     },
-        //     solutions: {
-        //         header: 'Product Solutions',
-        //         open: false
-        //     }
-        // }
         
         $scope.endTutorial = function () {
             $cookieStore.put('tutorial', 'done');

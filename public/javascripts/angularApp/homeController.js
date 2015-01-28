@@ -50,20 +50,23 @@
         $('input#styrofoamCheckbox').change(function () {
             if ($('input#styrofoamCheckbox').is(':checked')) {
                 $scope.styrofoamCheckbox = true;
-                $http.put('/client/index', {clientId: $scope.user._id, styrofoam: true}).success(function(data) {});
             } else {
                 $scope.styrofoamCheckbox = false;
-                $http.put('/client/index', {clientId: $scope.user._id, styrofoam: false}).success(function(data) {});
+            }
+            if ($scope.user) {
+                $http.put('/client/index', {clientId: $scope.user._id, styrofoam: $scope.styrofoamCheckbox}).success(function(data) {});
+            
             }
         });
 
         $('input#recyclingCheckbox').change(function () {
             if ($('input#recyclingCheckbox').is(':checked')) {
                 $scope.recyclingCheckbox = true;
-                $http.put('/client/index', {clientId: $scope.user._id, recycling: true}).success(function(data) {});
             } else {
                 $scope.recyclingCheckbox = false;
-                $http.put('/client/index', {clientId: $scope.user._id, recycling: false}).success(function(data) {});
+            }
+            if($scope.user) {
+                $http.put('/client/index', {clientId: $scope.user._id, recycling: $scope.recyclingCheckbox}).success(function(data) {});
             }
         });
         
@@ -82,7 +85,7 @@
                 $scope.admin = $scope.user.admin;
                 $scope.greenPoints = $scope.user.GPs;
                 $scope.styrofoamCheckbox = $scope.user.styrofoam;
-                $scope.recyclingCheckbox = $scope.user.recyclingCheckbox;
+                $scope.recyclingCheckbox = $scope.user.recycling;
             }
             $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;
