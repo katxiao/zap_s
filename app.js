@@ -9,6 +9,55 @@ var mongoose = require("mongoose");
 var session = require("express-session");
 var passport = require("passport");
 
+
+// set up mongo database
+// var connection_string = process.env.MONGOLAB_URI || "localhost:27017/gra";
+// console.log("CONNECTION STRING: " + connection_string);
+// mongoose.connect(connection_string);
+var connection_string = 'localhost/gra';
+
+if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+  connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/gra';
+}
+
+mongoose.connect('mongodb://' + connection_string);
+
+var db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "Mongoose connection error."));
+db.once("open", function callback() {
+     // mongoose.connection.db.dropDatabase(function(err, result) {
+     //     if (err) {
+     //         console.error.bind(console, "Mongoose database error.");
+     //     } else {
+     //         console.log("Connected to Mongoose");
+                  // Try inserting admin into db
+            Client.findOne({username:'admin'}).exec(function(err, client) {
+                if (err) {
+                    console.log("error inserting admin into db");
+                    return;
+                } else {
+                    if (!client) {
+                        Client.registerAdmin(function(err, u) {
+                            if (err) return console.log("Error adding user.");
+                            }
+                        )
+                    }
+                }
+
+            });
+            //Standard.remove({category: "Food"}, function (err) {
+            //    console.log('collection removed')
+            //});
+     //     }
+     // });
+
+    console.log("Connected to Mongoose.");
+});
+
 var routes = require('./routes/index');
 var standards = require('./routes/api/standards');
 var clients = require('./routes/client/index');
@@ -72,54 +121,6 @@ app.use(function(err, req, res, next) {
         message: err.message,
         error: {}
     });
-});
-
-// set up mongo database
-// var connection_string = process.env.MONGOLAB_URI || "localhost:27017/gra";
-// console.log("CONNECTION STRING: " + connection_string);
-// mongoose.connect(connection_string);
-var connection_string = 'localhost/gra';
-
-if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
-  connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' +
-        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' +
-        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-        process.env.OPENSHIFT_MONGODB_DB_PORT + '/gra';
-}
-
-mongoose.connect('mongodb://' + connection_string);
-
-var db = mongoose.connection;
-
-db.on("error", console.error.bind(console, "Mongoose connection error."));
-db.once("open", function callback() {
-     // mongoose.connection.db.dropDatabase(function(err, result) {
-     //     if (err) {
-     //         console.error.bind(console, "Mongoose database error.");
-     //     } else {
-     //         console.log("Connected to Mongoose");
-                  // Try inserting admin into db
-            Client.findOne({username:'admin'}).exec(function(err, client) {
-                if (err) {
-                    console.log("error inserting admin into db");
-                    return;
-                } else {
-                    if (!client) {
-                        Client.registerAdmin(function(err, u) {
-                            if (err) return console.log("Error adding user.");
-                            }
-                        )
-                    }
-                }
-
-            });
-            //Standard.remove({category: "Food"}, function (err) {
-            //    console.log('collection removed')
-            //});
-     //     }
-     // });
-
-    console.log("Connected to Mongoose.");
 });
 
 
