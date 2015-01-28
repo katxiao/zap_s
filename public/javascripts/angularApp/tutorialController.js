@@ -90,7 +90,7 @@
                         $scope.standards[i].index = 0;
                         $scope.standardsByCategory[$scope.standards[i].category] = { value: $scope.standards[i].previousPoints, questions: [ $scope.standards[i]] };
                         $scope.categoryKeys.push($scope.standards[i].category);
-                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value + $scope.standards[i].previousPoints;
+                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value;
                     }
                 }
                 //initializeBar();
@@ -456,35 +456,35 @@
                         //$scope.login(username, password);
                         $http.post('/login', { username: username, password: password }).success(function (data) {
                             $scope.user = data.content.user;
-                            $scope.greenPoints = $scope.user.GPs;
-                            $http.get('/api/standards/').success(function (data) {
-                                $scope.standards = data;
-                                for (var i = 0; i < $scope.standards.length; i++) {
-                                    var found = false;
-                                    $scope.standards[i].previousPoints = 0;
-                                    if ($scope.user) {
-                                        for (var j = 0; j < $scope.greenPoints.length; j++) {
-                                            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
-                                                found = true;
-                                                $scope.standards[i].option = $scope.greenPoints[j].option;
-                                                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
-                                                $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
-                                                break;
-                                            }
-                                        }
-                                        if (!found) {
-                                            $scope.standards[i].option = undefined;
-                                            $scope.standards[i].percentage = undefined;
-                                        }
-                                    }
-                                    if ($scope.standardsByCategory[$scope.standards[i].category]) {
-                                        $scope.standardsByCategory[$scope.standards[i].category].push($scope.standards[i]);
-                                    } else {
-                                        $scope.standardsByCategory[$scope.standards[i].category] = [$scope.standards[i]];
-                                        $scope.categoryKeys.push($scope.standards[i].category);
-                                    }
-                                }
-                            });
+                            // $scope.greenPoints = $scope.user.GPs;
+                            // $http.get('/api/standards/').success(function (data) {
+                            //     $scope.standards = data;
+                            //     for (var i = 0; i < $scope.standards.length; i++) {
+                            //         var found = false;
+                            //         $scope.standards[i].previousPoints = 0;
+                            //         if ($scope.user) {
+                            //             for (var j = 0; j < $scope.greenPoints.length; j++) {
+                            //                 if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
+                            //                     found = true;
+                            //                     $scope.standards[i].option = $scope.greenPoints[j].option;
+                            //                     $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
+                            //                     $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
+                            //                     break;
+                            //                 }
+                            //             }
+                            //             if (!found) {
+                            //                 $scope.standards[i].option = undefined;
+                            //                 $scope.standards[i].percentage = undefined;
+                            //             }
+                            //         }
+                            //         if ($scope.standardsByCategory[$scope.standards[i].category]) {
+                            //             $scope.standardsByCategory[$scope.standards[i].category].push($scope.standards[i]);
+                            //         } else {
+                            //             $scope.standardsByCategory[$scope.standards[i].category] = [$scope.standards[i]];
+                            //             $scope.categoryKeys.push($scope.standards[i].category);
+                            //         }
+                            //     }
+                            // });
                             //$scope.save();
                             for (var i = 0; i < $scope.standards.length; i++) {
                                 if ($scope.standards[i].option) {

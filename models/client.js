@@ -12,7 +12,7 @@ var clientSchema = mongoose.Schema({
     GPs: [{ question: { type: mongoose.Schema.Types.ObjectId, ref: "Standard" }, option: { type: Number }, percentage: { type: Number } }],
     VGPs: [{ question: { type: String }, option: { type: Number }, percentage: { type: Number } }],
     recycling: { type: Boolean, default: false },
-    styrofoam: { type: Boolean, default: true},
+    styrofoam: { type: Boolean, default: false},
     viewedTutorial: { type: Boolean, default: false }
 });
 
