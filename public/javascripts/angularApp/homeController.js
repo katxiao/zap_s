@@ -84,12 +84,12 @@
                     if ($scope.standardsByCategory[$scope.standards[i].category]) {
                         $scope.standards[i].index = $scope.standardsByCategory[$scope.standards[i].category].questions.length;
                         $scope.standardsByCategory[$scope.standards[i].category].questions.push($scope.standards[i]);
-                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value;
+                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value + $scope.standards[i].previousPoints;
                     } else {
                         $scope.standards[i].index = 0;
                         $scope.standardsByCategory[$scope.standards[i].category] = { value: $scope.standards[i].previousPoints, questions: [ $scope.standards[i]] };
                         $scope.categoryKeys.push($scope.standards[i].category);
-                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value;
+                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value + $scope.standards[i].previousPoints;
                     }
                 }
                 //initializeBar();
@@ -455,9 +455,9 @@
                     }
                 }
                 //$window.location.href = '/#/';
-                //alert("Selections been saved!")
-                $scope.showProgressError = true;
-                $scope.progressError = "Selections have been saved.";
+                alert("Selections been saved!")
+                //$scope.showProgressError = true;
+                //$scope.progressError = "Selections have been saved.";
             } else {
                 $scope.signUpModal();
             }
@@ -579,7 +579,14 @@
                                     }
                                 }
                             });
-                            $scope.save();
+                            //$scope.save();
+                            for (var i = 0; i < $scope.standards.length; i++) {
+                                if ($scope.standards[i].option) {
+                                    $scope.standards[i].percentage = $scope.standards[i].percentage ? $scope.standards[i].percentage : 100;
+                                    $http.put('/api/standards', { standardId: $scope.standards[i]._id, selectedOption: parseFloat($scope.standards[i].option), percentage: $scope.standards[i].percentage })
+                                    .then(function (response) { });
+                                }
+                            }
                             $('#modal').modal('hide');
                             $window.location.href = "/list/#/profile";
                         }).error(function(err) {

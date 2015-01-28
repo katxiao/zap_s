@@ -80,7 +80,7 @@ router.post('/upload', function (req, res, next) {
                                             options.push({ text: optionsList[index], points: Number(gpsList[index]) });
                                         }
                                         //options.push({ text: optionsList[index], points: Number(gpsList[index]) });
-                                        var standard = new Standard({ category: standardData[0], item: standardData[6], question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[12], legislation: { message: standardData[8], zipCodes: legislationZips }, rebateincentives: { message: standardData[10], zipCodes: rebateZips }, solutions: standardData[13], filters: filters });
+                                        var standard = new Standard({ category: standardData[0], item: standardData[6], question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[12], legislation: { message: standardData[8], zipCodes: legislationZips }, rebateincentives: { message: standardData[10], zipCodes: rebateZips }, solutions: standardData[13], filters: filters, percentagePossible: standardData[16] === 'Yes'});
                                         standard.save(function (err) { console.log(err); });
                                     }
                                 }
