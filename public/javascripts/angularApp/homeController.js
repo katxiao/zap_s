@@ -403,6 +403,7 @@
         }
         
         $scope.percentModal = function (standard, points) {
+            console.log()
             if (standard.option !== 0) {
                 $scope.currentStandard = standard;
                 $scope.currentOptionPoints = points;
@@ -435,7 +436,7 @@
         
         $scope.scroll = function () {
             if ($scope.user)
-                $scope.save();
+                $scope.save();27
             $location.hash('bottomFixed');
             $anchorScroll();
         }
