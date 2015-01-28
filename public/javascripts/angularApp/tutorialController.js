@@ -94,7 +94,7 @@
                     }
                 }
                 //initializeBar();
-                initalizeTotalButton();
+                initializeTotalButton();
                 $scope.etcKeys = Object.keys($scope.etcs);
             }).then(function () {
                 for (var index in $scope.standardsByCategory) {
@@ -176,7 +176,7 @@
             }
         }
 
-        var initalizeTotalButton = function() {
+        var initializeTotalButton = function() {
             var meetsMinReq = true;
             for (var i = 0; i < $scope.categoryKeys.length; i++) {
                 meetsMinReq = meetsMinReq && ($scope.standardsByCategory[$scope.categoryKeys[i]].value >= 10);
@@ -198,7 +198,7 @@
             console.log('stars',$scope.stars);
         }
 
-        var initalizeButton = function(category) {
+        var initializeButton = function(category) {
             var catButton = $("button[id='"+ category + "Button']");
             console.log(catButton);
             console.log('initializing category', category);
@@ -291,8 +291,8 @@
 //                $scope.statusImage = "";
 //            }
 
-            initalizeButton(category);
-            initalizeTotalButton();
+            initializeButton(category);
+            initializeTotalButton();
         }
         
         $scope.computePercentScore = function (category, score, answerIndex, percent, previousPoints) {
@@ -303,6 +303,8 @@
                 $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
                 $scope.standardsByCategory[category].value = Number($scope.standardsByCategory[category].value) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
             }
+            initializeButton(category);
+            initializeTotalButton();
         }
         
         $scope.shorten = function (s) {
@@ -391,6 +393,16 @@
                 $scope.forgotPasswordMessage = err.err ? err.err : "Unsuccessful."
                 $scope.showForgotPasswordMessage = true;
             })
+        }
+        
+        $scope.percentModal = function (standard, points) {
+            if (standard.option !== 0) {
+                $scope.currentStandard = standard;
+                $scope.currentOptionPoints = points;
+                $('#percentModal').modal();
+            } else {
+                $scope.computeScore(standard.category, points, standard.index, standard.percentage, standard.previousPoints);
+            }
         }
 
         $scope.logout = function() {

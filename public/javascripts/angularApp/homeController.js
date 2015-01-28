@@ -320,8 +320,8 @@
                 $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
                 $scope.standardsByCategory[category].value = Number($scope.standardsByCategory[category].value) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
             }
-            initalizeButton(category);
-            initalizeTotalButton();
+            initializeButton(category);
+            initializeTotalButton();
         }
         
         $scope.shorten = function (s) {
