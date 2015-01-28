@@ -1,96 +1,48 @@
 ﻿<section>
     <div data-ng-include data-src="'/angularviews/navbar.html'"></div>
     <div data-ng-include data-src="'/angularviews/login.html'"></div>
-<!--     <div style="z-index: 4;"> -->
-        <!--<div style="position: fixed; top: 3.5em;width:92.5%;background-color: aliceblue;left:50%;margin-right:-46.25%; transform: translate(-50%, 0%);z-index: 4;"><h4>Total Progress</h4></div>-->
-<!--         <div class="progress" style="position: fixed; top: 19.5em; right: 0; height: 40px;width: 35%; z-index: 4;transform:rotate(-90deg) translate(0em, 9.5em);">
-            <div class="progress-bar" id="TotalBar" role="progressbar" aria-valuenow="{{pointsEarned}}" aria-valuemin="0" aria-valuemax="240" style="width: 0%; position: fixed;height: 40px;overflow:hidden;z-index: 4">
-            </div>
-        </div>
-        <div style="position: fixed; top: 19em; right: 0; height: 40px;width: 35%; z-index: 4;transform:rotate(-90deg) translate(-20.5em, 23em);">
-            <div style="transform: rotate(90deg)">
-                <p>Total: {{pointsEarned}}</p>
-                <img src="{{statusImage}}" width="50" height="50" />
-            </div>
-        </div>
-<<<<<<< HEAD
-    </div>
-    <!--<div id="filters" class="roundBottom">
-        <span>Filters</span>
-        <ul>
-=======
-    </div> -->
-    <!--<center>
-        <ul id="filters">
->>>>>>> 0b7675a2a7af42e94b81c7e878d83f3779abdd1a
-            <li><input type="checkbox" ng-model="obj.easy" />Easy</li>
-            <li><input type="checkbox" ng-model="obj.lowcost" />Low Cost</li>
-            <li><input type="checkbox" ng-model="obj.visible" />Visible</li>
-        </ul>
-    </div>
-    <div style="width:92.5%;padding-top: 1.5em;" ng-repeat="category in categoryKeys">
-        <div id="{{category}}" class="categoryhead" data-spy="affix" data-offset-top="125">
+    <div style="width:100%" ng-repeat="category in categoryKeys">
+        <div id="{{category}}" style="width:100%" class="categoryhead" data-spy="affix" data-offset-top="125">
             {{category}}
-    </center>-->
+        </div>
+                <div class="progress" style="width:100%">
+                    <div class="progress-bar {{widths[category].class || 'progress-bar-danger'}}" id="{{shorten(category)}}Bar" role="progressbar" aria-valuenow="{{widths[category].valuenow}}" aria-valuemin="0" aria-valuemax="10" style="width:{{widths[category].width}}">{{widths[category].message}}</div>
+                </div>
+                <table class="table table-striped">
+                    <tr ng-repeat="standard in standardsByCategory[category].questions | tags:obj" style="border: 1px black solid;">
+                        <td style="width:50%; font-size: 1.2em;" align = "right">
+                            <div id = "iQ">{{$index + 1}}. {{standard.question | reinsertCommas}} </div>
+                            <div id = "iconRow" class "pull-right">
+                                <div id = "topIcon">
+                                <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'legislation')" ng-show="standard['legislation'].message && standard['legislation'].message != 'None currently available'"><img src = "../infoImages/legislation.jpg"></div>
+                                <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'rebateincentives')" ng-show="standard['rebateincentives'].message && standard['rebateincentives'].message != 'None currently available'"><img src = "../infoImages/rebates.jpg"></div>
+                                </div>
 
-<!-- <div id="wrapper">
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-            
-        </ul>
-    </div>
-    <div id="page-content-wrapper">
-        <div class="page-content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12"> -->
-                        <div style="width:100%" ng-repeat="category in categoryKeys">
-                            <div id="{{category}}" style="width:100%" class="categoryhead" data-spy="affix" data-offset-top="125">
-                                {{category}}
+                                <div id = "bottomIcon">
+                                <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'ecofacts')" ng-show="standard['ecofacts'].message && standard['ecofacts'].message != 'None currently available'"><img src = "../infoImages/environmental.jpg"></div>
+                                <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'solutions')" ng-show="standard['solutions'].message && standard['solutions'].message != 'None currently available'"><img src = "../infoImages/greenSolutions.jpg"></div>
+                                </div>
                             </div>
-                                    <div class="progress" style="width:100%">
-                                        <div class="progress-bar {{widths[category].class || 'progress-bar-danger'}}" id="{{shorten(category)}}Bar" role="progressbar" aria-valuenow="{{widths[category].valuenow}}" aria-valuemin="0" aria-valuemax="10" style="width:{{widths[category].width}}">{{widths[category].message}}</div>
-                                    </div>
-                                    <table class="table table-striped">
-                                        <tr ng-repeat="standard in standardsByCategory[category].questions | tags:obj" style="border: 1px black solid;">
-                                            <td style="width:50%; font-size: 1.2em;" align = "right">
-                                                <div id = "iQ">{{$index + 1}}. {{standard.question | reinsertCommas}} </div>
-                                                <div id = "iconRow" class "pull-right">
-                                                    <div id = "topIcon">
-                                                    <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'legislation')" ng-show="standard['legislation'].message && standard['legislation'].message != 'None currently available'"><img src = "../infoImages/legislation.jpg"></div>
-                                                    <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'rebateincentives')" ng-show="standard['rebateincentives'].message && standard['rebateincentives'].message != 'None currently available'"><img src = "../infoImages/rebates.jpg"></div>
-                                                    </div>
-
-                                                    <div id = "bottomIcon">
-                                                    <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'ecofacts')" ng-show="standard['ecofacts'].message && standard['ecofacts'].message != 'None currently available'"><img src = "../infoImages/environmental.jpg"></div>
-                                                    <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'solutions')" ng-show="standard['solutions'].message && standard['solutions'].message != 'None currently available'"><img src = "../infoImages/greenSolutions.jpg"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style = "width:40%">
-                                                <div class="col-md-4" style="font-size: 1.0em;" ng-repeat="option in standard.optionList">
-                                                    <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="percentModal(standard, option.points)">{{option.text}}</input>
-                                                </div>
+                        </td>
+                        <td style = "width:40%">
+                            <div class="col-md-4" style="font-size: 1.0em;" ng-repeat="option in standard.optionList">
+                                <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="percentModal(standard, option.points)">{{option.text}}</input>
+                            </div>
 
 <!--                                                 <div class="pull-right col-md-4">
-                                                    <input ng-model="standard.percentage" size="3" ng-change="computePercentScore(standard.category, standard.option, standard.index, standard.percentage, standard.previousPoints)" />%
-                                                </div> -->
-                                            </td>
-                                            <td style="width: 10%">
-                                                <center ng-class = "{'boldPoints': standard.option > 0}">{{carefulMultiply(standard.option, standard.percentage)}} pts</center>
+                                <input ng-model="standard.percentage" size="3" ng-change="computePercentScore(standard.category, standard.option, standard.index, standard.percentage, standard.previousPoints)" />%
+                            </div> -->
+                        </td>
+                        <td style="width: 10%">
+                            <center ng-class = "{'boldPoints': standard.option > 0}">{{carefulMultiply(standard.option, standard.percentage)}} pts</center>
 
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <img src="https://filmcrithulk.files.wordpress.com/2011/05/panda1.jpg" alt="Pandaaaaa" height="150" width="100%" style="position:fixed; bottom: 0px; right:0px;">
-                                    <!-- <center> <button class='btn btn-primary' ng-click="save()" style="width: 100%; position: fixed; bottom: 0px;right:0px">Save</button> </center> -->
-                                </div>
-<!--                             </div>
-                    </div>
-                </div>
+                        </td>
+                    </tr>
+                </table>
+                <img src="https://filmcrithulk.files.wordpress.com/2011/05/panda1.jpg" alt="Pandaaaaa" height="150" width="100%" style="position:fixed; bottom: 0px; right:0px;">
+                <!-- <center> <button class='btn btn-primary' ng-click="save()" style="width: 100%; position: fixed; bottom: 0px;right:0px">Save</button> </center> -->
             </div>
-        </div>
-    </div> -->
+
 
     <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
       <div class="modal-dialog">
