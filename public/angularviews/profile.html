@@ -30,8 +30,8 @@
     </center>
     <div class="col-md-3 col-sm-12 summary" ng-repeat="category in categoryKeys">
         <h4 style="color: darkgreen">{{category}} <span class="pull-right" style="color:darkblue">{{pointsByCategory[category].value}} Points</span></h4>
-        <center style="color: blue" ng-show="pointsByCategory[category].value > 10">You have met the requirement for this category</center>
-        <center style="color: red" ng-show="pointsByCategory[category].value <= 10">You need {{10 - pointsByCategory[category].value}} {{category}} more points to be certified</center>
+        <center style="color: blue" ng-show="pointsByCategory[category].value >= 10">You have met the requirement for this category</center>
+        <center style="color: red" ng-show="pointsByCategory[category].value < 10">You need {{10 - pointsByCategory[category].value}} {{category}} more points to be certified</center>
         <div ng-repeat="question in pointsByCategory[category].questions">
             <span class="pull-left" style="width: 50%">{{abbrev(question.question)}}</span>
             <span class="pull-right" style="width: 50%">{{question.value}}</span>

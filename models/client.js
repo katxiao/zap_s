@@ -3,8 +3,8 @@ var mongoose = require("mongoose");
 //var request = require("request");
 var utils = require("../utils/utils");
 
-var clientSchema = mongoose.Schema( {
-    username: { type: String, required: true },
+var clientSchema = mongoose.Schema({
+    username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     admin: { type: Boolean, default: false },
     location: { State: { type: String }, City: { type: String }, ZipCode: { type: Number } },

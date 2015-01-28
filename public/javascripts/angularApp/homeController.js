@@ -84,12 +84,12 @@
                     if ($scope.standardsByCategory[$scope.standards[i].category]) {
                         $scope.standards[i].index = $scope.standardsByCategory[$scope.standards[i].category].questions.length;
                         $scope.standardsByCategory[$scope.standards[i].category].questions.push($scope.standards[i]);
-                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value + $scope.standards[i].previousPoints;
+                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value;
                     } else {
                         $scope.standards[i].index = 0;
                         $scope.standardsByCategory[$scope.standards[i].category] = { value: $scope.standards[i].previousPoints, questions: [ $scope.standards[i]] };
                         $scope.categoryKeys.push($scope.standards[i].category);
-                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value + $scope.standards[i].previousPoints;
+                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value;
                     }
                 }
                 //initializeBar();
@@ -251,6 +251,7 @@
             // }
 
             var catbar = document.getElementById(category + 'Bar');
+            console.log(catbar);
             var catPE = catbar.getAttribute("aria-valuenow");
             var minRequired = catbar.getAttribute("aria-valuemax");
             catPE = Number(catPE) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
