@@ -464,6 +464,14 @@
 
         }
 
+        $scope.certificationReqsModal = function() {
+            $('#signUpModal').modal('hide');
+            $('#progressModal').modal('hide');
+            $('#loginModal').modal('hide');
+            //Todo: close all other modals
+            $('#certificationReqsModal').modal();
+        }
+
         $scope.loginModal = function () {
             $('#signUpModal').modal('hide');
             $('#progressModal').modal('hide');
