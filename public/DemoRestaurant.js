@@ -334,7 +334,7 @@ var tourList = [
   [babylonPoint2MapPoint({x:27, y:28}), {x:25, y:36}, {x:26, y:36}],
   [babylonPoint2MapPoint({x:4, y:28}), {x:7, y:36}, {x:8, y:36}],
   [babylonPoint2MapPoint({x:-8, y:39}), {x:-19, y:40}, {x:-18, y:40}],
-  [babylonPoint2MapPoint({x:-6, y:-99}), {x:15, y:50}, {x:16, y:50}]
+  [babylonPoint2MapPoint({x:-6, y:-99}), {x:0, y:50}, {x:15, y:61}]
               ]
 
 
