@@ -432,6 +432,11 @@
                 $scope.showErrorMessage = true;
             })
         }
+        
+        $scope.scroll = function () {
+            $location.hash('bottomFixed');
+            $anchorScroll();
+        }
 
         // $scope.scrollTo = function (id) {
         //     $location.hash(id);
