@@ -75,14 +75,24 @@ app.use(function(err, req, res, next) {
 });
 
 // set up mongo database
-var connection_string = process.env.MONGOLAB_URI || "localhost:27017/gra";
-console.log("CONNECTION STRING: " + connection_string);
-mongoose.connect(connection_string);
+// var connection_string = process.env.MONGOLAB_URI || "localhost:27017/gra";
+// console.log("CONNECTION STRING: " + connection_string);
+// mongoose.connect(connection_string);
+var connection_string = 'localhost/gra';
+
+if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+  connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/gra';
+}
+
+mongoose.connect('mongodb://' + connection_string);
 
 var db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "Mongoose connection error."));
-db.once("open", function () {
+db.once("open", function callback() {
      // mongoose.connection.db.dropDatabase(function(err, result) {
      //     if (err) {
      //         console.error.bind(console, "Mongoose database error.");
@@ -114,3 +124,5 @@ db.once("open", function () {
 
 
 module.exports = app;
+app.listen(process.env.OPENSHIFT_NODEJS_PORT || 8080,
+           process.env.OPENSHIFT_NODEJS_IP);
