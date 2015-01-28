@@ -68,9 +68,9 @@ router.post('/upload', function (req, res, next) {
                                 if (standardData.length > 16) {
                                     var optionsList = standardData[3].split(";;");
                                     var gpsList = standardData[4].split(";;");
-                                    var legislationZips = standardData[10].split(";;");
-                                    var rebateZips = standardData[12].split(";;");
-                                    var filters = standardData[16].split(";;");
+                                    var legislationZips = standardData[9].split(";;");
+                                    var rebateZips = standardData[11].split(";;");
+                                    var filters = standardData[15].split(";;");
                                     //console.log(filters);
                                     //console.log(optionsList.length, gpsList.length);
                                     if (optionsList.length > 0 && optionsList.length === gpsList.length) {
@@ -80,7 +80,7 @@ router.post('/upload', function (req, res, next) {
                                             options.push({ text: optionsList[index], points: Number(gpsList[index]) });
                                         }
                                         //options.push({ text: optionsList[index], points: Number(gpsList[index]) });
-                                        var standard = new Standard({ category: standardData[0], item: standardData[7] || "Don't have yet.", question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[13], legislation: { message: standardData[9], zipCodes: legislationZips }, rebateincentives: { message: standardData[11], zipCodes: rebateZips }, solutions: standardData[14], filters: filters });
+                                        var standard = new Standard({ category: standardData[0], item: standardData[6], question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[12], legislation: { message: standardData[8], zipCodes: legislationZips }, rebateincentives: { message: standardData[10], zipCodes: rebateZips }, solutions: standardData[13], filters: filters });
                                         standard.save(function (err) { console.log(err); });
                                     }
                                 }
@@ -91,6 +91,49 @@ router.post('/upload', function (req, res, next) {
                         removeOldStandards(existingStandards, existence.latestMatched);
                         res.end("Got your file!");
                     });
+                });
+            } else {
+                res.end("Well, there is no magic for those who don’t believe in it!");
+            }
+        });
+    }
+});
+
+router.post('/uploadusers', function (req, res, next) {
+    if (req.files) {
+        if (req.files.myFile.size === 0) {
+            return next(new Error("Hey, first would you select a file?"));
+        }
+        fs.exists(req.files.myFile.path, function (exists) {
+            if (exists && req.files.myFile.path.substring(req.files.myFile.path.length - 3, req.files.myFile.path.length) === 'csv') {
+                console.log('valid');
+                fs.readFile(req.files.myFile.path, 'utf8', function (err, data) {
+                    data = data.trim();
+                    var lines = data.split("\n");
+                    console.log("Line: ", lines.splice(0, 1));
+                    for (var i in lines) {
+                        //console.log(lines[i]);
+                        var standardData = lines[i].split(",");
+                        if (standardData[0].trim() !== "") {
+                            //console.log(standardData[3]);
+                            if (standardData.length > 16) {
+                                var locationObj ={State: standardData[2], City: standardData[3], ZipCode: standardData[4]};
+                                //console.log(filters);
+                                //console.log(optionsList.length, gpsList.length);
+                                if (optionsList.length > 0 && optionsList.length === gpsList.length) {
+                                    var options = [];
+                                    for (var index = 0; index < optionsList.length; index++) {
+                                        //console.log(gpsList[index], Number(gpsList[index]));
+                                        options.push({ text: optionsList[index], points: Number(gpsList[index]) });
+                                    }
+                                    //options.push({ text: optionsList[index], points: Number(gpsList[index]) });
+                                    var client = new Client({ username: standardData[0], password: standardData[7], organization: standardData[0], location: locationObj, room: standardData[5], ecofacts: standardData[13], legislation: { message: standardData[9], zipCodes: legislationZips }, rebateincentives: { message: standardData[11], zipCodes: rebateZips }, solutions: standardData[14], filters: filters });
+                                    client.save(function (err) { console.log(err); });
+                                }
+                            }
+                        }
+                    }
+                    res.end("Got your file!");
                 });
             } else {
                 res.end("Well, there is no magic for those who don’t believe in it!");

@@ -229,13 +229,13 @@ a{
 
 #filters span{
     display: inline-block;
-    transform: translate(130%, 0%);
+    transform: translate(-60%, 0%);
     font-weight: bold;
     font-size: 20px;
 }
 
 #filters ul {
-    
+    transform: translate(-10%, 0%);*/
 }
 
 /*.navbar {
