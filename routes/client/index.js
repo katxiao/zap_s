@@ -31,16 +31,28 @@ router.get('/:id', function(req, res) {
 
 /* PUT to change admin status of a user (only accessible by admins) */
 router.put('/', function(req, res) {
-    var admin = Boolean(req.body.admin);
+    var admin = req.body.admin;
     var id = req.body.clientId;
-    if (!(admin === true || admin === false) || id === undefined) return utils.sendErrResponse(res, 400, 'Bad Request: invalid parameters.');
+    var recycling = req.body.recycling;
+    var styrofoam = req.body.styrofoam;
+    if (!((styrofoam !== undefined || recycling !== undefined || admin !== undefined) && id !== undefined)) return utils.sendErrResponse(res, 400, 'Bad Request: invalid parameters.');
     if (!req.user[0].admin) return utils.sendErrResponse(res, 401, 'Access denied: Admin only.')
     Client.findOne({_id: id}).exec(function(err, client) {
         if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
         if (!client) return utils.sendErrResponse(res, 500, 'Resource not found: Client does not exist.');
-        client.admin = admin;
-        client.save();
-        utils.sendSuccessResponse(res, {});
+        if (admin !== undefined) {
+            client.admin = Boolean(admin);
+        }
+        if (recycling !== undefined)  {
+            client.recycling = Boolean(recycling);
+        }
+        if (styrofoam !== undefined) {
+            client.styrofoam = Boolean(styrofoam);
+        }
+        client.save(function(err) {
+            if (err) utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+            utils.sendSuccessResponse(res, {});
+        });
     })
 })
 
@@ -93,7 +105,6 @@ router.post('/reset', function(req, res) {
     var username = req.body.username;
     var oldPassword = req.body.oldPassword;
     var newPassword = req.body.newPassword;
-    console.log(req.body);
     if (username === undefined || oldPassword === undefined || newPassword === undefined) return utils.sendErrResponse(res, 400, "Bad request: missing body parameter(s)");
     Client.findOne( {username : username}).exec(function(err, client) {
         if (err) return utils.sendErrResponse(res, 500, "An unknown error occurred.");
