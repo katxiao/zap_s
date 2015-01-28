@@ -26,7 +26,10 @@
                     </div>
                 </td>
                 <td style = "width:40%">
-                    <div class="col-md-4" style="font-size: 1.0em;" ng-repeat="option in standard.optionList">
+                    <div class="col-md-4" style="font-size: 1.0em;" ng-show="standard.percentagePossible" accesskey="" ng-repeat="option in standard.optionList">
+                        <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="percentModal(standard, option.points)">{{option.text}}</input>
+                    </div>
+                    <div class="col-md-4" style="font-size: 1.0em;" ng-show="!standard.percentagePossible" ng-repeat="option in standard.optionList">
                         <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="percentModal(standard, option.points)">{{option.text}}</input>
                     </div>
                 </td>

@@ -50,11 +50,12 @@ router.post('/upload', function (req, res, next) {
             return next(new Error("Hey, first would you select a file?"));
         }
         fs.exists(req.files.myFile.path, function (exists) {
-            if (exists) {
+            if (exists && req.files.myFile.path.substring(req.files.myFile.path.length - 3, req.files.myFile.path.length) === 'csv') {
                 fs.readFile(req.files.myFile.path, 'utf8', function (err, data) {
                     data = data.trim();
                     var lines = data.split("\n");
                     console.log("Line: ", lines.splice(0, 1));
+                    console.log(lines[0]);
                     Standard.find({category: lines[0].split(",")[0]}).exec(function (err, existingStandards) {
                         var latestMatched = 0;
                         var uploadId = Math.round(Math.random() * 10000);
@@ -62,10 +63,10 @@ router.post('/upload', function (req, res, next) {
                             //console.log(lines[i]);
                             var standardData = lines[i].split(",");
                             var existence = alreadyExists(existingStandards, standardData[2], standardData[3], latestMatched);
-                            //console.log(existence);
+                            console.log(standardData[0]);
                             if (standardData[0].trim() != "" && !existence.found) {
-                                //console.log(standardData[3]);
-                                if (standardData.length > 16) {
+                                console.log(standardData.length);
+                                if (standardData.length >= 16) {
                                     var optionsList = standardData[3].split(";;");
                                     var gpsList = standardData[4].split(";;");
                                     var legislationZips = standardData[9].split(";;");
@@ -79,8 +80,8 @@ router.post('/upload', function (req, res, next) {
                                             //console.log(gpsList[index], Number(gpsList[index]));
                                             options.push({ text: optionsList[index], points: Number(gpsList[index]) });
                                         }
-                                        //options.push({ text: optionsList[index], points: Number(gpsList[index]) });
-                                        var standard = new Standard({ category: standardData[0], item: standardData[6], question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[12], legislation: { message: standardData[8], zipCodes: legislationZips }, rebateincentives: { message: standardData[10], zipCodes: rebateZips }, solutions: standardData[13], filters: filters, percentagePossible: standardData[16] === 'Yes'});
+                                        var pp = standardData[16] === 'Yes';
+                                        var standard = new Standard({ category: standardData[0], item: standardData[6], question: standardData[2], optionList: options, room: standardData[5], ecofacts: standardData[12], legislation: { message: standardData[8], zipCodes: legislationZips }, rebateincentives: { message: standardData[10], zipCodes: rebateZips }, solutions: standardData[13], filters: filters, percentagePossible: pp});
                                         standard.save(function (err) { console.log(err); });
                                     }
                                 }
@@ -101,6 +102,7 @@ router.post('/upload', function (req, res, next) {
 
 router.post('/uploadusers', function (req, res, next) {
     if (req.files) {
+        console.log('uploading users');
         if (req.files.myFile.size === 0) {
             return next(new Error("Hey, first would you select a file?"));
         }
@@ -110,25 +112,32 @@ router.post('/uploadusers', function (req, res, next) {
                 fs.readFile(req.files.myFile.path, 'utf8', function (err, data) {
                     data = data.trim();
                     var lines = data.split("\n");
+                    if (lines.length === 1)
+                        var lines = data.split("\r");
                     console.log("Line: ", lines.splice(0, 1));
+                    console.log(lines.length);
                     for (var i in lines) {
                         //console.log(lines[i]);
                         var standardData = lines[i].split(",");
                         if (standardData[0].trim() !== "") {
-                            //console.log(standardData[3]);
-                            if (standardData.length > 16) {
+                            console.log(standardData.length);
+                            if (standardData.length >= 16) {
                                 var locationObj = {State: standardData[2], City: standardData[3], ZipCode: standardData[4]};
-                                var client = new Client({ username: standardData[0], password: standardData[7], organization: standardData[0], location: locationObj, room: standardData[5], ecofacts: standardData[13], legislation: { message: standardData[9], zipCodes: legislationZips }, rebateincentives: { message: standardData[11], zipCodes: rebateZips }, solutions: standardData[14], filters: filters });
-                                client.save(function (err) { console.log(err); });
                                 var answersByCategory = standardData[12].split('|');
                                 for (var index in answersByCategory) {
                                     var answers = answersByCategory[index].split(';');
-                                    var category = answers.splice(0, 1).split(":")[0].trim();
+                                    console.log(answersByCategory[index]);
+                                    var category = answers.splice(0, 1)[0].split(":")[0].trim();
+                                    console.log(category);
+                                    var vgps = [];
                                     for (var i in answers) {
                                         var question = answers[i].split(':')[0].trim();
                                         var value = answers[i].split(':')[1].trim();
+                                        vgps.push({ question: question, option: value });
                                     }
                                 }
+                                var client = new Client({ username: standardData[14], password: standardData[15], organization: standardData[0], location: locationObj, nextsteps: standardData[13], VGPs: vgps });
+                                client.save(function (err) { console.log(err); });
                             }
                         }
                     }
@@ -168,7 +177,8 @@ var removeOldStandards = function (existingStandards, latestMatched) {
 // Passport strategy for logging in
 passport.use("local-login", new LocalStrategy(function(username, password, done) {
 
-    Client.login(username, password, function(err, user) {
+    Client.login(username, password, function (err, user) {
+        console.log(err);
         if (err) {
             return done(err);
         } else if (!user) {

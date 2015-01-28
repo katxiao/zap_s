@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 
 var standardSchema = mongoose.Schema({
     category: { type: String, required: true },
-    item: { type: String, required: true },
+    item: { type: String },
     question: { type: String, required: true },
     optionList: [{ text: { type: String }, points: { type: Number } }],
     room: { type: String },
