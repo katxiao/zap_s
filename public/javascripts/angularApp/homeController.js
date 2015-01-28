@@ -434,6 +434,8 @@
         }
         
         $scope.scroll = function () {
+            if ($scope.user)
+                $scope.save();
             $location.hash('bottomFixed');
             $anchorScroll();
         }
