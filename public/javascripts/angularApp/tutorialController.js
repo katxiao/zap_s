@@ -274,8 +274,9 @@
             $window.location.href = '/gui/#/';
         }
         
-        $scope.extraInfoModal = function (category, index) {
+        $scope.extraInfoModal = function (category, index, key) {
             $scope.modalStandard = $scope.standardsByCategory[category].questions[index];
+            $scope.etc = key;
             $('#extraInfoModal').modal();
         }
         
