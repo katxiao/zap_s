@@ -12,13 +12,12 @@
 
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav" ng-show="!interactive && !profile"id="optionsNav">
-            <li style="background-color: #5cb85c;"><a href="" ng-click="filterModal()" style="color: white">Options</a></li>
+            <li style="background-color: #5cb85c;"><a href="" ng-click="filterModal()" style="color: white; border: 2px solid black;">Options</a></li>
+            <li style="background-color: #5cb85c;" ng-show="!interactive && !profile"><a href="" ng-click="certificationReqsModal()" style="color: white; border: 2px solid black;">Cert Reqs</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <!-- <li><a href="http://www.dinegreen.org">Resources</a></li> -->
             <li><a href="/gui/#/" ng-hide="interactive && !profile">Interactive Version</a></li>
             <li><a href="/list/#/" ng-show="interactive || profile">List View</a></li>
-      <!--       <li><a href="/#/login">Login</a></li> -->
             <li><a href="/list/#/admin" ng-show="admin">Admin</a></li>
             <li><a href="/list/#/profile" ng-show="user">Profile</a></li>
             <li><a href="" ng-click="signUpModal()" ng-show="!user">Sign Up</a></li>

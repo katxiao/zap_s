@@ -122,7 +122,7 @@ router.post('/email', function(req, res) {
  * Links to a password reset form
  */
 function emailPasswordReset(username, email) {
-    var link = "http://greenMyRestaurant.herokuapp.com/#/reset?username=" + utils.fromStringToHex(username);
+    var link = "http://gra.azurewebsites.net/#/reset?username=" + utils.fromStringToHex(username);
     var mailContent = "Hi " + username + "!<br>"
         + "Click <a href=" + link + ">here</a> to reset your password.";
 
