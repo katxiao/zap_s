@@ -61,7 +61,7 @@ router.post('/upload', function (req, res, next) {
                         for (var i in lines) {
                             //console.log(lines[i]);
                             var standardData = lines[i].split(",");
-                            var existence = alreadyExists(existingStandards, standardData[2], latestMatched);
+                            var existence = alreadyExists(existingStandards, standardData[2], standardData[3], latestMatched);
                             //console.log(existence);
                             if (standardData[0].trim() != "" && !existence.found) {
                                 //console.log(standardData[3]);
@@ -117,18 +117,17 @@ router.post('/uploadusers', function (req, res, next) {
                         if (standardData[0].trim() !== "") {
                             //console.log(standardData[3]);
                             if (standardData.length > 16) {
-                                var locationObj ={State: standardData[2], City: standardData[3], ZipCode: standardData[4]};
-                                //console.log(filters);
-                                //console.log(optionsList.length, gpsList.length);
-                                if (optionsList.length > 0 && optionsList.length === gpsList.length) {
-                                    var options = [];
-                                    for (var index = 0; index < optionsList.length; index++) {
-                                        //console.log(gpsList[index], Number(gpsList[index]));
-                                        options.push({ text: optionsList[index], points: Number(gpsList[index]) });
+                                var locationObj = {State: standardData[2], City: standardData[3], ZipCode: standardData[4]};
+                                var client = new Client({ username: standardData[0], password: standardData[7], organization: standardData[0], location: locationObj, room: standardData[5], ecofacts: standardData[13], legislation: { message: standardData[9], zipCodes: legislationZips }, rebateincentives: { message: standardData[11], zipCodes: rebateZips }, solutions: standardData[14], filters: filters });
+                                client.save(function (err) { console.log(err); });
+                                var answersByCategory = standardData[12].split('|');
+                                for (var index in answersByCategory) {
+                                    var answers = answersByCategory[index].split(';');
+                                    var category = answers.splice(0, 1).split(":")[0].trim();
+                                    for (var i in answers) {
+                                        var question = answers[i].split(':')[0].trim();
+                                        var value = answers[i].split(':')[1].trim();
                                     }
-                                    //options.push({ text: optionsList[index], points: Number(gpsList[index]) });
-                                    var client = new Client({ username: standardData[0], password: standardData[7], organization: standardData[0], location: locationObj, room: standardData[5], ecofacts: standardData[13], legislation: { message: standardData[9], zipCodes: legislationZips }, rebateincentives: { message: standardData[11], zipCodes: rebateZips }, solutions: standardData[14], filters: filters });
-                                    client.save(function (err) { console.log(err); });
                                 }
                             }
                         }
@@ -142,14 +141,17 @@ router.post('/uploadusers', function (req, res, next) {
     }
 });
 
-var alreadyExists = function (existingStandards, question, latestMatched) {
+var alreadyExists = function (existingStandards, question, options, latestMatched) {
     for (var index = latestMatched; index < existingStandards.length; ++index) {
         if(existingStandards[index].question === question)
         {
-            //console.log(index);
             existingStandards[index].matched = true;
+            if (options && existingStandards[index].optionList.length === options.split(";;").length) {
+                var latest = (index === latestMatched) ? latestMatched + 1 : latestMatched;
+                return { found: true, latestMatched: latest };
+            }
             var latest = (index === latestMatched) ? latestMatched + 1 : latestMatched;
-            return { found: true, latestMatched: latest };
+            return { found: false, latestMatched: latest };
         }
     }
     return { found: false, latestMatched: latestMatched };
