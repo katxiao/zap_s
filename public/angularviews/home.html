@@ -87,11 +87,11 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div style="width:92.5%" ng-repeat="category in categoryKeys">
-                                    <div id="{{category}}" class="categoryhead" data-spy="affix" data-offset-top="125">
-                                        {{category}}
-                                    </div>
-                                    <div class="progress">
-                                        <div class="progress-bar {{widths[category].class || 'progress-bar-danger'}}" id="{{category}}Bar" role="progressbar" aria-valuenow="{{widths[category].valuenow}}" aria-valuemin="0" aria-valuemax="10" style="width:{{widths[category].width}}">{{widths[category].message}}</div>
+                            <div id="{{category}}" style="width:100%" class="categoryhead" data-spy="affix" data-offset-top="125">
+                                {{category}}
+                            </div>
+                                    <div class="progress" style="width:100%">
+                                        <div class="progress-bar {{widths[category].class || 'progress-bar-danger'}}" id="{{shorten(category)}}Bar" role="progressbar" aria-valuenow="{{widths[category].valuenow}}" aria-valuemin="0" aria-valuemax="10" style="width:{{widths[category].width}}">{{widths[category].message}}</div>
                                     </div>
                                     <table class="table table-striped">
                                         <tr ng-repeat="standard in standardsByCategory[category].questions | tags:obj" style="border: 1px black solid;">
@@ -100,7 +100,7 @@
                                                 <div id = "iconRow" class "pull-right">
                                                     <div id = "topIcon">
                                                     <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'legislation')" ng-show="standard['legislation'].message && standard['legislation'].message != 'None currently available'"><img src = "../infoImages/legislation.jpg"></div>
-                                                    <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'rebateincentives')" ng-show="standard['rebateincentives'].message && standard['rebateincentives'].message != 'None currently available'"><img src = "../infoImages/roi.jpg"></div>
+                                                    <div class = "icon" ng-click="extraInfoModal(category, standard.index, 'rebateincentives')" ng-show="standard['rebateincentives'].message && standard['rebateincentives'].message != 'None currently available'"><img src = "../infoImages/rebates.jpg"></div>
                                                     </div>
 
                                                     <div id = "bottomIcon">
@@ -124,7 +124,7 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <center> <button class='btn btn-primary' ng-click="progressModal()" style="width: 75%; position: fixed; bottom: 0px; right: 250px;">View Progress / Save</button> </center>
+                                    <center> <button class='btn btn-primary' ng-click="save()" style="width: 75%; position: fixed; bottom: 0px; right: 250px;">Save</button> </center>
                                 </div>
                             </div>
                     </div>

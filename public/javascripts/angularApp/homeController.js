@@ -84,12 +84,12 @@
                     if ($scope.standardsByCategory[$scope.standards[i].category]) {
                         $scope.standards[i].index = $scope.standardsByCategory[$scope.standards[i].category].questions.length;
                         $scope.standardsByCategory[$scope.standards[i].category].questions.push($scope.standards[i]);
-                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value;
+                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value + $scope.standards[i].previousPoints;
                     } else {
                         $scope.standards[i].index = 0;
                         $scope.standardsByCategory[$scope.standards[i].category] = { value: $scope.standards[i].previousPoints, questions: [ $scope.standards[i]] };
                         $scope.categoryKeys.push($scope.standards[i].category);
-                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value;
+                        $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value + $scope.standards[i].previousPoints;
                     }
                 }
                 //initializeBar();
@@ -250,26 +250,26 @@
             //     barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
             // }
 
-            var catbar = document.getElementById(category + 'Bar');
+            var catbar = document.getElementById($scope.shorten(category) + 'Bar');
             console.log(catbar);
             var catPE = catbar.getAttribute("aria-valuenow");
             var minRequired = catbar.getAttribute("aria-valuemax");
             catPE = Number(catPE) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
             $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
             if (catPE >= minRequired)
-                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+                $('#' + $scope.shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
-                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+                $('#' + $scope.shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
             catbar.setAttribute("aria-valuenow", catPE);
             $scope.standardsByCategory[category].value = catPE;
-            var catbarjQ = $('#' + shorten(category) + 'Bar');
+            var catbarjQ = $('#' + $scope.shorten(category) + 'Bar');
             catbarjQ.width(Math.min(catPE * 100.0 / minRequired, 100) + "%");
             //if (catPE * 100.0 / minRequired > 50) {
             catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');
-            /*    //$('#' + shorten(category) + 'BarAfter').html("");
+            /*    //$('#' + $scope.shorten(category) + 'BarAfter').html("");
             } else {
                 catbarjQ.html("");
-                //$('#' + shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
+                //$('#' + $scope.shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
             }*/
 //<<<<<<< HEAD
             
@@ -375,11 +375,11 @@
             catPE = Number(catPE) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
             $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
             if (catPE >= minRequired)
-                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
+                $('#' + $scope.shorten(category) + 'Bar').removeClass('progress-bar-danger').addClass('progress-bar-success');
             else
-                $('#' + shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
+                $('#' + $scope.shorten(category) + 'Bar').removeClass('progress-bar-success').addClass('progress-bar-danger');
             catbar.setAttribute("aria-valuenow", catPE);
-            var catbarjQ = $('#' + shorten(category) + 'Bar');
+            var catbarjQ = $('#' + $scope.shorten(category) + 'Bar');
             catbarjQ.width(Math.min(catPE * 100.0 / minRequired, 100) + "%");
             catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');*/
             //var bar = document.getElementById('TotalBar');
@@ -420,7 +420,7 @@
             // }
         }
         
-        var shorten = function (s) {
+        $scope.shorten = function (s) {
             return s.substring(0, Math.min(s.length, 6));
         }
         
@@ -455,9 +455,9 @@
                     }
                 }
                 //$window.location.href = '/#/';
-                //alert("Selections been saved!")
-                $scope.showProgressError = true;
-                $scope.progressError = "Selections have been saved.";
+                alert("Selections been saved!")
+                //$scope.showProgressError = true;
+                //$scope.progressError = "Selections have been saved.";
             } else {
                 $scope.signUpModal();
             }
@@ -579,7 +579,14 @@
                                     }
                                 }
                             });
-                            $scope.save();
+                            //$scope.save();
+                            for (var i = 0; i < $scope.standards.length; i++) {
+                                if ($scope.standards[i].option) {
+                                    $scope.standards[i].percentage = $scope.standards[i].percentage ? $scope.standards[i].percentage : 100;
+                                    $http.put('/api/standards', { standardId: $scope.standards[i]._id, selectedOption: parseFloat($scope.standards[i].option), percentage: $scope.standards[i].percentage })
+                                    .then(function (response) { });
+                                }
+                            }
                             $('#modal').modal('hide');
                             $window.location.href = "/list/#/profile";
                         }).error(function(err) {
