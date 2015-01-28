@@ -16,6 +16,8 @@
         $scope.showForgotPasswordMessage = false;
         $scope.showProgressError = false;
         $scope.pointsEarned = 0;
+        $scope.styrofoamCheckbox = false;
+        $scope.recyclingCheckbox = false;
 
         $scope.twoStar = 100;
         $scope.threeStar = 175;
@@ -44,6 +46,26 @@
                 open: true
             }
         }
+
+        $('input#styrofoamCheckbox').change(function () {
+            if ($('input#styrofoamCheckbox').is(':checked')) {
+                $scope.styrofoamCheckbox = true;
+                $http.put('/client/index', {clientId: $scope.user._id, styrofoam: true}).success(function(data) {});
+            } else {
+                $scope.styrofoamCheckbox = false;
+                $http.put('/client/index', {clientId: $scope.user._id, styrofoam: false}).success(function(data) {});
+            }
+        });
+
+        $('input#recyclingCheckbox').change(function () {
+            if ($('input#recyclingCheckbox').is(':checked')) {
+                $scope.recyclingCheckbox = true;
+                $http.put('/client/index', {clientId: $scope.user._id, recycling: true}).success(function(data) {});
+            } else {
+                $scope.recyclingCheckbox = false;
+                $http.put('/client/index', {clientId: $scope.user._id, recycling: false}).success(function(data) {});
+            }
+        });
         
         $scope.continueTutorial = function (){
             $window.location.href = '/gui/#/Disposables';
@@ -59,6 +81,8 @@
             if ($scope.user) {
                 $scope.admin = $scope.user.admin;
                 $scope.greenPoints = $scope.user.GPs;
+                $scope.styrofoamCheckbox = $scope.user.styrofoam;
+                $scope.recyclingCheckbox = $scope.user.recyclingCheckbox;
             }
             $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;
@@ -93,7 +117,7 @@
                     }
                 }
                 //initializeBar();
-                initalizeTotalButton();
+                initializeTotalButton();
                 $scope.etcKeys = Object.keys($scope.etcs);
             }).then(function () {
                 for (var index in $scope.standardsByCategory) {
@@ -172,12 +196,12 @@
             }
         }
 
-        var initalizeTotalButton = function() {
+        var initializeTotalButton = function() {
             var meetsMinReq = true;
             for (var i = 0; i < $scope.categoryKeys.length; i++) {
                 meetsMinReq = meetsMinReq && ($scope.standardsByCategory[$scope.categoryKeys[i]].value >= 10);
             }
-            console.log('meetsMinReq', meetsMinReq);
+            meetsMinReq = meetsMinReq && $scope.styrofoamCheckbox && $scope.recyclingCheckbox
             if (meetsMinReq) {
                 if ($scope.pointsEarned >= $scope.twoStar && $scope.pointsEarned < $scope.threeStar) {
                     $scope.stars = 2;
@@ -194,7 +218,7 @@
             console.log('stars',$scope.stars);
         }
 
-        var initalizeButton = function(category) {
+        var initializeButton = function(category) {
             var catButton = $("button[id='"+ category + "Button']");
             console.log(catButton);
             console.log('initializing category', category);
@@ -281,8 +305,8 @@
 //                $scope.statusImage = "";
 //            }
 
-            initalizeButton(category);
-            initalizeTotalButton();
+            initializeButton(category);
+            initializeTotalButton();
         }
         
         $scope.computePercentScore = function (category, score, answerIndex, percent, previousPoints) {
