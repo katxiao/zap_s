@@ -113,12 +113,14 @@
                                                 <div class="col-md-4" style="font-size: 1.0em;" ng-repeat="option in standard.optionList">
                                                     <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="computeScore(standard.category, option.points, standard.index, standard.percentage, standard.previousPoints)">{{option.text}}</input>
                                                 </div>
+
 <!--                                                 <div class="pull-right col-md-4">
                                                     <input ng-model="standard.percentage" size="3" ng-change="computePercentScore(standard.category, standard.option, standard.index, standard.percentage, standard.previousPoints)" />%
                                                 </div> -->
                                             </td>
                                             <td style="width: 10%">
-                                                <center>{{carefulMultiply(standard.option, standard.percentage)}} points</center>
+                                                <center ng-class = "{'boldPoints': standard.option > 0}">{{carefulMultiply(standard.option, standard.percentage)}} pts</center>
+
                                             </td>
                                         </tr>
                                     </table>

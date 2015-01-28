@@ -48,3 +48,13 @@ Utility
 	- Lights
 	- 
 
+
+	-Change the final point in the navigation
+	-Move the buttons onto the tutorial modal
+	-Put the icons instead of the info
+	-Fix Tutorial Link
+	-Change Green My Restaurant Link
+	-Make options disappear from nav bar in interactive mode
+	
+
+

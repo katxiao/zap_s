@@ -364,3 +364,9 @@ a{
   cursor:pointer;
   cursor:hand;
 }
+
+.boldPoints{
+  font-weight: bold;
+  font-size: 2em;
+  color:green;
+}
