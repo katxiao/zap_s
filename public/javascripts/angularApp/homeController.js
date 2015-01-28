@@ -237,9 +237,7 @@
         
         $scope.computeScore = function (category, score, answerIndex, percent, previousPoints) {
             console.log(category, score, answerIndex, percent, previousPoints);
-            //var bar = document.getElementById('TotalBar');
-            //$scope.pointsEarned = bar.getAttribute("aria-valuenow");
-            //$scope.minRequired = bar.getAttribute("aria-valuemax");
+            $scope.standardsByCategory[category].questions[answerIndex].percentage = percent;
             $scope.standardsByCategory[category].questions[answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
             console.log(Number(score), (Number(percent || 100) / 100.0), Number(score) * (Number(percent || 100) / 100.0));
             $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
@@ -263,53 +261,11 @@
             catbarjQ.width(Math.min(catPE * 100.0 / minRequired, 100) + "%");
             //if (catPE * 100.0 / minRequired > 50) {
             catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');
-            /*    //$('#' + $scope.shorten(category) + 'BarAfter').html("");
-            } else {
-                catbarjQ.html("");
-                //$('#' + $scope.shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
-            }*/
-//<<<<<<< HEAD
-            
-//            var barjQ = $('#TotalBar');
-//            if ($scope.pointsEarned >= $scope.fourStar) {
-//                barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
-//                if (allMeetMinRequirement()) {
-//                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star eligible**');
-//                    $scope.statusImage = "/images/cgr4starsmall.jpg";
-//                } else {
-//                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
-//                    $scope.statusImage = "";
-//                }
-//            }
-//            else if ($scope.pointsEarned >= $scope.threeStar) {
-//                barjQ.width(($scope.pointsEarned * 100.0 / $scope.fourStar) + "%");
-//                if (allMeetMinRequirement()) {
-//                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star eligible**');
-//                    $scope.statusImage = "/images/cgr3starsmall.jpg";
-//                } else {
-//                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
-//                    $scope.statusImage = "";
-//                }
-//            }
-//            else if ($scope.pointsEarned >= $scope.twoStar) {
-//                barjQ.width(($scope.pointsEarned * 100.0 / $scope.threeStar) + "%");
-//                console.log(allMeetMinRequirement());
-//                if (allMeetMinRequirement()) {
-//                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star eligible**');
-//                    $scope.statusImage = "/images/cgr2starsmall.jpg";
-//                } else {
-//                    barjQ.html($scope.pointsEarned + '/' + $scope.threeStar + ' points **2-Star eligible**');
-//                    $scope.statusImage = "";
-//                }
-//            }    
-//            else {
-//                barjQ.width(($scope.pointsEarned * 100.0 / $scope.twoStar) + "%");
-//                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
-//                $scope.statusImage = "";
-//            }
 
             initializeButton(category);
             initializeTotalButton();
+
+            $('#percentModal').modal('hide');
         }
         
         $scope.computePercentScore = function (category, score, answerIndex, percent, previousPoints) {
@@ -317,13 +273,14 @@
             if (answerIndex) {
                 $scope.standardsByCategory[category].questions[answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
                 $scope.previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
+                console.log($scope.prevoiusPoints);
                 $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
                 $scope.standardsByCategory[category].value = Number($scope.standardsByCategory[category].value) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
             }
             $scope.computeScore(category, score, answerIndex, percent, previousPoints);
             initializeButton(category);
             initializeTotalButton();
-            $('#percentModal').modal('hide');
+            
         }
         
         $scope.shorten = function (s) {
