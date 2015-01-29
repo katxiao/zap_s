@@ -318,6 +318,14 @@
             $('#progressModal').modal();
         }
 
+        $scope.certificationReqsModal = function() {
+            $('#signUpModal').modal('hide');
+            $('#progressModal').modal('hide');
+            $('#loginModal').modal('hide');
+            //Todo: close all other modals
+            $('#certificationReqsModal').modal();
+        }
+
         $scope.forgotPasswordModal = function() {
             $('#loginModal').modal('hide');
             $('#forgotPasswordModal').modal();
