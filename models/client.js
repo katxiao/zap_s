@@ -47,7 +47,4 @@ var checkType = function (location) {
     return location && location.State && location.City && location.ZipCode;
 }
 
-//TODO: client schema has no "location" path?
-//Client.schema.path("location").validate(checkType, "Location must have state, city, and zipcode.");
-
 exports.Client = Client;

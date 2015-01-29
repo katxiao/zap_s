@@ -214,9 +214,6 @@
         
         $scope.computeScore = function (category, score, answerIndex, percent, previousPoints) {
             console.log(category, score, answerIndex, percent, previousPoints);
-            //var bar = document.getElementById('TotalBar');
-            //$scope.pointsEarned = bar.getAttribute("aria-valuenow");
-            //$scope.minRequired = bar.getAttribute("aria-valuemax");
             $scope.standardsByCategory[category].questions[answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
             console.log(Number(score), (Number(percent || 100) / 100.0), Number(score) * (Number(percent || 100) / 100.0));
             $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
@@ -246,51 +243,6 @@
             var catbarjQ = $('#' + $scope.shorten(category) + 'Bar');
             catbarjQ.width(Math.min(catPE * 100.0 / minRequired, 100) + "%");
             catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');
-            /*    //$('#' + $scope.shorten(category) + 'BarAfter').html("");
-            } else {
-                catbarjQ.html("");
-                //$('#' + $scope.shorten(category) + 'BarAfter').html('<a href="/gui/#/' + category + '">' + category + '</a>');
-            }*/
-//<<<<<<< HEAD
-            
-//            var barjQ = $('#TotalBar');
-//            if ($scope.pointsEarned >= $scope.fourStar) {
-//                barjQ.width(Math.min($scope.pointsEarned * 100.0 / $scope.fourStar, 100) + "%");
-//                if (allMeetMinRequirement()) {
-//                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **4-Star eligible**');
-//                    $scope.statusImage = "/images/cgr4starsmall.jpg";
-//                } else {
-//                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
-//                    $scope.statusImage = "";
-//                }
-//            }
-//            else if ($scope.pointsEarned >= $scope.threeStar) {
-//                barjQ.width(($scope.pointsEarned * 100.0 / $scope.fourStar) + "%");
-//                if (allMeetMinRequirement()) {
-//                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.fourStar + ') **3-Star eligible**');
-//                    $scope.statusImage = "/images/cgr3starsmall.jpg";
-//                } else {
-//                    barjQ.html($scope.pointsEarned + '/' + $scope.fourStar + ' points **2-Star eligible**');
-//                    $scope.statusImage = "";
-//                }
-//            }
-//            else if ($scope.pointsEarned >= $scope.twoStar) {
-//                barjQ.width(($scope.pointsEarned * 100.0 / $scope.threeStar) + "%");
-//                console.log(allMeetMinRequirement());
-//                if (allMeetMinRequirement()) {
-//                    barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.threeStar + ') **2-Star eligible**');
-//                    $scope.statusImage = "/images/cgr2starsmall.jpg";
-//                } else {
-//                    barjQ.html($scope.pointsEarned + '/' + $scope.threeStar + ' points **2-Star eligible**');
-//                    $scope.statusImage = "";
-//                }
-//            }    
-//            else {
-//                barjQ.width(($scope.pointsEarned * 100.0 / $scope.twoStar) + "%");
-//                barjQ.html('Total (' + $scope.pointsEarned + '/' + $scope.twoStar + ')');
-//                $scope.statusImage = "";
-//            }
-
             initializeButton(category);
             initializeTotalButton();
         }
@@ -341,10 +293,7 @@
                         .then(function(response){});
                     }
                 }
-                //$window.location.href = '/#/';
                 alert("Selections been saved!")
-                //$scope.showProgressError = true;
-                //$scope.progressError = "Selections have been saved.";
             } else {
                 $scope.signUpModal();
             }
@@ -366,15 +315,6 @@
         $scope.progressModal = function() {
             $('#loginModal').modal('hide');
             $('#signUpModal').modal('hide');
-            //$scope.categoryKeys = Object.keys($scope.standardsByCategory);
-            //$scope.totalPoints = 0;
-            //for (var key in $scope.standardsByCategory) {
-            //    $scope.standardsByCategory[key].value = 0;
-            //    for (var index in $scope.standardsByCategory[key].questions) {
-            //        $scope.standardsByCategory[key].value += $scope.pointsByCategory[key].questions[index].value;
-            //        $scope.totalPoints += $scope.standardsByCategory[key].questions[index].value;
-            //    }
-            //}
             $('#progressModal').modal();
         }
 
@@ -414,11 +354,6 @@
             })
         }
 
-        // $scope.scrollTo = function (id) {
-        //     $location.hash(id);
-        //     $anchorScroll();
-        // }
-
         $scope.login = function (username, password) {
             if (username === undefined || password === undefined) {
                 $scope.message = "All fields must be filled out.";
@@ -453,39 +388,8 @@
                         $scope.state = "";
                         $scope.zipcode = "";
                         $('#signUpModal').modal('hide');
-                        //$scope.login(username, password);
                         $http.post('/login', { username: username, password: password }).success(function (data) {
                             $scope.user = data.content.user;
-                            // $scope.greenPoints = $scope.user.GPs;
-                            // $http.get('/api/standards/').success(function (data) {
-                            //     $scope.standards = data;
-                            //     for (var i = 0; i < $scope.standards.length; i++) {
-                            //         var found = false;
-                            //         $scope.standards[i].previousPoints = 0;
-                            //         if ($scope.user) {
-                            //             for (var j = 0; j < $scope.greenPoints.length; j++) {
-                            //                 if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
-                            //                     found = true;
-                            //                     $scope.standards[i].option = $scope.greenPoints[j].option;
-                            //                     $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
-                            //                     $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
-                            //                     break;
-                            //                 }
-                            //             }
-                            //             if (!found) {
-                            //                 $scope.standards[i].option = undefined;
-                            //                 $scope.standards[i].percentage = undefined;
-                            //             }
-                            //         }
-                            //         if ($scope.standardsByCategory[$scope.standards[i].category]) {
-                            //             $scope.standardsByCategory[$scope.standards[i].category].push($scope.standards[i]);
-                            //         } else {
-                            //             $scope.standardsByCategory[$scope.standards[i].category] = [$scope.standards[i]];
-                            //             $scope.categoryKeys.push($scope.standards[i].category);
-                            //         }
-                            //     }
-                            // });
-                            //$scope.save();
                             for (var i = 0; i < $scope.standards.length; i++) {
                                 if ($scope.standards[i].option) {
                                     $scope.standards[i].percentage = $scope.standards[i].percentage ? $scope.standards[i].percentage : 100;
@@ -520,8 +424,5 @@
             }
             return true;
         }
-        // activate();
-
-        // function activate() { }
     }
 })();

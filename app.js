@@ -11,9 +11,6 @@ var passport = require("passport");
 
 
 // set up mongo database
-// var connection_string = process.env.MONGOLAB_URI || "localhost:27017/gra";
-// console.log("CONNECTION STRING: " + connection_string);
-// mongoose.connect(connection_string);
 var connection_string = 'localhost/gra';
 
 if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
@@ -34,7 +31,7 @@ db.once("open", function callback() {
      //         console.error.bind(console, "Mongoose database error.");
      //     } else {
      //         console.log("Connected to Mongoose");
-                  // Try inserting admin into db
+            // Try inserting admin into db
             Client.findOne({username:'admin'}).exec(function(err, client) {
                 if (err) {
                     console.log("error inserting admin into db");
