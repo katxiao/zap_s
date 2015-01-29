@@ -120,42 +120,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
-// set up mongo database
-// var connection_string = process.env.MONGOLAB_URI || "localhost:27017/gra";
-// console.log("CONNECTION STRING: " + connection_string);
-// mongoose.connect(connection_string);
-
-// var db = mongoose.connection;
-
-// db.on("error", console.error.bind(console, "Mongoose connection error."));
-// db.once("open", function () {
-//       mongoose.connection.db.dropDatabase(function(err, result) {
-//           if (err) {
-//               console.error.bind(console, "Mongoose database error.");
-//           } else {
-//               console.log("Connected to Mongoose");
-//                   // Try inserting admin into db
-//             Client.findOne({username:'admin'}).exec(function(err, client) {
-//                 if (err) {
-//                     console.log("error inserting admin into db");
-//                     return;
-//                 } else {
-//                     if (!client) {
-//                         Client.registerAdmin(function(err, u) {
-//                             if (err) return console.log("Error adding user.");
-//                             }
-//                         )
-//                     }
-//                 }
-
-//             });
-//           }
-//       });
-
-//     console.log("Connected to Mongoose.");
-// });
-
 module.exports = app;
 app.listen(process.env.OPENSHIFT_NODEJS_PORT || 8080,
            process.env.OPENSHIFT_NODEJS_IP);
