@@ -23,6 +23,8 @@ if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
         process.env.OPENSHIFT_MONGODB_DB_PORT + '/gra';
 }
 
+console.log(connection_string);
+
 mongoose.connect('mongodb://' + connection_string);
 
 var db = mongoose.connection;

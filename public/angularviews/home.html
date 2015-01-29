@@ -26,7 +26,10 @@
                     </div>
                 </td>
                 <td style = "width:40%">
-                    <div class="col-md-4" style="font-size: 1.0em;" ng-repeat="option in standard.optionList">
+                    <div class="col-md-4" style="font-size: 1.0em;" ng-show="standard.percentagePossible" accesskey="" ng-repeat="option in standard.optionList">
+                        <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="percentModal(standard, option.points)">{{option.text}}</input>
+                    </div>
+                    <div class="col-md-4" style="font-size: 1.0em;" ng-show="!standard.percentagePossible" ng-repeat="option in standard.optionList">
                         <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="percentModal(standard, option.points)">{{option.text}}</input>
                     </div>
                 </td>
@@ -41,7 +44,10 @@
     <div>
     <div id="bottomFixed" scroll-to="topFixed" style="position:fixed; bottom: 75px; left:0" class="col-md-6"><button class="btn btn-success pull-right round listButtons" style="font-size: 20px; ">Prev</button></div>
     <div scroll-to="bottomFixed" style="position:fixed; bottom:75px; width: 50%; right:0" class="col-md-6"><button class="btn btn-success pull-left round listButtons" style="font-size: 20px; ">Next</button></div>
-    <img src="https://filmcrithulk.files.wordpress.com/2011/05/panda1.jpg" alt="Pandaaaaa" height="75" width="46%" style="position:fixed; bottom: 0px; left:4%; "><img src="https://filmcrithulk.files.wordpress.com/2011/05/panda1.jpg" alt="Pandaaaaa" height="75" width="46%" style="position:fixed; bottom: 0px; right:4%;">
+    
+    <!-- <img src="https://drive.google.com/file/d/0B2Iyscp40NJMLUw5Y3ZHSnlqWUE/view?usp=sharing" alt="Pandaaaaa" height="75" width="46%" style="position:fixed; bottom: 0px; left:4%; "> -->
+    <img ng-model="image1" src="{{image1}}" ng-model="image1" alt="{{image1}}" height="75" width="46%" style="position:fixed; bottom: 0px; left:4%; ">
+    <img ng-model="image2" src="{{image2}}" ng-model="image2" alt="{{image2}}" height="75" width="46%" style="position:fixed; bottom: 0px; right:4%;">
 
     <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
       <div class="modal-dialog">

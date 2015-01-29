@@ -10,10 +10,10 @@ var clientSchema = mongoose.Schema({
     location: { State: { type: String }, City: { type: String }, ZipCode: { type: Number } },
     organization: { type: String },
     GPs: [{ question: { type: mongoose.Schema.Types.ObjectId, ref: "Standard" }, option: { type: Number }, percentage: { type: Number } }],
-    VGPs: [{ question: { type: String }, option: { type: Number }, percentage: { type: Number } }],
+    VGPs: [{ question: { type: String }, option: { type: Number }}],
     recycling: { type: Boolean, default: false },
     styrofoam: { type: Boolean, default: false},
-    viewedTutorial: { type: Boolean, default: false }
+    nextsteps: { type: String, default: 'None Available' }
 });
 
 // statics
@@ -46,8 +46,5 @@ var Client = mongoose.model("Client", clientSchema);
 var checkType = function (location) {
     return location && location.State && location.City && location.ZipCode;
 }
-
-//TODO: client schema has no "location" path?
-//Client.schema.path("location").validate(checkType, "Location must have state, city, and zipcode.");
 
 exports.Client = Client;
