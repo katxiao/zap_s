@@ -133,11 +133,13 @@ router.post('/uploadusers', function (req, res, next) {
                                     for (var i in answers) {
                                         var question = answers[i].split(':')[0].trim();
                                         var value = answers[i].split(':')[1].trim();
-                                        vgps.push({ question: question, option: value });
+                                        vgps.push({ category: category, question: question, option: value });
                                     }
                                 }
-                                var client = new Client({ username: standardData[14], password: standardData[15], organization: standardData[0], location: locationObj, nextsteps: standardData[13], VGPs: vgps });
-                                client.save(function (err) { console.log(err); });
+                                Client.register(standardData[14], standardData[15].trim(), locationObj, standardData[0], standardData[13], vgps, function (err, u) {
+                                    if (err) console.log(err);
+                                        console.log(u);
+                                });
                             }
                         }
                     }
