@@ -26,7 +26,10 @@
                     </div>
                 </td>
                 <td style = "width:40%">
-                    <div class="col-md-4" style="font-size: 1.0em;" ng-repeat="option in standard.optionList">
+                    <div class="col-md-4" style="font-size: 1.0em;" ng-show="standard.percentagePossible" accesskey="" ng-repeat="option in standard.optionList">
+                        <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="percentModal(standard, option.points)">{{option.text}}</input>
+                    </div>
+                    <div class="col-md-4" style="font-size: 1.0em;" ng-show="!standard.percentagePossible" ng-repeat="option in standard.optionList">
                         <input type="radio" ng-model="standard.option" value="{{option.points}}" ng-change="percentModal(standard, option.points)">{{option.text}}</input>
                     </div>
                 </td>
@@ -38,9 +41,9 @@
         </table>
     </div>
     <div id="topFixed" style="position: fixed; top: -700px"></div>
-    <div id="bottomFixed" scroll-to="topFixed" style="position:fixed; bottom: 75px; left:0" class="col-md-6"><span class="pull-right round" style="background-color: blue; color:white;font-size: 20px; padding: 5px">Prev</span></div>
-    <div scroll-to="bottomFixed" style="position:fixed; bottom:75px; width: 50%; right:0" class="col-md-6"><span class="pull-left round" style="background-color: blue; color:white; font-size: 20px; padding: 5px">Next</span></div>
-    <img src="https://filmcrithulk.files.wordpress.com/2011/05/panda1.jpg" alt="Pandaaaaa" height="75" width="50%" style="position:fixed; bottom: 0px; left:0px;"><img src="https://filmcrithulk.files.wordpress.com/2011/05/panda1.jpg" alt="Pandaaaaa" height="75" width="50%" style="position:fixed; bottom: 0px; right:0px;">
+    <div id="bottomFixed" scroll-to="topFixed" style="position:fixed; bottom: 75px; left:0" class="col-md-6"><button class="btn btn-success pull-right round listButtons" style="font-size: 20px; ">Prev</button></div>
+    <div scroll-to="bottomFixed" style="position:fixed; bottom:75px; width: 50%; right:0" class="col-md-6"><button class="btn btn-success pull-left round listButtons" style="font-size: 20px; ">Next</button></div>
+    <img src="https://filmcrithulk.files.wordpress.com/2011/05/panda1.jpg" alt="Pandaaaaa" height="75" width="46%" style="position:fixed; bottom: 0px; left:4%; "><img src="https://filmcrithulk.files.wordpress.com/2011/05/panda1.jpg" alt="Pandaaaaa" height="75" width="46%" style="position:fixed; bottom: 0px; right:4%;">
 
     <div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
       <div class="modal-dialog">
