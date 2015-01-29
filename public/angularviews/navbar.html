@@ -7,19 +7,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span> 
           </button>-->
-            <a href="/#/"><img src="/images/cgr4starsmall.jpg" height="55em" style = "left:0px" /></a>
+            <a href="/#/" class = "navbar-brand">Green My Restaurant</a>
         </div>
 
         <div id="navbar" class="collapse navbar-collapse" style = "margin:auto">
           <ul class="nav navbar-nav" ng-show="!interactive && !profile"id="optionsNav">
-            <li style="background-color: #5cb85c;"><a href="" ng-click="filterModal()" style="color: white; border: 2px solid black;">Options</a></li>
-            <li style="background-color: #5cb85c;" ng-show="!interactive && !profile"><a href="" ng-click="certificationReqsModal()" style="color: white; border: 2px solid black;">Cert Reqs</a></li>
+            <li style="background-color: #5cb85c;"><a href="" ng-click="filterModal()" style="color: white; border: 1px solid black;">Options</a></li>
+            <li style="background-color: #5cb85c;" ng-show="!interactive && !profile"><a href="" ng-click="certificationReqsModal()" style="color: white; border: 1px solid black;">Cert Reqs</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/list/#/profile" ng-show="user">Profile</a></li>
-            <li><a href="" ng-click="signUpModal()" ng-show="!user">Sign Up</a></li>
-            <li><a href="" ng-click="loginModal()" ng-show="!user">Log In</a></li>
-            <li><a href="" ng-click="logout()" ng-show="user">Logout</a></li>
+          <ul class="nav navbar-nav navbar-right" id = "navButtons">
+            <li><a href="/list/#/profile" ng-show="user" style = "color:black">Profile</a></li>
+            <li><a href="" ng-click="signUpModal()" ng-show="!user" style = "color:black">Sign Up</a></li>
+            <li><a href="" ng-click="loginModal()" ng-show="!user" style = "color:black">Log In</a></li>
+            <li><a href="" ng-click="logout()" ng-show="user" style = "color:black">Logout</a></li>
           </ul>
         </div>
       </div>

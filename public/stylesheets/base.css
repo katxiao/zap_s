@@ -376,3 +376,16 @@ a{
 	cursor:pointer;
 	cursor:hand;
 }
+
+.navbar-inverse{
+	background-color: #00CC66;
+	border-color:#00CC66;
+}
+
+.navbar-inverse .navbar-brand{
+	color:black;
+}
+
+#navButtons li{
+	color:black;
+}
