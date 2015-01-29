@@ -21,6 +21,7 @@
         //Dummy data: 'http://upload.wikimedia.org/wikipedia/commons/0/0f/Grosser_Panda.JPG', 'http://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Grosser_Panda.JPG/1024px-Grosser_Panda.JPG', 'http://static.giantbomb.com/uploads/original/17/175467/2409526-panda-1.jpg'
         $scope.images = [];
         $scope.image1 ='';
+        $scope.image2 = '';
         $scope.randomIndex1 = 0;
         $scope.randomIndex2 = 0;
 
@@ -161,7 +162,7 @@
                 $scope.image2 = $scope.images[$scope.randomIndex2];
                 $scope.$apply();
                 console.log("image1", $scope.image1);
-            }, 3000);
+            }, 5000);
 
         }
 

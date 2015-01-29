@@ -17,6 +17,12 @@
         $scope.showProgressError = false;
         
         $scope.pointsEarned = 0;
+        //Dummy data: 'http://upload.wikimedia.org/wikipedia/commons/0/0f/Grosser_Panda.JPG', 'http://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Grosser_Panda.JPG/1024px-Grosser_Panda.JPG', 'http://static.giantbomb.com/uploads/original/17/175467/2409526-panda-1.jpg'
+        $scope.images = [];
+        $scope.image1 ='';
+        $scope.image2 = '';
+        $scope.randomIndex1 = 0;
+        $scope.randomIndex2 = 0;
 
         $scope.twoStar = 100;
         $scope.threeStar = 175;
@@ -64,6 +70,9 @@
             $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {
+                    if ($scope.standards[i].item) {
+                        $scope.images.push($scope.standards[i].item);
+                    }
                     var found = false;
                     $scope.standards[i].previousPoints = 0;
                     if ($scope.user) {
@@ -93,6 +102,11 @@
                         $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value;
                     }
                 }
+                $scope.randomIndex1 = getRandomInt(0, $scope.images.length-1);
+                $scope.randomIndex2 = getRandomInt(0, $scope.images.length-1); 
+                $scope.image1 = $scope.images[$scope.randomIndex1];
+                $scope.image2 = $scope.images[$scope.randomIndex2];
+                getImages($scope.images.length);
                 //initializeBar();
                 initializeTotalButton();
                 $scope.etcKeys = Object.keys($scope.etcs);
@@ -114,6 +128,23 @@
                 $('#tutorialModal').modal();
             });
         });
+
+        var getImages = function(length) {
+            setInterval(function(){
+                console.log("changing");
+                $scope.randomIndex1 = getRandomInt(0, length-1);
+                $scope.randomIndex2 = getRandomInt(0, length-1);
+                $scope.image1 = $scope.images[$scope.randomIndex1];
+                $scope.image2 = $scope.images[$scope.randomIndex2];
+                $scope.$apply();
+                console.log("image1", $scope.image1);
+            }, 5000);
+
+        }
+
+        var getRandomInt = function(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
         
         var allMeetMinRequirement = function () {
             for (var key in $scope.standardsByCategory) {
