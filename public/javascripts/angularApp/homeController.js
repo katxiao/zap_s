@@ -161,7 +161,6 @@
                 $scope.image1 = $scope.images[$scope.randomIndex1];
                 $scope.image2 = $scope.images[$scope.randomIndex2];
                 $scope.$apply();
-                console.log("image1", $scope.image1);
             }, 5000);
 
         }
