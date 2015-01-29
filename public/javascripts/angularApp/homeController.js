@@ -16,6 +16,14 @@
         $scope.showForgotPasswordMessage = false;
         $scope.showProgressError = false;
         $scope.pointsEarned = 0;
+        $scope.styrofoamCheckbox = false;
+        $scope.recyclingCheckbox = false;
+        //Dummy data: 'http://upload.wikimedia.org/wikipedia/commons/0/0f/Grosser_Panda.JPG', 'http://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Grosser_Panda.JPG/1024px-Grosser_Panda.JPG', 'http://static.giantbomb.com/uploads/original/17/175467/2409526-panda-1.jpg'
+        $scope.images = [];
+        $scope.image1 ='';
+        $scope.image2 = '';
+        $scope.randomIndex1 = 0;
+        $scope.randomIndex2 = 0;
 
         $scope.twoStar = 100;
         $scope.threeStar = 175;
@@ -63,6 +71,9 @@
             $http.get('/api/standards/').success(function (data) {
                 $scope.standards = data;
                 for (var i = 0; i < $scope.standards.length; i++) {
+                    if ($scope.standards[i].item) {
+                        $scope.images.push($scope.standards[i].item);
+                    }
                     var found = false;
                     $scope.standards[i].previousPoints = 0;
                     if ($scope.user) {
@@ -92,6 +103,12 @@
                         $scope.standardsByCategory[$scope.standards[i].category].value = $scope.standardsByCategory[$scope.standards[i].category].value;
                     }
                 }
+                
+                $scope.randomIndex1 = getRandomInt(0, $scope.images.length-1);
+                $scope.randomIndex2 = getRandomInt(0, $scope.images.length-1); 
+                $scope.image1 = $scope.images[$scope.randomIndex1];
+                $scope.image2 = $scope.images[$scope.randomIndex2];
+                getImages($scope.images.length);
                 //initializeBar();
                 initalizeTotalButton();
                 $scope.etcKeys = Object.keys($scope.etcs);
@@ -110,6 +127,22 @@
                 }
             });
         });
+
+        var getImages = function(length) {
+            setInterval(function(){
+                console.log("changing");
+                $scope.randomIndex1 = getRandomInt(0, length-1);
+                $scope.randomIndex2 = getRandomInt(0, length-1);
+                $scope.image1 = $scope.images[$scope.randomIndex1];
+                $scope.image2 = $scope.images[$scope.randomIndex2];
+                $scope.$apply();
+            }, 5000);
+
+        }
+
+        var getRandomInt = function(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
         
         var allMeetMinRequirement = function () {
             for (var key in $scope.standardsByCategory) {
@@ -191,7 +224,6 @@
             } else {
                 $scope.stars = 0;
             }
-            console.log('stars',$scope.stars);
         }
 
         var initalizeButton = function(category) {
@@ -508,11 +540,6 @@
             })
         }
 
-        // $scope.scrollTo = function (id) {
-        //     $location.hash(id);
-        //     $anchorScroll();
-        // }
-
         $scope.login = function (username, password) {
             if (username === undefined || password === undefined) {
                 $scope.message = "All fields must be filled out.";
@@ -547,39 +574,8 @@
                         $scope.state = "";
                         $scope.zipcode = "";
                         $('#signUpModal').modal('hide');
-                        //$scope.login(username, password);
                         $http.post('/login', { username: username, password: password }).success(function (data) {
                             $scope.user = data.content.user;
-                            $scope.greenPoints = $scope.user.GPs;
-                            $http.get('/api/standards/').success(function (data) {
-                                $scope.standards = data;
-                                for (var i = 0; i < $scope.standards.length; i++) {
-                                    var found = false;
-                                    $scope.standards[i].previousPoints = 0;
-                                    if ($scope.user) {
-                                        for (var j = 0; j < $scope.greenPoints.length; j++) {
-                                            if ($scope.standards[i]._id.toString() === $scope.greenPoints[j].question.toString()) {
-                                                found = true;
-                                                $scope.standards[i].option = $scope.greenPoints[j].option;
-                                                $scope.standards[i].percentage = $scope.greenPoints[j].percentage;
-                                                $scope.pointsEarned += $scope.greenPoints[j].option * $scope.greenPoints[j].percentage / 100.0;
-                                                break;
-                                            }
-                                        }
-                                        if (!found) {
-                                            $scope.standards[i].option = undefined;
-                                            $scope.standards[i].percentage = undefined;
-                                        }
-                                    }
-                                    if ($scope.standardsByCategory[$scope.standards[i].category]) {
-                                        $scope.standardsByCategory[$scope.standards[i].category].push($scope.standards[i]);
-                                    } else {
-                                        $scope.standardsByCategory[$scope.standards[i].category] = [$scope.standards[i]];
-                                        $scope.categoryKeys.push($scope.standards[i].category);
-                                    }
-                                }
-                            });
-                            //$scope.save();
                             for (var i = 0; i < $scope.standards.length; i++) {
                                 if ($scope.standards[i].option) {
                                     $scope.standards[i].percentage = $scope.standards[i].percentage ? $scope.standards[i].percentage : 100;
@@ -614,8 +610,5 @@
             }
             return true;
         }
-        // activate();
-
-        // function activate() { }
     }
 })();

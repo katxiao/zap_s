@@ -50,7 +50,39 @@
             value: 0,
             question: []
         };
+        
+        $scope.pointsByverifiedCategory = {
+            Energy: {
+                value: 0,
+                question: []
+            }, 
+            Disposables: {
+                value: 0,
+                question: []
+            },
+            Waste: {
+                value: 0,
+                question: []
+            },
+            Water: {
+                value: 0,
+                question: []
+            },
+            Food: {
+                value: 0,
+                question: []
+            }
+        };
+        $scope.pointsByverifiedCategory["Sustainable Furnishings & Building Materials"] = {
+            value: 0,
+            question: []
+        };
+        $scope.pointsByverifiedCategory["Pollution & Chemical Reduction"] = {
+            value: 0,
+            question: []
+        };
         $scope.totalPoints = 0;
+        $scope.verifiedtotalPoints = 0;
 
         $http.get("/current_auth/").then(function (response) {
             var data = response.data;
@@ -100,6 +132,33 @@
                         }
                     });
                 });
+                $scope.user.VGPs.forEach(function (selection, index) {
+                        var selection = $scope.user.VGPs[index];
+                        if ($scope.pointsByverifiedCategory[selection.category].value != 0) {
+                            $scope.pointsByverifiedCategory[standard.category].questions.push({
+                                question: standard.question,
+                                value: selection.option
+                            });
+                        } else {
+                            $scope.pointsByverifiedCategory[selection.category] = {
+                                value: selection.option,
+                                questions: [{
+                                        question: selection.question,
+                                        value: selection.option
+                                    }]
+                            };
+                        }
+                    }).then(function () {
+                        $scope.verifiedcategoryKeys = Object.keys($scope.pointsByverifiedCategory);
+                        $scope.verifiedtotalPoints = 0;
+                        for (var key in $scope.pointsByverifiedCategory) {
+                            $scope.pointsByverifiedCategory[key].value = 0;
+                            for (var index in $scope.pointsByverifiedCategory[key].questions) {
+                                $scope.pointsByverifiedCategory[key].value += $scope.pointsByverifiedCategory[key].questions[index].value;
+                                $scope.verifiedtotalPoints += $scope.pointsByverifiedCategory[key].questions[index].value;
+                            }
+                        }
+                    });
             } else {
                 $window.location.href = "/#/";
             }

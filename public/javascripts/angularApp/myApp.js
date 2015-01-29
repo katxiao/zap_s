@@ -80,7 +80,7 @@
                     controller: 'profileController'
                 })
                 .when('/admin', {
-                    templateUrl: '/angularViews/admin.html',
+                    templateUrl: '/angularviews/admin.html',
                     controller: 'adminController'
                 })
                 .when('/reset', {

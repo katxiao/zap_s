@@ -38,6 +38,16 @@
         </div>
     </div>
 
+    <div class="col-md-3 col-sm-12 summary" ng-repeat="verifiedcategory in verifiedcategoryKeys">
+        <h4 style="color: darkgreen">{{verifiedcategory}} <span class="pull-right" style="color:darkblue">{{pointsByverifiedCategory[verifiedcategory].value}} Points</span></h4>
+        <center style="color: blue" ng-show="pointsByverifiedCategory[verifiedcategory].value >= 10">You have met the requirement for this verifiedcategory</center>
+        <center style="color: red" ng-show="pointsByverifiedCategory[verifiedcategory].value < 10">You need {{10 - pointsByverifiedCategory[verifiedcategory].value}} {{verifiedcategory}} more points to be certified</center>
+        <div ng-repeat="question in pointsByverifiedCategory[verifiedcategory].questions">
+            <span class="pull-left" style="width: 50%">{{abbrev(question.question)}}</span>
+            <span class="pull-right" style="width: 50%">{{question.value}}</span>
+        </div>
+    </div>
+
     <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
