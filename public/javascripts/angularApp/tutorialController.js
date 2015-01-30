@@ -245,6 +245,7 @@
         
         $scope.computeScore = function (category, score, answerIndex, percent, previousPoints) {
             console.log(category, score, answerIndex, percent, previousPoints);
+            $scope.standardsByCategory[category].questions[answerIndex].percentage = percent;
             $scope.standardsByCategory[category].questions[answerIndex].previousPoints = Number(score) * Math.min(Number(percent || 100), 100) / 100.0;
             console.log(Number(score), (Number(percent || 100) / 100.0), Number(score) * (Number(percent || 100) / 100.0));
             $scope.pointsEarned = Number($scope.pointsEarned) + Number(score) * Math.min(Number(percent || 100), 100) / 100.0 - Number(previousPoints);
@@ -276,6 +277,7 @@
             catbarjQ.html('<span>' + category + ' (' + catPE + '/' + minRequired + ')</span>');
             initializeButton(category);
             initializeTotalButton();
+            $('#percentModal').modal('hide');
         }
         
         $scope.computePercentScore = function (category, score, answerIndex, percent, previousPoints) {
@@ -357,6 +359,16 @@
         $scope.forgotPasswordModal = function() {
             $('#loginModal').modal('hide');
             $('#forgotPasswordModal').modal();
+        }
+
+        $scope.percentModal = function (standard, points) {
+            if (standard.option !== 0) {
+                $scope.currentStandard = standard;
+                $scope.currentOptionPoints = points;
+                $('#percentModal').modal();
+            } else {
+                $scope.computeScore(standard.category, points, standard.index, standard.percentage, standard.previousPoints);
+            }
         }
 
         $scope.resetPassword = function(email) {
