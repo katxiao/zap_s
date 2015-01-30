@@ -31,28 +31,28 @@ var db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "Mongoose connection error."));
 db.once("open", function callback() {
-      mongoose.connection.db.dropDatabase(function(err, result) {
-          if (err) {
-              console.error.bind(console, "Mongoose database error.");
-          } else {
-              console.log("Connected to Mongoose");
+      // mongoose.connection.db.dropDatabase(function(err, result) {
+      //     if (err) {
+      //         console.error.bind(console, "Mongoose database error.");
+      //     } else {
+      //         console.log("Connected to Mongoose");
                   // Try inserting admin into db
-            Client.findOne({username:'admin'}).exec(function(err, client) {
-                if (err) {
-                    console.log("error inserting admin into db");
-                    return;
-                } else {
-                    if (!client) {
-                        Client.registerAdmin(function(err, u) {
-                            if (err) return console.log("Error adding user.");
-                            }
-                        )
+                Client.findOne({username:'admin'}).exec(function(err, client) {
+                    if (err) {
+                        console.log("error inserting admin into db");
+                        return;
+                    } else {
+                        if (!client) {
+                            Client.registerAdmin(function(err, u) {
+                                if (err) return console.log("Error adding user.");
+                                }
+                            )
+                        }
                     }
-                }
 
-            });
-          }
-      });
+                });
+      //     }
+      // });
 
     console.log("Connected to Mongoose.");
 });
