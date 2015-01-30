@@ -22,8 +22,8 @@ clientSchema.statics.register = function(username, password, location, organizat
        username: username,
        password: password,
        location: location,
-        organization: organization, 
-        nextsteps: nextsteps,
+       organization: organization, 
+       nextsteps: nextsteps,
        VGPs: vgps
     });
     client.save(callback);

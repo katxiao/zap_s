@@ -133,32 +133,33 @@
                     });
                 });
                 $scope.user.VGPs.forEach(function (selection, index) {
-                        var selection = $scope.user.VGPs[index];
-                        if ($scope.pointsByverifiedCategory[selection.category].value != 0) {
-                            $scope.pointsByverifiedCategory[standard.category].questions.push({
-                                question: standard.question,
-                                value: selection.option
-                            });
-                        } else {
-                            $scope.pointsByverifiedCategory[selection.category] = {
-                                value: selection.option,
-                                questions: [{
-                                        question: selection.question,
-                                        value: selection.option
-                                    }]
-                            };
-                        }
-                    }).then(function () {
-                        $scope.verifiedcategoryKeys = Object.keys($scope.pointsByverifiedCategory);
-                        $scope.verifiedtotalPoints = 0;
-                        for (var key in $scope.pointsByverifiedCategory) {
-                            $scope.pointsByverifiedCategory[key].value = 0;
-                            for (var index in $scope.pointsByverifiedCategory[key].questions) {
-                                $scope.pointsByverifiedCategory[key].value += $scope.pointsByverifiedCategory[key].questions[index].value;
-                                $scope.verifiedtotalPoints += $scope.pointsByverifiedCategory[key].questions[index].value;
-                            }
-                        }
-                    });
+                    var selection = $scope.user.VGPs[index];
+                    console.log(selection);
+                    if ($scope.pointsByverifiedCategory[selection.category].value != 0) {
+                        $scope.pointsByverifiedCategory[selection.category].questions.push({
+                            question: selection.question,
+                            value: selection.option
+                        });
+                    } else {
+                        $scope.pointsByverifiedCategory[selection.category] = {
+                            value: selection.option,
+                            questions: [{
+                                    question: selection.question,
+                                    value: selection.option
+                                }]
+                        };
+                    }
+                });
+                $scope.verifiedcategoryKeys = Object.keys($scope.pointsByverifiedCategory);
+                $scope.verifiedtotalPoints = 0;
+                for (var key in $scope.pointsByverifiedCategory) {
+                    $scope.pointsByverifiedCategory[key].value = 0;
+                    for (var index in $scope.pointsByverifiedCategory[key].questions) {
+                        $scope.pointsByverifiedCategory[key].value += $scope.pointsByverifiedCategory[key].questions[index].value;
+                        $scope.verifiedtotalPoints += $scope.pointsByverifiedCategory[key].questions[index].value;
+                    }
+                }
+                console.log($scope.pointsByverifiedCategory);
             } else {
                 $window.location.href = "/#/";
             }

@@ -41,8 +41,8 @@
         </table>
     </div>
     <div id="topFixed" style="position: fixed; top: -700px"></div>
-    <div id="bottomFixed" scroll-to="topFixed" style="position:fixed; bottom: 75px; left:0" class="col-md-6"><button class="btn btn-success pull-right round listButtons" style="font-size: 20px; ">Prev</button></div>
-    <div scroll-to="bottomFixed" style="position:fixed; bottom:75px; width: 50%; right:0" class="col-md-6"><button class="btn btn-success pull-left round listButtons" style="font-size: 20px; ">Next</button></div>
+    <div id="bottomFixed" scroll-to="topFixed" ng-click="save()" style="position:fixed; bottom: 75px; left:0" class="col-md-6"><button class="btn btn-success pull-right round listButtons" style="font-size: 20px; ">Prev</button></div>
+    <div scroll-to="bottomFixed" ng-click="save()" style="position:fixed; bottom:75px; width: 50%; right:0" class="col-md-6"><button class="btn btn-success pull-left round listButtons" style="font-size: 20px; ">Next</button></div>
     
     <!-- <img src="https://drive.google.com/file/d/0B2Iyscp40NJMLUw5Y3ZHSnlqWUE/view?usp=sharing" alt="Pandaaaaa" height="75" width="46%" style="position:fixed; bottom: 0px; left:4%; "> -->
     <img ng-model="image1" src="{{image1}}" ng-model="image1" alt="{{image1}}" height="75" width="46%" style="position:fixed; bottom: 0px; left:4%; ">

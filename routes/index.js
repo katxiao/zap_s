@@ -55,7 +55,6 @@ router.post('/upload', function (req, res, next) {
                     data = data.trim();
                     var lines = data.split("\n");
                     console.log("Line: ", lines.splice(0, 1));
-                    console.log(lines[0]);
                     Standard.find({category: lines[0].split(",")[0]}).exec(function (err, existingStandards) {
                         var latestMatched = 0;
                         var uploadId = Math.round(Math.random() * 10000);
@@ -115,30 +114,30 @@ router.post('/uploadusers', function (req, res, next) {
                     if (lines.length === 1)
                         var lines = data.split("\r");
                     console.log("Line: ", lines.splice(0, 1));
-                    console.log(lines.length);
+                    //console.log(lines.length);
                     for (var i in lines) {
                         //console.log(lines[i]);
                         var standardData = lines[i].split(",");
                         if (standardData[0].trim() !== "") {
-                            console.log(standardData.length);
+                            //console.log(standardData.length);
                             if (standardData.length >= 16) {
                                 var locationObj = {State: standardData[2], City: standardData[3], ZipCode: standardData[4]};
-                                var answersByCategory = standardData[12].split('|');
+                                var answersByCategory = standardData[9].split('|');
+                                var vgps = [];
                                 for (var index in answersByCategory) {
                                     var answers = answersByCategory[index].split(';');
-                                    console.log(answersByCategory[index]);
                                     var category = answers.splice(0, 1)[0].split(":")[0].trim();
-                                    console.log(category);
-                                    var vgps = [];
                                     for (var i in answers) {
-                                        var question = answers[i].split(':')[0].trim();
-                                        var value = answers[i].split(':')[1].trim();
-                                        vgps.push({ category: category, question: question, option: value });
+                                        if (answers[i].split(':').length >= 2) {
+                                            var question = answers[i].split(':')[0].trim();
+                                            var value = Number(answers[i].split(':')[1].trim());
+                                            vgps.push({ category: category, question: question, option: value });
+                                        }
                                     }
                                 }
                                 Client.register(standardData[14], standardData[15].trim(), locationObj, standardData[0], standardData[13], vgps, function (err, u) {
-                                    if (err) console.log(err);
-                                        console.log(u);
+                                    if (err)
+                                        console.log(err);
                                 });
                             }
                         }
@@ -180,7 +179,6 @@ var removeOldStandards = function (existingStandards, latestMatched) {
 passport.use("local-login", new LocalStrategy(function(username, password, done) {
 
     Client.login(username, password, function (err, user) {
-        console.log(err);
         if (err) {
             return done(err);
         } else if (!user) {
