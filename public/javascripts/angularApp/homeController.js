@@ -477,6 +477,10 @@
             $('#filterInfoModal').modal();
         }
 
+        $scope.certificationReqsModal = function() {
+            $('#certificationReqsModal').modal();
+        }
+
         $scope.save = function() {
             if ($scope.user) {
                 for (var i = 0; i < $scope.standards.length; i++) {
