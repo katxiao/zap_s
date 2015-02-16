@@ -31,12 +31,12 @@ router.get('/', function(req, res) {
         - err: on failure, an error message
  */
 router.post('/', function(req, res, next) {
-    if (req.body.creator === undefined || req.body.message === undefined || req.body.location === undefined) return utils.sendErrResponse(res, 400, 'Bad request: missing fields.');
+    if (req.body.creator === undefined || req.body.message === undefined || req.body.latitude === undefined || req.body.longitude) return utils.sendErrResponse(res, 400, 'Bad request: missing fields.');
     var Zap = Zap({
         creator: req.body.creator,
         message: req.body.message,
         dateTime: new Date(),
-        location: req.body.location
+        location: {latitude: req.body.latitude, longitude: req.body.longitude}
     });
 
     User.findOne({_id:req.body.creator}).exec(function(err, user){

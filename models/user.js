@@ -29,9 +29,14 @@ userSchema.statics.registerAdmin = function(callback) {
     var user = new User({
         username: 'admin',
         password: 'admin',
-        admin: true
+        favorites: [],
+        zaps: []
     });
     user.save(callback);
+}
+
+userSchema.statics.login = function(username, password, callback) {
+    User.findOne({username: username, password: password}, {password: 0}).exec(callback);
 }
 
 var User = mongoose.model("User", userSchema);

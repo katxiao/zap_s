@@ -47,9 +47,21 @@ db.once("open", function callback() {
                     } else {
                         if (!user) {
                             User.registerAdmin(function(err, u) {
-                                if (err) return console.log("Error adding user.");
+                                  if (err) return console.log("Error adding user.");
+                                  // insert dummy data
+                                  Zap.insertDummyData(u._id, function(err, zaps) {
+                                    if (err) return console.log("Error inserting dummy data.")
+                                  });
                                 }
                             )
+                        } else {
+                          // insert dummy data
+                          User.findOne({username: 'admin'}).exec(function(err, user){
+                            if (err) return console.log("Error");
+                            Zap.insertDummyData(user._id, function(err, zap) {
+                              if (err) return console.log("Error inserting dummy data.")
+                            });
+                          });
                         }
                     }
 
