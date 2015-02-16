@@ -5,6 +5,7 @@ var utils = require("../utils/utils");
 var Zap = require("../models/zap").Zap;
 var User = require("../models/user").User;
 
+var mongoose = require("mongoose");
 
 /*
     GET /zaps/
@@ -31,24 +32,26 @@ router.get('/', function(req, res) {
         - err: on failure, an error message
  */
 router.post('/', function(req, res, next) {
+    var creator = req.body.creator;
+    var message = req.body.message;
     if (req.body.creator === undefined || req.body.message === undefined || req.body.latitude === undefined || req.body.longitude === undefined) return utils.sendErrResponse(res, 400, 'Bad request: missing fields.');
-    var Zap = Zap({
-        creator: req.body.creator,
-        message: req.body.message,
-        dateTime: new Date(),
-        location: {latitude: req.body.latitude, longitude: req.body.longitude}
-    });
 
     User.findOne({_id:req.body.creator}).exec(function(err, user){
         if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
         if (!user) return utils.sendErrResponse(res, 500, 'User does not exist.');
-        Zap.save(function(err, zap) {
+        var zap = new Zap({
+            creator: user._id,
+            message: message,
+            dateTime: new Date(),
+            location: {latitude: Number(req.body.latitude), longitude: Number(req.body.longitude)}
+        });
+        zap.save(function(err, zap) {
             if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
             user.zaps.push(zap._id);
             user.save();
             return utils.sendSuccessResponse(res, {});
         });
-    })
+    });
 });
 
 /*
@@ -129,13 +132,14 @@ router.delete('/:id', function(req, res, next) {
     }, function(err, zap) {
         if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
         if (!zap) return utils.sendErrResponse(res, 404, 'Resource not found.');
-        if (zap.creator.toString() !== req.session.user.id) return utils.sendErrResponse(res, 400, 'Access denied!');
+        //if (zap.creator.toString() !== req.session.user.id) return utils.sendErrResponse(res, 400, 'Access denied!');
+        var userId = zap.creator;
         Zap.remove({
             _id: req.params.id
         }, function(err, zap) {
             if (err) return utils.sendErrResponse(res, 500, 'An unknown error occurred.');
             User.findOne({
-                _id: req.session.user.id
+                _id: userId 
             }, function(err, user) {
                 var index = user.zaps.indexOf(req.params.id);
                 if (index !== -1) {
