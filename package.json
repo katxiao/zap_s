@@ -1,9 +1,9 @@
 {
-  "name": "gra",
-  "description": "green my restaurant",
+  "name": "zap",
+  "description": "zap app",
   "repository": {
     "type": "git",
-    "url": "https://github.com/codeforgood2015/gra"
+    "url": "https://github.com/KiwiSystems/zap"
   },
   "engines": {
     "node": ">= 0.10.30",

@@ -9,18 +9,21 @@ var mongoose = require("mongoose");
 var session = require("express-session");
 var passport = require("passport");
 
+var User = require("./models/user").User;
+var Zap = require("./models/zap").Zap;
+
 
 // set up mongo database
 // var connection_string = process.env.MONGOLAB_URI || "localhost:27017/gra";
 // console.log("CONNECTION STRING: " + connection_string);
 // mongoose.connect(connection_string);
-var connection_string = 'localhost/gra';
+var connection_string = 'localhost/zap';
 
 if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
   connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' +
         process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' +
         process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-        process.env.OPENSHIFT_MONGODB_DB_PORT + '/gra';
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/zap';
 }
 
 console.log(connection_string);
@@ -37,13 +40,13 @@ db.once("open", function callback() {
       //     } else {
       //         console.log("Connected to Mongoose");
                   // Try inserting admin into db
-                Client.findOne({username:'admin'}).exec(function(err, client) {
+                User.findOne({username:'admin'}).exec(function(err, user) {
                     if (err) {
                         console.log("error inserting admin into db");
                         return;
                     } else {
-                        if (!client) {
-                            Client.registerAdmin(function(err, u) {
+                        if (!user) {
+                            User.registerAdmin(function(err, u) {
                                 if (err) return console.log("Error adding user.");
                                 }
                             )
@@ -58,10 +61,8 @@ db.once("open", function callback() {
 });
 
 var routes = require('./routes/index');
-var standards = require('./routes/api/standards');
-var clients = require('./routes/client/index');
-var Client = require("./models/client").Client;
-var Standard = require("./models/standard").Standard;
+var zaps = require('./routes/zaps');
+var users = require('./routes/users');
 
 var app = express();
 
@@ -69,11 +70,11 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(multer({
+// app.use(multer({
  
-    dest: "documents/"
+//     dest: "documents/"
  
-    }));
+//     }));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -82,14 +83,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret: "gogreen"}));
+app.use(session({secret: "zapme"}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 
 app.use('/', routes);
-app.use('/client/index', clients);
-app.use('/api/standards', standards);
+app.use('/users', users);
+app.use('/zaps', zaps);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
