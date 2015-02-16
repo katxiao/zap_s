@@ -31,7 +31,7 @@ router.get('/', function(req, res) {
         - err: on failure, an error message
  */
 router.post('/', function(req, res, next) {
-    if (req.body.creator === undefined || req.body.message === undefined || req.body.latitude === undefined || req.body.longitude) return utils.sendErrResponse(res, 400, 'Bad request: missing fields.');
+    if (req.body.creator === undefined || req.body.message === undefined || req.body.latitude === undefined || req.body.longitude === undefined) return utils.sendErrResponse(res, 400, 'Bad request: missing fields.');
     var Zap = Zap({
         creator: req.body.creator,
         message: req.body.message,
